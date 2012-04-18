@@ -32,3 +32,4 @@ _ReSharper*/
 *.opensdf
 ipch/
 *.orig
+*.vpp~*
