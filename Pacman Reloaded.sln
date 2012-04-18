@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pacman Reloaded", "Pacman Reloaded.vcxproj", "{2801A6CD-5D1E-4D66-850C-972094547B8B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pacman-Game", "Pacman-Game\Pacman-Game.vcxproj", "{CA2BF770-ED85-451D-A219-ACB86BD6E4EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2801A6CD-5D1E-4D66-850C-972094547B8B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2801A6CD-5D1E-4D66-850C-972094547B8B}.Debug|Win32.Build.0 = Debug|Win32
-		{2801A6CD-5D1E-4D66-850C-972094547B8B}.Release|Win32.ActiveCfg = Release|Win32
-		{2801A6CD-5D1E-4D66-850C-972094547B8B}.Release|Win32.Build.0 = Release|Win32
+		{CA2BF770-ED85-451D-A219-ACB86BD6E4EC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CA2BF770-ED85-451D-A219-ACB86BD6E4EC}.Debug|Win32.Build.0 = Debug|Win32
+		{CA2BF770-ED85-451D-A219-ACB86BD6E4EC}.Release|Win32.ActiveCfg = Release|Win32
+		{CA2BF770-ED85-451D-A219-ACB86BD6E4EC}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

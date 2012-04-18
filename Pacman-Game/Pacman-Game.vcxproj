@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2801A6CD-5D1E-4D66-850C-972094547B8B}</ProjectGuid>
+    <ProjectGuid>{CA2BF770-ED85-451D-A219-ACB86BD6E4EC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>PacmanReloaded</RootNamespace>
+    <RootNamespace>PacmanGame</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -74,6 +74,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GameplayFoundations\Grid.h" />
+    <ClInclude Include="GameplayFoundations\GridCell.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameplayFoundations\Grid.cpp" />
+    <ClCompile Include="GameplayFoundations\GridCell.cpp" />
+    <ClCompile Include="program.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
