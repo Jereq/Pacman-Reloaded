@@ -30,12 +30,18 @@
     <ClCompile Include="GameplayFoundations\GridCell.cpp">
       <Filter>Source Files\GameplayFoundations</Filter>
     </ClCompile>
+    <ClCompile Include="GameplayFoundations\CellIndex.cpp">
+      <Filter>Source Files\GameplayFoundations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
       <Filter>Header Files\GameplayFoundations</Filter>
     </ClInclude>
     <ClInclude Include="GameplayFoundations\GridCell.h">
+      <Filter>Header Files\GameplayFoundations</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayFoundations\CellIndex.h">
       <Filter>Header Files\GameplayFoundations</Filter>
     </ClInclude>
   </ItemGroup>

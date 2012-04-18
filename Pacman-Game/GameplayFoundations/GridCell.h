@@ -10,6 +10,8 @@ namespace GameplayFoundations
 	public:
 		GridCell();
 
+		unsigned char type;
+
 		bool isFree() const;
 		void setFree(bool _free);
 	};

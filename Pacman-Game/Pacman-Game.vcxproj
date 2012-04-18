@@ -76,10 +76,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GameplayFoundations\CellIndex.h" />
     <ClInclude Include="GameplayFoundations\Grid.h" />
     <ClInclude Include="GameplayFoundations\GridCell.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameplayFoundations\CellIndex.cpp" />
     <ClCompile Include="GameplayFoundations\Grid.cpp" />
     <ClCompile Include="GameplayFoundations\GridCell.cpp" />
     <ClCompile Include="program.cpp" />
