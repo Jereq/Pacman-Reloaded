@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cassert>
+#include <map>
 
 namespace GameplayFoundations
 {
@@ -98,17 +99,41 @@ namespace GameplayFoundations
 		return cells[_u + _v * size.u];
 	}
 
+	GridCell const& Grid::getCell(size_t _u, size_t _v) const
+	{
+		assert(_u < size.u);
+		assert(_v < size.v);
+
+		return cells[_u + _v * size.u];
+	}
+
 	GridCell& Grid::getCell(CellIndex _index)
 	{
 		return getCell(_index.u, _index.v);
 	}
 
-	Grid::Grid(std::string const& filename)
+	GridCell const& Grid::getCell(CellIndex _index) const
 	{
-		std::cout << "Filename: " << filename << std::endl;
+		return getCell(_index.u, _index.v);
+	}
 
-		Color const* file = testFileSmall;
-		size = testFileSmallDim;
+	void addVertex(std::map<Vertex, unsigned int>& _vertexMap, std::vector<Vertex>& _vertices, std::vector<unsigned int>& _indices, Vertex const& _vert)
+	{
+		if (_vertexMap.count(_vert) == 0)
+		{
+			_vertexMap[_vert] = _vertices.size();
+			_vertices.push_back(_vert);
+		}
+
+		_indices.push_back(_vertexMap[_vert]);
+	}
+
+	Grid::Grid(std::string const& _filename)
+	{
+		std::cout << "Filename: " << _filename << std::endl;
+
+		Color const* file = testFile;
+		size = testFileDim;
 
 		cells = new GridCell[size.u * size.v];
 
@@ -188,9 +213,12 @@ namespace GameplayFoundations
 			CellIndex const& pos = ghostStartPos[i];
 			std::cout << "(" << pos.u << ", " << pos.v << ")" << std::endl;
 		}
-
+		
+		std::map<Vertex, unsigned int> vertexMap;
 		std::vector<Vertex> vertices;
 		vertices.reserve(size.u * size.v * 8);
+		std::vector<unsigned int> indices;
+		indices.reserve(size.u * size.v * 4);
 
 		for (size_t cu = 0; cu < size.u; cu++)
 		{
@@ -215,12 +243,12 @@ namespace GameplayFoundations
 				Vertex v2 = {bPosZ, {.5f, 0.f}, up};
 				Vertex v3 = {bPosXZ, {.5f, .5f}, up};
 
-				vertices.push_back(v0);
-				vertices.push_back(v1);
-				vertices.push_back(v2);
-				vertices.push_back(v3);
-				vertices.push_back(v2);
-				vertices.push_back(v1);
+				addVertex(vertexMap, vertices, indices, v0);
+				addVertex(vertexMap, vertices, indices, v1);
+				addVertex(vertexMap, vertices, indices, v2);
+				addVertex(vertexMap, vertices, indices, v3);
+				addVertex(vertexMap, vertices, indices, v2);
+				addVertex(vertexMap, vertices, indices, v1);
 
 				for (size_t i = 0; i < 4; i++)
 				{
@@ -276,23 +304,28 @@ namespace GameplayFoundations
 						Vertex w2 = {basePos + wallOffsets[i][2], {1.f, 0.f}, Vec3((float)-offsetU[i], 0.f, (float)-offsetV[i])};
 						Vertex w3 = {basePos + wallOffsets[i][3], {1.f, .5f}, Vec3((float)-offsetU[i], 0.f, (float)-offsetV[i])};
 
-						vertices.push_back(w0);
-						vertices.push_back(w1);
-						vertices.push_back(w2);
-						vertices.push_back(w3);
-						vertices.push_back(w2);
-						vertices.push_back(w1);
+						addVertex(vertexMap, vertices, indices, w0);
+						addVertex(vertexMap, vertices, indices, w1);
+						addVertex(vertexMap, vertices, indices, w2);
+						addVertex(vertexMap, vertices, indices, w3);
+						addVertex(vertexMap, vertices, indices, w2);
+						addVertex(vertexMap, vertices, indices, w1);
 					}
 				}
 			}
 		}
 
-		for (size_t i = 0; i < vertices.size(); i++)
-		{
-			Vertex vert = vertices[i];
-			std::cout << "Vert[" << i << "]:\t(" << vert.position.x << ", " << vert.position.y << ", " << vert.position.z << ")\t(" <<
-				vert.normal.x << ", " << vert.normal.y << ", " << vert.normal.z << ")" << std::endl;
-		}
+		//for (size_t i = 0; i < vertices.size(); i++)
+		//{
+		//	Vertex vert = vertices[i];
+		//	std::cout << "Vert[" << i << "]:\t(" << vert.position.x << ", " << vert.position.y << ", " << vert.position.z << ")\t(" <<
+		//		vert.normal.x << ", " << vert.normal.y << ", " << vert.normal.z << ")" << std::endl;
+		//}
+
+		//for (size_t i = 0; i < indices.size(); i += 3)
+		//{
+		//	std::cout << "Face[" << i / 3 << "]:\t" << indices[i] << ", " << indices[i+1] << ", " << indices[i+2] << std::endl;
+		//}
 	}
 
 	Grid::~Grid()
@@ -306,5 +339,39 @@ namespace GameplayFoundations
 	CellIndex Grid::getSize() const
 	{
 		return size;
+	}
+
+	Paths Grid::getOpenPaths(CellIndex const& _cell) const
+	{
+		Paths ret = {0};
+
+		if (_cell.u > 0 && getCell(_cell.u - 1, _cell.v).isFree())
+		{
+			ret.nU = true;
+		}
+		if (_cell.u < size.u - 1 && getCell(_cell.u + 1, _cell.v).isFree())
+		{
+			ret.pU = true;
+		}
+		if (_cell.v > 0 && getCell(_cell.u, _cell.v - 1).isFree())
+		{
+			ret.nV = true;
+		}
+		if (_cell.v < size.v - 1 && getCell(_cell.u, _cell.v + 1).isFree())
+		{
+			ret.pV = true;
+		}
+
+		return ret;
+	}
+
+	void Grid::removeObject(CellIndex const& _cell, void* _obj)
+	{
+		getCell(_cell).removeObject(_obj);
+	}
+
+	void Grid::addObject(CellIndex const& _cell, void* _obj)
+	{
+		getCell(_cell).addObject(_obj);
 	}
 }

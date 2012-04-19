@@ -16,4 +16,14 @@ namespace GameplayFoundations
 	{
 		free = _free;
 	}
+
+	void GridCell::removeObject(void* _obj)
+	{
+		objects.erase(_obj);
+	}
+
+	void GridCell::addObject(void* _obj)
+	{
+		objects.insert(_obj);
+	}
 }
