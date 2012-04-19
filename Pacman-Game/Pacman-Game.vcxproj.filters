@@ -19,6 +19,12 @@
     <Filter Include="Header Files\GameplayFoundations">
       <UniqueIdentifier>{e96b1e9f-0e70-4927-b713-01c1f3f042f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ResourceHandling">
+      <UniqueIdentifier>{b6662e17-a081-4a25-9ea5-5708887c47bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ResourceHandling">
+      <UniqueIdentifier>{ddc2f6b9-4758-451c-862a-8c2a475c7f33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameplayFoundations\Grid.cpp">
@@ -33,6 +39,9 @@
     <ClCompile Include="GameplayFoundations\CellIndex.cpp">
       <Filter>Source Files\GameplayFoundations</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceHandling\Texture.cpp">
+      <Filter>Source Files\ResourceHandling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -43,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="GameplayFoundations\CellIndex.h">
       <Filter>Header Files\GameplayFoundations</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandling\Texture.h">
+      <Filter>Header Files\ResourceHandling</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
