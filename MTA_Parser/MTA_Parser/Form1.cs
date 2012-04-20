@@ -17,6 +17,8 @@ namespace MTA_Parser
         List<Animation> animations = new List<Animation>();
         OpenFileDialog fileBrowser = new OpenFileDialog();
         SaveFileDialog saveFile = new SaveFileDialog();
+        List<Vertex> globalVertices = new List<Vertex>();
+        Dictionary<Vertex, int> globalDictionary = new Dictionary<Vertex, int>(new Comparer());
 
         public MTA_Parser()
         {
@@ -56,15 +58,8 @@ namespace MTA_Parser
 
         private void btn_objAdd_Click(object sender, EventArgs e)
         {
-            if (objFiles.Count == 0)
-            {
-                objFiles.Add(new OBJFile(txb_objIn.Text, 0));
-            }
-            else
-            {
-                objFiles.Add(new OBJFile(txb_objIn.Text, objFiles.Last().Index + 1));
-            }            
-            ((CurrencyManager)lb_objFiles.BindingContext[lb_objFiles.DataSource]).Refresh();
+            objFiles.Add(new OBJFile(txb_objIn.Text, objFiles.Count, globalVertices, globalDictionary));
+           ((CurrencyManager)lb_objFiles.BindingContext[lb_objFiles.DataSource]).Refresh();
         }
 
         private void btn_browseOBJ_Click(object sender, EventArgs e)
@@ -80,6 +75,12 @@ namespace MTA_Parser
         private void btn_objRemove_Click(object sender, EventArgs e)
         {
             objFiles.RemoveAt(lb_objFiles.SelectedIndex);
+
+            for (int i = lb_objFiles.SelectedIndex; i < objFiles.Count; i++)
+            {
+                objFiles[i].Index = i;
+            }
+            
             ((CurrencyManager)lb_objFiles.BindingContext[lb_objFiles.DataSource]).Refresh();
         }
 
@@ -111,31 +112,60 @@ namespace MTA_Parser
 
         private void btn_parse_Click(object sender, EventArgs e)
         {
+            saveFile.AddExtension = true;
+            saveFile.DefaultExt = "mta";
             DialogResult res = saveFile.ShowDialog();             
 
             if (res == DialogResult.OK)
             {
-                Stream s = new FileStream(saveFile.FileName + ".mta", FileMode.Create);
+                Stream s = new FileStream(saveFile.FileName, FileMode.Create);
                 var v = new BinaryWriter(s);
                 //var v = new StreamWriter(s);
-                v.Write(objFiles.Count);
-                v.Write(objFiles[0].vertCount);
-                v.Write(animations.Count);
-                v.Write(txb_texture.Text.Length);
-                v.Write(txb_texture.Text);
 
+                v.Write(objFiles.Count); // num of index buffers
+                v.Write(objFiles[0].getIndices.Count); // size of indexbuffers                
+                v.Write(txb_texture.Text.Length); //length of texture file string
+                v.Write(txb_texture.Text); // texture file string
+
+                v.Write(animations.Count); //how many animations
                 //Animation time
-                foreach (Animation a in animations)
+                foreach (Animation a in animations) //each animation time
                 {
                     v.Write(a.Time);
                 }
 
                 //Animation sequence
-                foreach (Animation a in animations)
+                foreach (Animation a in animations) //each animation sequence
                 {
                     foreach (OBJFile o in a.ObjFiles)
                     {
                         v.Write(o.Index);
+                    }
+                }
+
+                foreach (OBJFile o in objFiles) // index buffers of eash obj file
+                {
+                    foreach(int i in o.getIndices)
+                    {
+                        v.Write(i);
+                    }                    
+                }
+
+                foreach (Vertex ve in globalVertices) //Global list of vertices
+                {
+                    for (int i = 0; i < 3; i++) //vertex coordinates
+                    {
+                        v.Write(ve.VP[i]);
+                    }
+
+                    for (int i = 0; i < 3; i++) //vertex normals
+                    {
+                        v.Write(ve.VN[i]);
+                    }
+
+                    for (int i = 0; i < 2; i++) //vertex texture coordinates
+                    {
+                        v.Write(ve.VT[i]);
                     }
                 }
 

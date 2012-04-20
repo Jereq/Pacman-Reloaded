@@ -12,13 +12,14 @@ namespace MTA_Parser
         private string filePath;
         private string name;
         private int index;
-        private List<float[]> verticeCord = new List<float[]>();
+        private List<float[]> vertexCord = new List<float[]>();
         private List<float[]> textureCord = new List<float[]>();
         private List<float[]> normalCord = new List<float[]>();
         private List<int[,]> faces = new List<int[,]>();
-        private List<Vertice> vertices = new List<Vertice>();
+        private List<Vertex> vertices = new List<Vertex>();
+        private List<int> indices = new List<int>();
 
-        public OBJFile(string _filePath, int _index)
+        public OBJFile(string _filePath, int _index, List<Vertex> _globalVertices, Dictionary<Vertex, int> _dictionary)
         {
             filePath = _filePath;
             index = _index;
@@ -30,8 +31,10 @@ namespace MTA_Parser
 
             readFile(filePath);
             makeVertices();
+            makeIndices(_globalVertices, _dictionary);
         }
 
+        #region getters
         public string Name
         {
             get { return name; }
@@ -40,12 +43,25 @@ namespace MTA_Parser
         public int Index
         {
             get { return index; }
+
+            set { index = value; }
         }
 
-        public int vertCount
+        public int getVertCount
         {
-            get { return verticeCord.Count; }
+            get { return vertexCord.Count; }
         }
+
+        public List<Vertex> getVertices
+        {
+            get { return vertices; }
+        }
+
+        public List<int> getIndices
+        {
+            get { return indices; }
+        }
+        #endregion
 
         private void readFile(string _file)
         {
@@ -62,7 +78,7 @@ namespace MTA_Parser
 
                 if (s[0] == "v")
                 {
-                    verticeCord.Add(new float[] { Convert.ToSingle(s[1], ci), Convert.ToSingle(s[2], ci), Convert.ToSingle(s[3], ci) }); 
+                    vertexCord.Add(new float[] { Convert.ToSingle(s[1], ci), Convert.ToSingle(s[2], ci), Convert.ToSingle(s[3], ci) }); 
                 }
                 else if (s[0] == "vt")
                 {
@@ -81,32 +97,66 @@ namespace MTA_Parser
             }
         }
 
-        public void makeVertices()
+        private void makeVertices()
         {
             for(int i = 0; i < faces.Count; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    float[] vp = verticeCord[faces[i][j, 0] - 1];
+                    float[] vp = vertexCord[faces[i][j, 0] - 1];
                     float[] vt = textureCord[faces[i][j, 1] - 1];
                     float[] vn = normalCord[faces[i][j, 2] - 1];
 
-                    Vertice v = new Vertice(vp, vt, vn);
+                    Vertex v = new Vertex(vp, vt, vn);
                     vertices.Add(v);
+                }
+            }
+        }
+
+        private void makeIndices(List<Vertex> _v, Dictionary<Vertex, int> _d)
+        {
+            foreach(Vertex v in vertices)
+            {
+                int t;
+                
+                if (_d.TryGetValue(v, out t))
+                {
+                    indices.Add(t);
+                }
+                else
+                {
+                    _d.Add(v, _v.Count);
+                    indices.Add(_v.Count);
+                    _v.Add(v);
                 }
             }
         }
     }
 
-    struct Vertice
+    struct Vertex
     {
         float[] vp, vt, vn;
 
-        public Vertice(float[] _vp, float[] _vt, float[] _vn)
+        public Vertex(float[] _vp, float[] _vt, float[] _vn)
         {
             vp = _vp;
             vt = _vt;
             vn = _vn;
+        }
+
+        public float[] VP
+        {
+            get { return vp; }
+        }
+
+        public float[] VT
+        {
+            get { return vt; }
+        }
+
+        public float[] VN
+        {
+            get { return vn; }
         }
     }
 }
