@@ -82,12 +82,18 @@
     <ClInclude Include="GameplayFoundations\CellIndex.h" />
     <ClInclude Include="GameplayFoundations\Grid.h" />
     <ClInclude Include="GameplayFoundations\GridCell.h" />
+    <ClInclude Include="HID\HID.h" />
+    <ClInclude Include="HID\Keyboard.h" />
+    <ClInclude Include="HID\Mouse.h" />
     <ClInclude Include="ResourceHandling\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameplayFoundations\CellIndex.cpp" />
     <ClCompile Include="GameplayFoundations\Grid.cpp" />
     <ClCompile Include="GameplayFoundations\GridCell.cpp" />
+    <ClCompile Include="HID\HID.cpp" />
+    <ClCompile Include="HID\Keyboard.cpp" />
+    <ClCompile Include="HID\Mouse.cpp" />
     <ClCompile Include="program.cpp" />
     <ClCompile Include="ResourceHandling\Texture.cpp" />
   </ItemGroup>
