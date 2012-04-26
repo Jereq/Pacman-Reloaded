@@ -21,6 +21,7 @@ private:
 	ID3D10Device*		device;
 	ID3D10Texture2D*	tex;
 	std::vector<D3DXCOLOR>	colorVector;
+	void extractColors(UINT width, UINT height);
 };
 
 

@@ -5,7 +5,6 @@ Texture::Texture(ID3D10Device* pDevice) : texResource(0), tex(0)
 	device = pDevice;
 }
 
-
 Texture::~Texture()
 {
 	if( device )
@@ -23,6 +22,7 @@ Texture::~Texture()
 
 }
 
+//Load function for normal textures
 HRESULT Texture::loadTexture(LPCSTR filename)
 {
 	HRESULT hr = S_OK;
@@ -31,7 +31,7 @@ HRESULT Texture::loadTexture(LPCSTR filename)
 
 	if( FAILED(hr) )
 	{
-		MessageBoxA( 0, "Failed to load Texture", NULL, NULL );
+		MessageBoxA( 0, "Failed to load a texture", NULL, NULL );
 		return hr;
 	}
 	tex = ( ID3D10Texture2D* )texResource;
@@ -39,7 +39,8 @@ HRESULT Texture::loadTexture(LPCSTR filename)
 	return hr;
 }
 
-
+//Load function for map texture. (This has to be done differently than other
+//textures becasue we want to extract the colors of the map texture)
 HRESULT Texture::loadMapTexture(LPCSTR filename, UINT width, UINT height)
 {
 	HRESULT hr = S_OK;
@@ -63,6 +64,14 @@ HRESULT Texture::loadMapTexture(LPCSTR filename, UINT width, UINT height)
 	}
 	tex = ( ID3D10Texture2D* )texResource;
 
+	extractColors(width, height);
+
+	return hr;
+}
+
+//Creates a vector containing all the color values for each pixel in the texture.
+void Texture::extractColors(UINT width, UINT height)
+{
 	D3D10_MAPPED_TEXTURE2D mappedTex;
 	tex->Map( D3D10CalcSubresource(0, 0, 1), D3D10_MAP_READ, 0, &mappedTex );
 
@@ -83,8 +92,6 @@ HRESULT Texture::loadMapTexture(LPCSTR filename, UINT width, UINT height)
 	}
 	tex->Unmap(0);
 	colorVector.shrink_to_fit();
-
-	return hr;
 }
 
 ID3D10Texture2D* Texture::getTexture()
