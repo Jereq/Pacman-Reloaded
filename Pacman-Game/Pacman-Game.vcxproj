@@ -101,6 +101,9 @@
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="ResourceHandling\Texture.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="effects.fx" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

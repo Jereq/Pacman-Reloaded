@@ -99,4 +99,9 @@
       <Filter>Header Files\GFX</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="effects.fx">
+      <Filter>Header Files\GFX</Filter>
+    </None>
+  </ItemGroup>
 </Project>
