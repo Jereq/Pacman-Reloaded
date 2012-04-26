@@ -134,6 +134,11 @@ namespace MTA_Parser
                     v.Write(a.Time);
                 }
 
+                foreach (Animation a in animations) //how many obj files / animation
+                {
+                    v.Write(a.ObjFiles.Count);
+                }
+
                 //Animation sequence
                 foreach (Animation a in animations) //each animation sequence
                 {

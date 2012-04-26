@@ -36,9 +36,6 @@
     <ClCompile Include="GameplayFoundations\Grid.cpp">
       <Filter>Source Files\GameplayFoundations</Filter>
     </ClCompile>
-    <ClCompile Include="program.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameplayFoundations\GridCell.cpp">
       <Filter>Source Files\GameplayFoundations</Filter>
     </ClCompile>
@@ -56,6 +53,12 @@
     </ClCompile>
     <ClCompile Include="HID\Keyboard.cpp">
       <Filter>Source Files\HID</Filter>
+    </ClCompile>
+    <ClCompile Include="AppMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="HID\Keyboard.h">
       <Filter>Header Files\HID</Filter>
+    </ClInclude>
+    <ClInclude Include="AppMain.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
