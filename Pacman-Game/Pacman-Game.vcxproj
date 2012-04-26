@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AppMain.h" />
+    <ClInclude Include="dxManager.h" />
     <ClInclude Include="GameplayFoundations\CellIndex.h" />
     <ClInclude Include="GameplayFoundations\Grid.h" />
     <ClInclude Include="GameplayFoundations\GridCell.h" />
@@ -90,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="dxManager.cpp" />
     <ClCompile Include="GameplayFoundations\CellIndex.cpp" />
     <ClCompile Include="GameplayFoundations\Grid.cpp" />
     <ClCompile Include="GameplayFoundations\GridCell.cpp" />

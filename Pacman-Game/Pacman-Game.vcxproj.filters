@@ -31,6 +31,12 @@
     <Filter Include="Header Files\HID">
       <UniqueIdentifier>{f9cf40e5-fb4a-4b64-9bd7-c4c9f0afc09d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GFX">
+      <UniqueIdentifier>{2b05432f-137f-4df6-b023-ddd1872bd72b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GFX">
+      <UniqueIdentifier>{46a3a49c-2c44-4c81-9b90-afb9c9b43c51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameplayFoundations\Grid.cpp">
@@ -60,6 +66,9 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dxManager.cpp">
+      <Filter>Source Files\GFX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -85,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="AppMain.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dxManager.h">
+      <Filter>Header Files\GFX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

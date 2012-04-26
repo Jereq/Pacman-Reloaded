@@ -83,10 +83,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 		return 0;
 
 	// Set up d3dManager
-	//if (appMain.Initialize(&hWnd, hInstance, &cfg) == false)
-	//{
-	//	return 0;
-	//}
+	if (!appMain.Initialize(&hWnd))
+	{
+		return 0;
+	}
 
 	// Main message loop
 
