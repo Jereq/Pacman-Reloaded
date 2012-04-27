@@ -1,7 +1,15 @@
 #include "dxManager.h"
 
-dxManager::dxManager() : pD3DDevice(NULL), pSwapChain(NULL), pRenderTargetView(NULL), pVertexBuffer(0), pVertexLayout(0), pBasicEffect(0), pRS(0)
+dxManager::dxManager()
 {
+	pD3DDevice = NULL; 
+	pSwapChain = NULL;
+	pRenderTargetView = NULL;
+	textureIndex = 0;
+	pVertexBuffer = 0; 
+	pVertexLayout = 0;
+	pBasicEffect = 0;
+	pRS = 0;
 	result = true;
 }
 
@@ -27,9 +35,9 @@ bool dxManager::initialize( HWND* hW )
     UINT width = rc.right - rc.left;
     UINT height = rc.bottom - rc.top;
 
-	SetUpSwapChainDesc(width, height);
+	result = createSwapChainAndDevice(width, height);
 
-	result = CreateSwapChain();
+
 	result = CreateEffect();
 
 	pBasicTechnique = pBasicEffect->GetTechniqueByName("SimpleRender");
@@ -38,10 +46,9 @@ bool dxManager::initialize( HWND* hW )
 	pViewMatrixEffectVariable = pBasicEffect->GetVariableByName( "View" )->AsMatrix();
 	pProjectionMatrixEffectVariable = pBasicEffect->GetVariableByName( "Projection" )->AsMatrix();
 	pWorldMatrixEffectVariable = pBasicEffect->GetVariableByName( "World" )->AsMatrix();
+	pTextureSR = pBasicEffect->GetVariableByName("tex2D")->AsShaderResource();
 
-	result = CreateInputLayout();
-
-	pD3DDevice->IASetInputLayout( pVertexLayout );
+	result = CreateInputLayout();	
 
 	result = CreateVertexBuffer();
 
@@ -51,9 +58,7 @@ bool dxManager::initialize( HWND* hW )
 
 	CreateAndSetRasterizer();	
 		
-	result = GetBackBuffer();
-
-	result = CreateRenderTargetView();
+	result = createRenderTargets();
 	
 	pBackBuffer->Release();
 
@@ -64,6 +69,25 @@ bool dxManager::initialize( HWND* hW )
     D3DXMatrixPerspectiveFovLH(&projectionMatrix, (float)D3DX_PI * 0.5f, (float)width/(float)height, 0.1f, 100.0f);
 
 	return result;
+}
+
+bool dxManager::loadTextures()
+{
+	std::vector<std::string> filenames;  //Fyll denna vector med vägen till dom texturer som ska användas
+
+	for(int i = 0; i < (int)filenames.size(); i++)
+	{
+		textureSRV.push_back(NULL);
+
+		if ( FAILED( D3DX10CreateShaderResourceViewFromFile( pD3DDevice, filenames[i].c_str(), NULL, NULL, &textureSRV[i], NULL ) ) ) 
+		{
+			char err[255];
+			sprintf_s(err, "Could not load texture: %s!", filenames[i].c_str());
+			return fatalError( err );
+		}
+	}
+
+	return true;
 }
 
 void dxManager::renderScene()
@@ -90,10 +114,10 @@ void dxManager::renderScene()
 	//lock vertex buffer for CPU use
 	pVertexBuffer->Map(D3D10_MAP_WRITE_DISCARD, 0, (void**) &v );
 	
-	v[0] = vertex( D3DXVECTOR3(-1,-1,0), D3DXVECTOR4(1,0,0,1) );
-	v[1] = vertex( D3DXVECTOR3(0,1,0), D3DXVECTOR4(0,1,0,1) );
-	v[2] = vertex( D3DXVECTOR3(1,-1,0), D3DXVECTOR4(0,0,1,1) );
-	v[3] = vertex( D3DXVECTOR3(1,1,0), D3DXVECTOR4(1,0,1,1) );
+	v[0] = vertex( D3DXVECTOR3(-1,-1,0), D3DXVECTOR4(1,0,0,1), D3DXVECTOR2(0.0f, 2.0f) );
+	v[1] = vertex( D3DXVECTOR3(-1,1,0), D3DXVECTOR4(0,1,0,1), D3DXVECTOR2(0.0f, 0.0f) );
+	v[2] = vertex( D3DXVECTOR3(1,-1,0), D3DXVECTOR4(0,0,1,1), D3DXVECTOR2(2.0f, 2.0f) );
+	v[3] = vertex( D3DXVECTOR3(1,1,0), D3DXVECTOR4(1,1,0,1), D3DXVECTOR2(2.0f, 0.0f) );	
 
 	pVertexBuffer->Unmap();
 
@@ -101,6 +125,8 @@ void dxManager::renderScene()
 	pD3DDevice->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 
 	//get technique desc
+
+	pTextureSR->SetResource(textureSRV[textureIndex]);
 	
 	pBasicTechnique->GetDesc( &techDesc );
 	
@@ -117,7 +143,7 @@ void dxManager::renderScene()
 	pSwapChain->Present(0,0);
 }
 
-void dxManager::SetUpSwapChainDesc( UINT width, UINT height )
+bool dxManager::createSwapChainAndDevice( UINT width, UINT height )
 {	
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
 
@@ -139,9 +165,7 @@ void dxManager::SetUpSwapChainDesc( UINT width, UINT height )
 	//output window handle
 	swapChainDesc.OutputWindow = *hWnd;
 	swapChainDesc.Windowed = true;
-}
-bool dxManager::CreateSwapChain()
-{
+
 	if ( FAILED( D3D10CreateDeviceAndSwapChain(NULL, D3D10_DRIVER_TYPE_HARDWARE, NULL, 0, D3D10_SDK_VERSION, 
 				 &swapChainDesc, &pSwapChain, &pD3DDevice ) ) ) 
 	{
@@ -150,6 +174,34 @@ bool dxManager::CreateSwapChain()
 	
 	return true;
 }
+
+void dxManager::CreateViewPort( UINT width, UINT height )
+{
+	viewPort.Width = width;
+	viewPort.Height = height;
+	viewPort.MinDepth = 0.0f;
+	viewPort.MaxDepth = 1.0f;
+	viewPort.TopLeftX = 0;
+	viewPort.TopLeftY = 0;
+
+	pD3DDevice->RSSetViewports(1, &viewPort);
+}
+
+bool dxManager::createRenderTargets()
+{
+	if ( FAILED( pSwapChain->GetBuffer(0, __uuidof(ID3D10Texture2D), (LPVOID*) &pBackBuffer) ) ) 
+	{
+		return fatalError("Could not get back buffer");
+	}
+
+	if ( FAILED( pD3DDevice->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView) ) ) 
+	{
+		return fatalError("Could not create render target view");
+	}
+
+	return true;
+}
+
 bool dxManager::CreateEffect()
 {
 	if ( FAILED( D3DX10CreateEffectFromFile("effects.fx", NULL, NULL, "fx_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 
@@ -160,6 +212,7 @@ bool dxManager::CreateEffect()
 
 	return true;
 }
+
 bool dxManager::CreateInputLayout()
 {	
 	pBasicTechnique->GetPassByIndex( 0 )->GetDesc( &PassDesc );
@@ -170,8 +223,11 @@ bool dxManager::CreateInputLayout()
 		return fatalError("Could not create Input Layout!");
 	}
 
+	pD3DDevice->IASetInputLayout( pVertexLayout );
+
 	return true;
 }
+
 bool dxManager::CreateVertexBuffer()
 {
 	bd.Usage = D3D10_USAGE_DYNAMIC;
@@ -187,17 +243,7 @@ bool dxManager::CreateVertexBuffer()
 
 	return true;
 }
-void dxManager::CreateViewPort( UINT width, UINT height )
-{
-	viewPort.Width = width;
-	viewPort.Height = height;
-	viewPort.MinDepth = 0.0f;
-	viewPort.MaxDepth = 1.0f;
-	viewPort.TopLeftX = 0;
-	viewPort.TopLeftY = 0;
 
-	pD3DDevice->RSSetViewports(1, &viewPort);
-}
 void dxManager::CreateAndSetRasterizer()
 {
 	rasterizerState.CullMode = D3D10_CULL_NONE;
@@ -213,24 +259,6 @@ void dxManager::CreateAndSetRasterizer()
 
 	pD3DDevice->CreateRasterizerState( &rasterizerState, &pRS);
 	pD3DDevice->RSSetState(pRS);
-}
-bool dxManager::GetBackBuffer()
-{
-	if ( FAILED( pSwapChain->GetBuffer(0, __uuidof(ID3D10Texture2D), (LPVOID*) &pBackBuffer) ) ) 
-	{
-		return fatalError("Could not get back buffer");
-	}
-
-	return true;
-}
-bool dxManager::CreateRenderTargetView()
-{
-	if ( FAILED( pD3DDevice->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView) ) ) 
-	{
-		return fatalError("Could not create render target view");
-	}
-
-	return true;
 }
 
 bool dxManager::fatalError(LPCSTR msg)

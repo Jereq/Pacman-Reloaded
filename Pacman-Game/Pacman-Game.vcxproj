@@ -87,6 +87,7 @@
     <ClInclude Include="HID\HID.h" />
     <ClInclude Include="HID\Keyboard.h" />
     <ClInclude Include="HID\Mouse.h" />
+    <ClInclude Include="Print.h" />
     <ClInclude Include="ResourceHandling\Texture.h" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +99,7 @@
     <ClCompile Include="HID\HID.cpp" />
     <ClCompile Include="HID\Keyboard.cpp" />
     <ClCompile Include="HID\Mouse.cpp" />
+    <ClCompile Include="Print.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="ResourceHandling\Texture.cpp" />
   </ItemGroup>

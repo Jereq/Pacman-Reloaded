@@ -4,17 +4,27 @@
 #include <windows.h>
 #include <d3d10.h>
 #include <d3dx10.h>
+#include <vector>
+#include <string>
 
 //create a basic vertex container
 struct vertex
 {
 	D3DXVECTOR3 pos;
 	D3DXVECTOR4 color;
+	D3DXVECTOR2 texCoord;
 
-	vertex( D3DXVECTOR3 p, D3DXVECTOR4 c )
+	vertex( D3DXVECTOR3 pos, D3DXVECTOR4 color )
 	{
-		pos = p;
-		color = c;
+		pos = pos;
+		color = color;
+	}
+
+	vertex( D3DXVECTOR3 pos, D3DXVECTOR4 color, D3DXVECTOR2 texCoord )
+	{
+		pos = pos;
+		color = color;
+		texCoord = texCoord;
 	}
 };
 
@@ -35,7 +45,8 @@ struct camera
 const D3D10_INPUT_ELEMENT_DESC layout[] = 
 {	
 	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0 },
-	{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D10_INPUT_PER_VERTEX_DATA, 0 }
+	{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D10_INPUT_PER_VERTEX_DATA, 0 }
 };
 
 class dxManager
@@ -78,13 +89,17 @@ private:
 	D3DXMATRIX                  viewMatrix;
 	D3DXMATRIX                  projectionMatrix;
 
+	//Texture storage
+	std::vector<ID3D10ShaderResourceView*> textureSRV;
+	ID3D10EffectShaderResourceVariable* pTextureSR;
+	int textureIndex;
+
 	camera cam;
 
-	const static UINT numElements = 2;
-	const static UINT numVertices = 100;
+	const static UINT numElements = sizeof( layout ) / sizeof( layout[0] );
+	const static UINT numVertices = 4;
 	const static UINT stride = sizeof( vertex );
 	const static UINT offset = 0;
-	const static UINT numVertices = 3;
 
 	bool result;
 
@@ -115,10 +130,10 @@ private:
 	bool CreateInputLayout();
 	bool CreateEffect();
 	bool CreateSwapChain();
-	void SetUpSwapChainDesc( UINT width, UINT height );
-	bool CreateRenderTargetView();
-	bool GetBackBuffer();
+	bool createSwapChainAndDevice( UINT width, UINT height );
+	bool createRenderTargets();
 	void CreateAndSetRasterizer();
+	bool loadTextures();
 };
 
 #endif
