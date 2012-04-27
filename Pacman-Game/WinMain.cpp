@@ -6,6 +6,8 @@
 #include <string>
 #include "AppMain.h"
 
+#include "Game.h"
+
 #pragma region Globals
 
 AppMain		appMain;
@@ -78,6 +80,8 @@ bool initWindow(HWND &hWnd, HINSTANCE hInstance, int width, int height)
 
 int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
+	Pacman::Game game;
+
 	// Set up window
 	if ( !initWindow (hWnd, hInstance, windowWidth, windowHeight) )
 		return 0;

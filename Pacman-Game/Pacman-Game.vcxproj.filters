@@ -71,6 +71,15 @@
     </ClCompile>
     <ClCompile Include="Print.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>    
+    <ClCompile Include="ResourceHandling\ResourceManager.cpp">
+      <Filter>Source Files\ResourceHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceHandling\Resource.cpp">
+      <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +112,15 @@
     </ClInclude>
     <ClInclude Include="Print.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandling\ResourceManager.h">
+      <Filter>Header Files\ResourceHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandling\Resource.h">
+      <Filter>Header Files\ResourceHandling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

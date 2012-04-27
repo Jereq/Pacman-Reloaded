@@ -72,7 +72,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClInclude Include="AppMain.h" />
     <ClInclude Include="dxManager.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameplayFoundations\CellIndex.h" />
     <ClInclude Include="GameplayFoundations\Grid.h" />
     <ClInclude Include="GameplayFoundations\GridCell.h" />
@@ -88,11 +89,14 @@
     <ClInclude Include="HID\Keyboard.h" />
     <ClInclude Include="HID\Mouse.h" />
     <ClInclude Include="Print.h" />
+    <ClInclude Include="ResourceHandling\Resource.h" />
     <ClInclude Include="ResourceHandling\Texture.h" />
+    <ClInclude Include="ResourceHandling\ResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="dxManager.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameplayFoundations\CellIndex.cpp" />
     <ClCompile Include="GameplayFoundations\Grid.cpp" />
     <ClCompile Include="GameplayFoundations\GridCell.cpp" />
@@ -100,6 +104,8 @@
     <ClCompile Include="HID\Keyboard.cpp" />
     <ClCompile Include="HID\Mouse.cpp" />
     <ClCompile Include="Print.cpp" />
+    <ClCompile Include="ResourceHandling\Resource.cpp" />
+    <ClCompile Include="ResourceHandling\ResourceManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="ResourceHandling\Texture.cpp" />
   </ItemGroup>
