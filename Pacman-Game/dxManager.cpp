@@ -93,6 +93,7 @@ void dxManager::renderScene()
 	v[0] = vertex( D3DXVECTOR3(-1,-1,0), D3DXVECTOR4(1,0,0,1) );
 	v[1] = vertex( D3DXVECTOR3(0,1,0), D3DXVECTOR4(0,1,0,1) );
 	v[2] = vertex( D3DXVECTOR3(1,-1,0), D3DXVECTOR4(0,0,1,1) );
+	v[3] = vertex( D3DXVECTOR3(1,1,0), D3DXVECTOR4(1,0,1,1) );
 
 	pVertexBuffer->Unmap();
 

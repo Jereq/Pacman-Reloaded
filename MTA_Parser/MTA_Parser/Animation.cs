@@ -8,10 +8,11 @@ namespace MTA_Parser
     class Animation
     {
         private List<OBJFile> objFiles;
-        private int time, index;
+        private int index;
+        private float time;
         private string name;
 
-        public Animation(List<OBJFile> _obj, int _time, string _name, int _index)
+        public Animation(List<OBJFile> _obj, float _time, string _name, int _index)
         {
             objFiles = _obj;
             time = _time;
@@ -34,7 +35,7 @@ namespace MTA_Parser
             get { return objFiles; }
         }
 
-        public int Time
+        public float Time
         {
             get { return time; }
         }

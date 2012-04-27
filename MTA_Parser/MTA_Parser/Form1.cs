@@ -86,15 +86,15 @@ namespace MTA_Parser
 
         private void btn_createAnimation_Click(object sender, EventArgs e)
         {
-            if (txb_animationName.Text != "" || Num_AnimationTime.Value != 0)
+            if (txb_animationName.Text != "" || Convert.ToSingle(txb_animationTime.Text) != 0.0f)
             {
                 if (animations.Count == 0)
                 {
-                    animations.Add(new Animation(objFilesAnimation, (int)Num_AnimationTime.Value, txb_animationName.Text, 0));
+                    animations.Add(new Animation(objFilesAnimation, Convert.ToSingle(txb_animationTime.Text), txb_animationName.Text, 0));
                 }
                 else
                 {
-                    animations.Add(new Animation(objFilesAnimation, (int)Num_AnimationTime.Value, txb_animationName.Text, animations.Last().Index + 1));
+                    animations.Add(new Animation(objFilesAnimation, Convert.ToSingle(txb_animationTime.Text), txb_animationName.Text, animations.Last().Index + 1));
                 }
                 ((CurrencyManager)lb_finishedAnimations.BindingContext[lb_finishedAnimations.DataSource]).Refresh();
             }
@@ -128,21 +128,13 @@ namespace MTA_Parser
                 v.Write(txb_texture.Text.Length); //length of texture file string
                 v.Write(txb_texture.Text); // texture file string
 
-                v.Write(animations.Count); //how many animations
-                //Animation time
-                foreach (Animation a in animations) //each animation time
+                foreach (Animation a in animations) //Animation sets
                 {
+                    v.Write(a.Name.Length);
+                    v.Write(a.Name);
                     v.Write(a.Time);
-                }
-
-                foreach (Animation a in animations) //how many obj files / animation
-                {
                     v.Write(a.ObjFiles.Count);
-                }
 
-                //Animation sequence
-                foreach (Animation a in animations) //each animation sequence
-                {
                     foreach (OBJFile o in a.ObjFiles)
                     {
                         v.Write(o.Index);

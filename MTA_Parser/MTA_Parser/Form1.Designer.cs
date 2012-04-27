@@ -47,12 +47,11 @@
             this.btn_createAnimation = new System.Windows.Forms.Button();
             this.lb_finishedAnimations = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.Num_AnimationTime = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.txb_animationName = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.btn_AnimationRemove = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.Num_AnimationTime)).BeginInit();
+            this.txb_animationTime = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btn_parse
@@ -228,13 +227,6 @@
             this.label6.TabIndex = 20;
             this.label6.Text = "Finished animations:";
             // 
-            // Num_AnimationTime
-            // 
-            this.Num_AnimationTime.Location = new System.Drawing.Point(558, 324);
-            this.Num_AnimationTime.Name = "Num_AnimationTime";
-            this.Num_AnimationTime.Size = new System.Drawing.Size(100, 20);
-            this.Num_AnimationTime.TabIndex = 21;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -270,16 +262,23 @@
             this.btn_AnimationRemove.UseVisualStyleBackColor = true;
             this.btn_AnimationRemove.Click += new System.EventHandler(this.btn_AnimationRemove_Click);
             // 
+            // txb_animationTime
+            // 
+            this.txb_animationTime.Location = new System.Drawing.Point(558, 323);
+            this.txb_animationTime.Name = "txb_animationTime";
+            this.txb_animationTime.Size = new System.Drawing.Size(100, 20);
+            this.txb_animationTime.TabIndex = 26;
+            // 
             // MTA_Parser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(670, 352);
+            this.Controls.Add(this.txb_animationTime);
             this.Controls.Add(this.btn_AnimationRemove);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.txb_animationName);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.Num_AnimationTime);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lb_finishedAnimations);
             this.Controls.Add(this.btn_createAnimation);
@@ -300,7 +299,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MTA_Parser";
             this.Text = "MTA Parser";
-            ((System.ComponentModel.ISupportInitialize)(this.Num_AnimationTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -327,11 +325,11 @@
         private System.Windows.Forms.Button btn_createAnimation;
         private System.Windows.Forms.ListBox lb_finishedAnimations;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown Num_AnimationTime;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txb_animationName;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btn_AnimationRemove;
+        private System.Windows.Forms.TextBox txb_animationTime;
     }
 }
 
