@@ -123,7 +123,8 @@ namespace MTA_Parser
                 //var v = new StreamWriter(s);
 
                 v.Write(objFiles.Count); // num of index buffers
-                v.Write(objFiles[0].getIndices.Count); // size of indexbuffers                
+                v.Write(objFiles[0].getIndices.Count); // size of index buffers   
+                v.Write(globalVertices.Count); //size of global vertex buffer
                 v.Write(txb_texture.Text.Length); //length of texture file string
                 v.Write(txb_texture.Text); // texture file string
 
