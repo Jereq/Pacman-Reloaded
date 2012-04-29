@@ -8,14 +8,16 @@ class Mouse
 public:
 	Mouse(HWND _hWnd);
 	~Mouse();
-
-	bool buttonClick(char _c);
+	
+	bool buttonClick(int _button, UINT _type);
 
 	POINT getPos();
 
 private:
 
 	HWND m_hWnd;
+	bool m_currClick[3];
+	bool m_prevClick[3];
 };
 
 #endif

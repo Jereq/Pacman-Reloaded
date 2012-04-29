@@ -9,14 +9,18 @@ public:
 	Keyboard();
 	~Keyboard();
 
-	void update();
+	void keyDown(WPARAM _wParam);
+	void keyUp(WPARAM _wParam);
 
-	bool keyDown(char _c);
-
-	//bool keyPress(char _c);
+	bool getPressedKey(char _c);
+	bool pressOnce(char _c);
 
 private:
-	//int m_curr, m_prev;
+
+	bool m_keys[256];
+
+	bool m_prevKey[256];
+	bool m_currKey[256];
 };
 
 #endif

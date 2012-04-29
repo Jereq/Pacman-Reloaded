@@ -3,41 +3,40 @@
 
 Keyboard::Keyboard()
 {
-	/*m_curr = 0;
-	m_prev = 0;*/
+	for(int i = 0; i < 256; i++)
+	{
+		m_keys[i] = false;
+		m_currKey[i] = false;
+		m_prevKey[i] = false;
+	}
 }
 
 Keyboard::~Keyboard()
 {
-		
+
 }
 
-bool Keyboard::keyDown(char _c)
+void Keyboard::keyDown(WPARAM _wParam)
 {
-	if(GetAsyncKeyState(_c))
-	{
-		return true;
-	}
-	
-	return false;
+	m_keys[_wParam] = true;
 }
 
-//bool Keyboard::keyPress(char _c)
-//{
-//	if(GetAsyncKeyState(_c))
-//	{
-//		m_curr = 1;
-//	}
-//	else
-//	{
-//		m_curr = 0;
-//	}
-//
-//	if(m_prev != m_curr)
-//	{
-//		m_prev = m_curr;
-//		return true;
-//	}
-//
-//	return false;
-//}
+void Keyboard::keyUp(WPARAM _wParam)
+{
+	m_keys[_wParam] = false;
+}
+
+bool Keyboard::getPressedKey(char _c)
+{
+	return m_keys[_c];
+}
+
+bool Keyboard::pressOnce(char _c)
+{
+	int i;
+	i = (int)_c;
+	m_prevKey[i] = m_currKey[i];
+	m_currKey[i] = m_keys[_c];
+
+	return !m_prevKey[i] && m_currKey[i];
+}

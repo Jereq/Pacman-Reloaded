@@ -15,23 +15,92 @@ HID::~HID()
 	m_keyboard = NULL;
 }
 
+void HID::input(UINT _msg, WPARAM _wParam)
+{
+	switch(_msg)
+	{
+	case WM_KEYDOWN:
+		m_keyboard->keyDown(_wParam);
+		break;
+
+	case WM_KEYUP:
+		m_keyboard->keyUp(_wParam);
+		break;
+	}
+}
+
+void HID::keyboardDown(WPARAM _wParam)
+{
+	m_keyboard->keyDown(_wParam);
+}
+
+void HID::keyboardUp(WPARAM _wParam)
+{
+	m_keyboard->keyUp(_wParam);
+}
+
+bool HID::pressKey(char _c)
+{
+	if(m_keyboard->getPressedKey(_c) == true) 
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool HID::pressKeyOnce(char _c)
+{
+	if(m_keyboard->pressOnce(_c) == true)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool HID::leftMouseButton()
+{
+	if(m_mouse->buttonClick(VK_LBUTTON, 0) == true)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool HID::rightMouseButton()
+{
+	if(m_mouse->buttonClick(VK_RBUTTON, 1) == true)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool HID::middleMouseButton()
+{
+	if(m_mouse->buttonClick(VK_MBUTTON, 2) == true)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 POINT HID::getMousePos()
 {
-	m_mousePos = m_mouse->getPos();
-	return m_mousePos;
+	return m_mouse->getPos();
 }
 
-bool HID::keyboardKeyDown(char _c)
-{
-	return m_keyboard->keyDown(_c);
-}
-
-bool HID::mouseRightClick()
-{
-	return m_mouse->buttonClick(MOUSEEVENTF_RIGHTDOWN);
-}
-
-bool HID::mouseLeftClick()
-{
-	return m_mouse->buttonClick(MOUSEEVENTF_LEFTDOWN);
-}
+//
+//Keyboard* HID::getKeyboard()
+//{
+//	return m_keyboard;
+//}
+//
+//Mouse* HID::getMouse()
+//{
+//	return m_mouse;
+//}
