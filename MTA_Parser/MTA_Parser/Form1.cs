@@ -96,7 +96,12 @@ namespace MTA_Parser
                 {
                     animations.Add(new Animation(objFilesAnimation, Convert.ToSingle(txb_animationTime.Text), txb_animationName.Text, animations.Last().Index + 1));
                 }
-                ((CurrencyManager)lb_finishedAnimations.BindingContext[lb_finishedAnimations.DataSource]).Refresh();
+
+                objFilesAnimation.Clear();
+                ((CurrencyManager)lb_finishedAnimations.BindingContext[lb_finishedAnimations.DataSource]).Refresh();                
+                ((CurrencyManager)lb_Animation.BindingContext[lb_Animation.DataSource]).Refresh();
+                txb_animationName.Text = "";
+                txb_animationTime.Text = "";
             }
             else
             {
@@ -119,34 +124,35 @@ namespace MTA_Parser
             if (res == DialogResult.OK)
             {
                 Stream s = new FileStream(saveFile.FileName, FileMode.Create);
-                var v = new BinaryWriter(s);
-                //var v = new StreamWriter(s);
+                //var v = new BinaryWriter(s);
+                var v = new StreamWriter(s);
 
                 v.Write(objFiles.Count); // num of index buffers
                 v.Write(objFiles[0].getIndices.Count); // size of index buffers   
                 v.Write(globalVertices.Count); //size of global vertex buffer
                 v.Write(txb_texture.Text.Length); //length of texture file string
                 v.Write(txb_texture.Text); // texture file string
+                v.Write(animations.Count); //Animation count
 
                 foreach (Animation a in animations) //Animation sets
                 {
                     v.Write(a.Name.Length);
                     v.Write(a.Name);
                     v.Write(a.Time);
-                    v.Write(a.ObjFiles.Count);
+                    v.Write(a.ObjCount);
 
-                    foreach (OBJFile o in a.ObjFiles)
+                    foreach (int i in a.Sequence)
                     {
-                        v.Write(o.Index);
+                        v.Write(i);
                     }
                 }
 
                 foreach (OBJFile o in objFiles) // index buffers of eash obj file
                 {
-                    foreach(int i in o.getIndices)
+                    foreach (int i in o.getIndices)
                     {
                         v.Write(i);
-                    }                    
+                    }
                 }
 
                 foreach (Vertex ve in globalVertices) //Global list of vertices

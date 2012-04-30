@@ -7,19 +7,27 @@ namespace MTA_Parser
 {
     class Animation
     {
-        private List<OBJFile> objFiles;
         private int index;
         private float time;
         private string name;
+        private int[] sequence;
+        private int objCount;
 
         public Animation(List<OBJFile> _obj, float _time, string _name, int _index)
         {
-            objFiles = _obj;
             time = _time;
             name = _name;
             index = _index;
+            objCount = _obj.Count;
+            sequence = new int[_obj.Count];
+
+            for (int i = 0; i < sequence.Length; i++ )
+            {
+                sequence[i] = _obj[i].Index;
+            }
         }
         #region getters
+
         public string Name
         {
             get { return name; }
@@ -30,15 +38,21 @@ namespace MTA_Parser
             get { return index; }
         }
 
-        public List<OBJFile> ObjFiles
+        public int ObjCount
         {
-            get { return objFiles; }
+            get { return objCount; }
+        }
+
+        public int[] Sequence
+        {
+            get { return sequence; }
         }
 
         public float Time
         {
             get { return time; }
         }
+
         #endregion
     }
 }
