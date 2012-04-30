@@ -93,6 +93,7 @@
     <ClInclude Include="ResourceHandling\Resource.h" />
     <ClInclude Include="ResourceHandling\Texture.h" />
     <ClInclude Include="ResourceHandling\ResourceManager.h" />
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="ResourceHandling\Resource.cpp" />
     <ClCompile Include="ResourceHandling\ResourceManager.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="ResourceHandling\Texture.cpp" />
   </ItemGroup>

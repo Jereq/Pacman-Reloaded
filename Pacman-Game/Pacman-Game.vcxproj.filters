@@ -71,7 +71,7 @@
     </ClCompile>
     <ClCompile Include="Print.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>    
+    </ClCompile>
     <ClCompile Include="ResourceHandling\ResourceManager.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
@@ -80,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="ResourceHandling\Resource.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="ResourceHandling\Resource.h">
       <Filter>Header Files\ResourceHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

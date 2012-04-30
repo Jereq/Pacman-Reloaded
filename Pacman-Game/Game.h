@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ResourceHandling/ResourceManager.h"
+#include "SoundManager.h"
 
 namespace Pacman
 {
@@ -8,9 +9,12 @@ namespace Pacman
 	{
 	private:
 		ResourceHandling::ResourceManager rm;
+		SoundManager sm;
 
 	public:
 		Game();
 		~Game();
+
+		void update(float deltaTime);
 	};
 }
