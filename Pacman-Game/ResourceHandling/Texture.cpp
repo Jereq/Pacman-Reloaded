@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Texture::Texture(ID3D10Device* pDevice) : texResource(0), tex(0)
+Texture::Texture(ID3D10Device* pDevice) : texResource(0), tex(0), textureSRV(0)
 {
 	device = pDevice;
 }
@@ -13,6 +13,8 @@ Texture::~Texture()
 		texResource->Release();
 	if( tex )
 		tex->Release();
+	if( textureSRV )
+		textureSRV->Release();
 
 	if( !colorVector.empty() )
 	{
@@ -23,25 +25,28 @@ Texture::~Texture()
 }
 
 //Load function for normal textures
-HRESULT Texture::loadTexture(LPCSTR filename)
+HRESULT Texture::loadTexture(LPCSTR fileName)
 {
 	HRESULT hr = S_OK;
-	
-	hr = D3DX10CreateTextureFromFileA( device, filename, NULL, NULL, &texResource, 0 );
+	if( textureSRV )
+	{
+		textureSRV->Release();
+	}
+
+	hr = D3DX10CreateShaderResourceViewFromFile( device, fileName, NULL, NULL, &textureSRV, NULL );
 
 	if( FAILED(hr) )
 	{
 		MessageBoxA( 0, "Failed to load a texture", NULL, NULL );
 		return hr;
 	}
-	tex = ( ID3D10Texture2D* )texResource;
 
 	return hr;
 }
 
 //Load function for map texture. (This has to be done differently than other
 //textures becasue we want to extract the colors of the map texture)
-HRESULT Texture::loadMapTexture(LPCSTR filename, UINT width, UINT height)
+HRESULT Texture::loadMapTexture(LPCSTR filename)
 {
 	HRESULT hr = S_OK;
 
@@ -49,8 +54,8 @@ HRESULT Texture::loadMapTexture(LPCSTR filename, UINT width, UINT height)
 	D3DX10_IMAGE_LOAD_INFO loadinfo;
 	ZeroMemory( &loadinfo, sizeof(D3DX10_IMAGE_LOAD_INFO) );
 	loadinfo.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	loadinfo.Height = height;
-	loadinfo.Width = width;
+	loadinfo.Height = D3DX10_DEFAULT;
+	loadinfo.Width = D3DX10_DEFAULT;
 	loadinfo.CpuAccessFlags = D3D10_CPU_ACCESS_READ;
 	loadinfo.Usage = D3D10_USAGE_STAGING;
 	loadinfo.MipLevels = 1;
@@ -64,7 +69,9 @@ HRESULT Texture::loadMapTexture(LPCSTR filename, UINT width, UINT height)
 	}
 	tex = ( ID3D10Texture2D* )texResource;
 
-	extractColors(width, height);
+	D3D10_TEXTURE2D_DESC desc;
+	tex->GetDesc(&desc);
+	extractColors(desc.Width, desc.Width);
 
 	return hr;
 }
@@ -94,9 +101,9 @@ void Texture::extractColors(UINT width, UINT height)
 	colorVector.shrink_to_fit();
 }
 
-ID3D10Texture2D* Texture::getTexture()
+ID3D10ShaderResourceView* Texture::getTexture()
 {
-	return tex;
+	return textureRSV;
 }
 
 std::vector<D3DXCOLOR> Texture::getColorVector()

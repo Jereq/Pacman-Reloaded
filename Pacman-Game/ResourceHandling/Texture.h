@@ -12,14 +12,15 @@ public:
 	Texture(ID3D10Device* pDevice);
 	~Texture();
 	HRESULT loadTexture(LPCSTR filename);
-	HRESULT loadMapTexture(LPCSTR filename, UINT width, UINT height);
-	ID3D10Texture2D* getTexture();
+	HRESULT loadMapTexture(LPCSTR filename);
+	ID3D10ShaderResourceView* getTexture();
 	std::vector<D3DXCOLOR> getColorVector();
 
 private:
 	ID3D10Resource*		texResource;
 	ID3D10Device*		device;
 	ID3D10Texture2D*	tex;
+	ID3D10ShaderResourceView* textureSRV;
 	std::vector<D3DXCOLOR>	colorVector;
 	void extractColors(UINT width, UINT height);
 };
