@@ -124,8 +124,8 @@ namespace MTA_Parser
             if (res == DialogResult.OK)
             {
                 Stream s = new FileStream(saveFile.FileName, FileMode.Create);
-                //var v = new BinaryWriter(s);
-                var v = new StreamWriter(s);
+                var v = new BinaryWriter(s);
+                //var v = new StreamWriter(s);
 
                 v.Write(objFiles.Count); // num of index buffers
                 v.Write(objFiles[0].getIndices.Count); // size of index buffers   
