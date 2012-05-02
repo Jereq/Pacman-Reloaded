@@ -1,30 +1,33 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#pragma once
+
 #include <D3D10.h>
 #include <D3DX10.h>
 #include <vector>
 
+#include "Resource.h"
 
-
-class Texture
+namespace ResourceHandling
 {
-public:
-	Texture(ID3D10Device* pDevice);
-	~Texture();
-	HRESULT loadTexture(LPCSTR filename);
-	HRESULT loadMapTexture(LPCSTR filename);
-	ID3D10ShaderResourceView* getTexture();
-	std::vector<D3DXCOLOR> getColorVector();
+	class Texture : public Resource
+	{
+	public:
+		typedef boost::shared_ptr<Texture> ptr;
 
-private:
-	ID3D10Resource*		texResource;
-	ID3D10Device*		device;
-	ID3D10Texture2D*	tex;
-	ID3D10ShaderResourceView* textureSRV;
-	std::vector<D3DXCOLOR>	colorVector;
-	void extractColors(UINT width, UINT height);
-};
+		Texture(ID3D10Device* pDevice, std::string const& _filename);
+		~Texture();
+		HRESULT loadTexture();
+		HRESULT loadMapTexture();
+		ID3D10ShaderResourceView* getTexture();
+		std::vector<D3DXCOLOR> getColorVector();
 
+		virtual void freeResource();
 
-
-#endif
+	private:
+		ID3D10Resource*		texResource;
+		ID3D10Device*		device;
+		ID3D10Texture2D*	tex;
+		ID3D10ShaderResourceView* textureSRV;
+		std::vector<D3DXCOLOR>	colorVector;
+		void extractColors(UINT width, UINT height);
+	};
+}

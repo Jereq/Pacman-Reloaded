@@ -38,5 +38,5 @@ bool AppMain::Initialize(HWND* _hWnd)
 
 void AppMain::Run()
 {
-	gManager->renderScene();
+	//gManager->renderScene();
 }
