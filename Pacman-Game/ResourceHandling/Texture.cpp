@@ -103,7 +103,7 @@ void Texture::extractColors(UINT width, UINT height)
 
 ID3D10ShaderResourceView* Texture::getTexture()
 {
-	return textureRSV;
+	return textureSRV;
 }
 
 std::vector<D3DXCOLOR> Texture::getColorVector()

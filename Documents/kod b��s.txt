@@ -1,0 +1,118 @@
+#pragma region icke intressant
+	//read heightmap values
+	FIBITMAP *pHeightMap = FreeImage_Load(FIF_BMP, "terrain_heightmap.bmp", BMP_DEFAULT);
+	int hmHeight = 0, hmWidth = 0;
+	float* pHeightData = 0;
+		
+	if ( pHeightMap )
+	{
+		//get height and width & allocate memory
+		hmHeight = FreeImage_GetHeight(pHeightMap);
+		hmWidth = FreeImage_GetWidth(pHeightMap);
+		
+		pHeightData = new float[hmHeight * hmWidth];
+
+		RGBQUAD color;	
+		for (int r=0; r < hmHeight; r++)
+		{
+			for(int c=0; c < hmWidth; c++)
+			{
+				FreeImage_GetPixelColor(pHeightMap,c,r,&color);
+				
+				//scale height data 
+				float divisor = 255 / 6;
+				pHeightData[r*hmWidth + c] = color.rgbRed / divisor - 3;
+			}
+		}
+
+		FreeImage_Unload(pHeightMap);
+	}
+
+	//create vertices for mesh
+	unsigned int numVertices = hmHeight * hmWidth;
+	vertex *pMeshVertices = new vertex[ numVertices ];
+	float tC[2] = {0,1};
+	float tCStepSize[2] = { 1.0f/hmWidth, 1.0f/hmHeight};
+
+	//set positions
+	float z = -32;
+	float x = -32;
+	int cnt = 0;
+	int wCnt = 0;
+	int hCnt = 0;	
+	
+	while (hCnt < hmHeight)
+	{
+		while (wCnt < hmWidth)
+		{
+			pMeshVertices[cnt].texCoords = D3DXVECTOR2( tC[0], tC[1] );			
+			pMeshVertices[cnt++].pos = D3DXVECTOR3( x, pHeightData[cnt], z );
+			tC[0] += tCStepSize[0];
+			wCnt++;
+			x += 64.0f/(hmWidth-1);
+		}
+
+		//set vars
+		x = -32;
+		z += 64.0f/(hmWidth-1);
+		tC[0] = 0;
+		tC[1] -= tCStepSize[1];
+		wCnt = 0;
+		hCnt++;
+	}
+
+	//calculate normals	
+	for ( unsigned int i = 0; i < numVertices - hmWidth; i++ )
+	{
+		D3DXVECTOR3 N, v1, v2;
+		
+		//calculate per primitive normal - face 1		
+		v1 = pMeshVertices[i+hmWidth].pos - pMeshVertices[i].pos;
+		v2 = pMeshVertices[i+1].pos - pMeshVertices[i].pos;
+
+		D3DXVec3Cross( &N, &v1, &v2);
+
+		//add primitive normal to all primitive's vertices
+		pMeshVertices[i].normal += N;
+		pMeshVertices[i+1].normal += N;
+		pMeshVertices[i+hmWidth].normal += N;
+
+		//calculate per primitive normal - face 2	
+		v1 = pMeshVertices[i+hmWidth].pos - pMeshVertices[i+1].pos;
+		v2 = pMeshVertices[i+hmWidth+1].pos - pMeshVertices[i+1].pos;
+		
+		D3DXVec3Cross( &N, &v1, &v2);
+
+		//add primitive normal to all primitive's vertices
+		pMeshVertices[i+1].normal += N;
+		pMeshVertices[i+hmWidth].normal += N;
+		pMeshVertices[i+hmWidth+1].normal += N;
+
+		//skip last vert
+		if ( i % hmWidth == hmWidth - 2 ) i++;
+	}
+	
+	for ( unsigned int i = 0; i < numVertices - hmWidth; i++ )
+	{
+		D3DXVec3Normalize(&pMeshVertices[i].normal,&pMeshVertices[i].normal); 
+	}
+
+	//set indices
+	unsigned int numIndices = (hmHeight-1) * (hmWidth-1) * 6;
+	unsigned int *pMeshIndices = new unsigned int[numIndices];
+	cnt = 0;
+
+	for ( unsigned int i = 0; i < numVertices - hmWidth; i++ )
+	{
+		//add indices for 2 faces;
+		pMeshIndices[cnt++] = i;
+		pMeshIndices[cnt++] = i + hmWidth;
+		pMeshIndices[cnt++] = i + 1;
+		pMeshIndices[cnt++] = i + 1;
+		pMeshIndices[cnt++] = i + hmWidth;
+		pMeshIndices[cnt++] = i + hmWidth + 1;
+		
+		//skip last vert
+		if ( i % hmWidth == hmWidth - 2 ) i++;
+	}
+#pragma endregion icke intressant

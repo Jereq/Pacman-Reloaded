@@ -17,7 +17,7 @@ void Print::Dbg(const char* arg, ...)
 	char buf[2048];
 	va_list ptr;
 	va_start(ptr, arg);
-	vsprintf(buf, arg, ptr);
+	vsprintf_s(buf, arg, ptr);
 	OutputDebugString(buf);
 }
 
