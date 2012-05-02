@@ -37,6 +37,12 @@
     <Filter Include="Header Files\GFX">
       <UniqueIdentifier>{46a3a49c-2c44-4c81-9b90-afb9c9b43c51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Player">
+      <UniqueIdentifier>{1fdffe21-a5e9-4e4d-9b99-0e43dd25da5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{9d3908a6-9996-4d66-8064-e179a66ef023}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameplayFoundations\Grid.cpp">
@@ -90,6 +96,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GFX</Filter>
     </ClCompile>
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -134,14 +143,14 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\hightMap\hightMap\hrTimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\hightMap\hightMap\InputManager.h">
+    <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResourceHandling\mtaLoader.h">
       <Filter>Header Files\ResourceHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="hrTimer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vertexTypes.h">
       <Filter>Header Files\GFX</Filter>
@@ -150,7 +159,9 @@
       <Filter>Header Files\GFX</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Player.h">
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

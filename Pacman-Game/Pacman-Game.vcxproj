@@ -81,9 +81,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="..\..\..\hightMap\hightMap\hrTimer.h" />
-    <ClInclude Include="..\..\..\hightMap\hightMap\InputManager.h" />
+    <ClInclude Include="hrTimer.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="lights.h" />
+    <ClInclude Include="Player\Player.h" />
     <ClInclude Include="vertexTypes.h" />
     <ClInclude Include="AppMain.h" />
     <ClInclude Include="dxManager.h" />
@@ -112,6 +113,7 @@
     <ClCompile Include="HID\HID.cpp" />
     <ClCompile Include="HID\Keyboard.cpp" />
     <ClCompile Include="HID\Mouse.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="ResourceHandling\mtaLoader.cpp" />
     <ClCompile Include="ResourceHandling\Resource.cpp" />

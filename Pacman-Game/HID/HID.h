@@ -1,5 +1,4 @@
-#ifndef HID_H
-#define HID_H
+#pragma once
 
 #include "Keyboard.h"
 #include "Mouse.h"
@@ -14,14 +13,14 @@ public:
 	Mouse* getMouse();*/
 
 	void input(UINT _msg, WPARAM _wParam);
-	void keyboardDown(WPARAM _wParam);
-	void keyboardUp(WPARAM _wParam);
+	//void keyboardDown(WPARAM _wParam);
+	//void keyboardUp(WPARAM _wParam);
 	bool pressKey(char _c);
 	bool pressKeyOnce(char _c);
 
-	bool leftMouseButton();
-	bool rightMouseButton();
-	bool middleMouseButton();
+	bool mouseLeftButton();
+	bool mouseRightButton();
+	bool mouseMiddleButton();
 
 	POINT getMousePos();
 
@@ -29,5 +28,3 @@ private:
 	Keyboard* m_keyboard;
 	Mouse* m_mouse;
 };
-
-#endif

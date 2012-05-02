@@ -1,5 +1,4 @@
-#ifndef MOUSE_H
-#define MOUSE_H
+#pragma once
 
 #include <Windows.h>
 
@@ -19,5 +18,3 @@ private:
 	bool m_currClick[3];
 	bool m_prevClick[3];
 };
-
-#endif

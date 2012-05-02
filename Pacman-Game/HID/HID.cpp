@@ -29,15 +29,15 @@ void HID::input(UINT _msg, WPARAM _wParam)
 	}
 }
 
-void HID::keyboardDown(WPARAM _wParam)
-{
-	m_keyboard->keyDown(_wParam);
-}
-
-void HID::keyboardUp(WPARAM _wParam)
-{
-	m_keyboard->keyUp(_wParam);
-}
+//void HID::keyboardDown(WPARAM _wParam)
+//{
+//	m_keyboard->keyDown(_wParam);
+//}
+//
+//void HID::keyboardUp(WPARAM _wParam)
+//{
+//	m_keyboard->keyUp(_wParam);
+//}
 
 bool HID::pressKey(char _c)
 {
@@ -59,7 +59,7 @@ bool HID::pressKeyOnce(char _c)
 	return false;
 }
 
-bool HID::leftMouseButton()
+bool HID::mouseLeftButton()
 {
 	if(m_mouse->buttonClick(VK_LBUTTON, 0) == true)
 	{
@@ -69,7 +69,7 @@ bool HID::leftMouseButton()
 	return false;
 }
 
-bool HID::rightMouseButton()
+bool HID::mouseRightButton()
 {
 	if(m_mouse->buttonClick(VK_RBUTTON, 1) == true)
 	{
@@ -79,7 +79,7 @@ bool HID::rightMouseButton()
 	return false;
 }
 
-bool HID::middleMouseButton()
+bool HID::mouseMiddleButton()
 {
 	if(m_mouse->buttonClick(VK_MBUTTON, 2) == true)
 	{

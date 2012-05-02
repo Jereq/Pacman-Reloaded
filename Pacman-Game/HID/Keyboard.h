@@ -1,5 +1,4 @@
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#pragma once
 
 #include <Windows.h>
 
@@ -22,5 +21,3 @@ private:
 	bool m_prevKey[256];
 	bool m_currKey[256];
 };
-
-#endif
