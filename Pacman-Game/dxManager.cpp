@@ -8,7 +8,7 @@ dxManager::dxManager() :
 	pD3DDevice(NULL),
 	pSwapChain(NULL),
 	pRenderTargetView(NULL),
-	pBasicEffect(NULL)
+	pBasicEffect(NULL),
 	camera(NULL)
 {
 	D3DXMatrixIdentity(&worldMatrix);

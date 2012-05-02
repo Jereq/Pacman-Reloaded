@@ -19,22 +19,22 @@ class dxManager
 private:
 
 	//window handle shortcut
-	HWND*						hWnd;
+	HWND*								hWnd;
 	
 	//device vars
 	
-	IDXGISwapChain*				pSwapChain;
-	ID3D10RenderTargetView*		pRenderTargetView;
-	ID3D10Texture2D*			pDepthStencil;
-	ID3D10DepthStencilView*		pDepthStencilView;	
-	D3D10_VIEWPORT				viewPort;
+	IDXGISwapChain*						pSwapChain;
+	ID3D10RenderTargetView*				pRenderTargetView;
+	ID3D10Texture2D*					pDepthStencil;
+	ID3D10DepthStencilView*				pDepthStencilView;	
+	D3D10_VIEWPORT						viewPort;
 
 	//input layout
-	ID3D10InputLayout*			pVertexLayout;
+	ID3D10InputLayout*					pVertexLayout;
 
 	//effects and techniques
-	ID3D10Effect*				pBasicEffect;
-	ID3D10EffectTechnique*		pTechnique;
+	ID3D10Effect*						pBasicEffect;
+	ID3D10EffectTechnique*				pTechnique;
 
 	//effect variable pointers
 	ID3D10EffectMatrixVariable*			pViewMatrixEffectVariable;
@@ -45,20 +45,20 @@ private:
 	ID3D10EffectScalarVariable*			pBufferStop;
 
 	//projection and view matrices
-	D3DXMATRIX					worldMatrix;
+	D3DXMATRIX							worldMatrix;
 
 	//technique
-	D3D10_TECHNIQUE_DESC		techDesc;
+	D3D10_TECHNIQUE_DESC				techDesc;
 	
 	//Lights
-	D3DXVECTOR4					ambientLight;
-	DirectionalLight			directionalLight;
-	Material					material;
+	D3DXVECTOR4							ambientLight;
+	DirectionalLight					directionalLight;
+	Material							material;
 
-	std::vector<MTA::ptr>			mta;	
+	std::vector<MTA::ptr>				mta;	
 	
 	//Active camera
-	Camera*						camera;
+	Camera*								camera;
 	
 	/*******************************************************************
 	* Methods
@@ -69,9 +69,7 @@ public:
 	dxManager();
 	~dxManager();
 
-	ID3D10Device*				pD3DDevice;
-
-	ID3D10Device*				pD3DDevice;
+	ID3D10Device*						pD3DDevice;
 
 	//initialize directx device
 	bool initialize(HWND*);	
