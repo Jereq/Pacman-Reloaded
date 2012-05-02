@@ -9,6 +9,7 @@
 
 #include "vertexTypes.h"
 #include "lights.h"
+#include "ResourceHandling/mtaLoader.h"
 
 class dxManager
 {
@@ -48,14 +49,13 @@ private:
 
 	//technique
 	D3D10_TECHNIQUE_DESC		techDesc;
-
-	//buffers
-	ID3D10Buffer
 	
 	//Lights
 	D3DXVECTOR4					ambientLight;
 	DirectionalLight			directionalLight;
 	Material					material;
+
+	std::vector<MTA::ptr>			mta;	
 	
 	/*******************************************************************
 	* Methods

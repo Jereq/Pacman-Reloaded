@@ -5,6 +5,7 @@
 #include <vector>
 #include <D3DX10.h>
 #include "..\vertexTypes.h"
+#include <boost\shared_ptr.hpp>
 
 
 struct Animation
@@ -16,8 +17,10 @@ struct Animation
 };
 
 
-struct MeshData
+struct MTA
 {
+	typedef boost::shared_ptr<MTA> ptr;
+
 	std::vector<Animation> animations;
 	std::string textureName;
 	int indexCount;
@@ -31,20 +34,19 @@ class mtaLoader
 public:
 	mtaLoader(ID3D10Device* pdevice);
 	~mtaLoader();
-	void loadmta(char* fileName);
+	MTA::ptr loadmta(std::string fileName);
 private:
 	ID3D10Device* device;
 	int pos, objCount, vertCount, indCount, animCount;
 	std::ifstream file;
-	MeshData m;
 
 	int  byteToInt();
 	std::string byteToString(int strLength);
 	float byteToFloat();
-	void loadHeader();
-	void loadAnimations();
-	void loadIndices();
-	void loadVertices();
+	void loadHeader(const MTA::ptr &m);
+	void loadAnimations(const MTA::ptr &m);
+	void loadIndices(const MTA::ptr &m);
+	void loadVertices(const MTA::ptr &m);
 
 
 };

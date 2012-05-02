@@ -6,11 +6,11 @@ using namespace std;
 #include "Camera.h"
 extern Camera* pCamera;
 
-dxManager::dxManager() :	pD3DDevice(NULL),
+dxManager::dxManager() :	
+	pD3DDevice(NULL),
 	pSwapChain(NULL),
 	pRenderTargetView(NULL),
-	pBasicEffect(NULL),
-	pTerrainMesh(NULL)
+	pBasicEffect(NULL)
 {
 	D3DXMatrixIdentity(&worldMatrix);
 }
@@ -22,19 +22,12 @@ dxManager::~dxManager()
 	if ( pD3DDevice ) pD3DDevice->Release();
 	if ( pBasicEffect ) pBasicEffect->Release();
 	if ( pDepthStencil ) pDepthStencil->Release();
-	if ( pTerrainMesh ) pTerrainMesh->Release();
-	if ( pTerrainTexture ) pTerrainTexture->Release();
 }
 
 #pragma region Init
 
 bool dxManager::initialize( HWND* hW )
 {
-
-
-
-
-
 	//window handle
 	hWnd = hW;
 
@@ -53,9 +46,6 @@ bool dxManager::initialize( HWND* hW )
 	if ( !createRenderTargetsAndDepthBuffer(width, height) ) return false;
 
 	if ( !initializeObjects() ) return false;
-
-	mtaLoader load(pD3DDevice);
-	load.loadmta("test.mta");
 
 	return true;
 }
@@ -194,6 +184,15 @@ bool dxManager::loadShadersAndCreateInputLayouts()
 
 bool dxManager::initializeObjects()
 {
+	
+	std::string fileNames[] = {"pacman.mta"};//, "blinky.mta", "pinky.mta", "inky.mta", "clyde.mta" };
+	mtaLoader init(pD3DDevice);
+
+	for (int i = 0; i < 1; i++)
+	{		
+		mta.push_back(init.loadmta(fileNames[i]));		
+	}
+	
 	return true;
 }
 

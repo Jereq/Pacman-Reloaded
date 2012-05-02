@@ -10,50 +10,52 @@ mtaLoader::~mtaLoader()
 
 }
 
-void mtaLoader::loadmta(char* fileName)
+MTA::ptr mtaLoader::loadmta(std::string fileName)
 {
-	ZeroMemory( &m, sizeof(m) );
+	MTA::ptr m(new MTA());
 
 	file.open( fileName, std::ios::in | std::ios::binary );
 
 	if(!file.is_open())
 	{
 		MessageBox( 0, "Could not open .mta file", 0, 0 );
-		return;// fail;
+		return m;
 	}
 	//Header
-	loadHeader();
+	loadHeader(m);
 	//Animations
-	loadAnimations();
+	loadAnimations(m);
 	//Indices
-	loadIndices();
+	loadIndices(m);
 	//Vertices
-	loadVertices();
+	loadVertices(m);
 
 	file.close();
 
+	return m;
+
 }
 
-void mtaLoader::loadHeader()
+void mtaLoader::loadHeader(const MTA::ptr &m)
 {
 	//OBJ file Count
 	objCount = byteToInt();
 	//Indices Count
-	m.indexCount = byteToInt();
+	m->indexCount = byteToInt();
 	//Vertices Count
 	vertCount = byteToInt();
 	//Texture Name String Length
 	int textstrLength	= 0;
 	textstrLength = byteToInt();
 	//Texture file name
-	m.textureName = byteToString(textstrLength);
+	m->textureName = byteToString(textstrLength);
 	//Animations Count
 	animCount = byteToInt();
 }
 
-void mtaLoader::loadAnimations()
+void mtaLoader::loadAnimations(const MTA::ptr &m)
 {
-	m.animations.reserve( animCount );
+	m->animations.reserve( animCount );
 
 	for(int i = 0; i < animCount; i++)
 	{
@@ -76,16 +78,16 @@ void mtaLoader::loadAnimations()
 		{
 			a.sequence.push_back(byteToInt());
 		}
-		m.animations.push_back(a);
+		m->animations.push_back(a);
 	}
 }
 
-void mtaLoader::loadIndices()
+void mtaLoader::loadIndices(const MTA::ptr &m)
 {
 	std::vector<DWORD> indices;
-	indices.reserve(m.indexCount*objCount);
+	indices.reserve(m->indexCount*objCount);
 
-	for(int i = 0; i < m.indexCount*objCount; i++)
+	for(int i = 0; i < m->indexCount*objCount; i++)
 	{
 		indices.push_back(byteToInt());
 	}
@@ -93,15 +95,15 @@ void mtaLoader::loadIndices()
 	D3D10_BUFFER_DESC bd;
 	ZeroMemory( &bd, sizeof(bd) );
 	bd.BindFlags = D3D10_BIND_INDEX_BUFFER;
-	bd.ByteWidth = sizeof(DWORD)*((m.indexCount * objCount)/3);
+	bd.ByteWidth = sizeof(DWORD)*((m->indexCount * objCount)/3);
 	bd.CPUAccessFlags = 0;
 	bd.Usage = D3D10_USAGE_DEFAULT;
 	D3D10_SUBRESOURCE_DATA data;
 	data.pSysMem = indices.data();
-	device->CreateBuffer( &bd, &data, &m.iBuffer );
+	device->CreateBuffer( &bd, &data, &m->iBuffer );
 }
 
-void mtaLoader::loadVertices()
+void mtaLoader::loadVertices(const MTA::ptr &m)
 {
 	std::vector<vertex> vertices;
 	vertices.reserve(vertCount);
@@ -130,7 +132,7 @@ void mtaLoader::loadVertices()
 	bd.Usage = D3D10_USAGE_DYNAMIC;
 	D3D10_SUBRESOURCE_DATA data;
 	data.pSysMem = vertices.data();
-	device->CreateBuffer( &bd, &data, &m.vBuffer );
+	device->CreateBuffer( &bd, &data, &m->vBuffer );
 }
 
 int mtaLoader::byteToInt()
