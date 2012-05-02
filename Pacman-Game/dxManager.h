@@ -21,7 +21,7 @@ private:
 	HWND*						hWnd;
 	
 	//device vars
-	ID3D10Device*				pD3DDevice;
+	
 	IDXGISwapChain*				pSwapChain;
 	ID3D10RenderTargetView*		pRenderTargetView;
 	ID3D10Texture2D*			pDepthStencil;
@@ -40,6 +40,8 @@ private:
 	ID3D10EffectMatrixVariable*			pProjectionMatrixEffectVariable;
 	ID3D10EffectMatrixVariable*			pWorldMatrixEffectVariable;
 	ID3D10EffectShaderResourceVariable* pColorMap;
+	ID3D10EffectScalarVariable*			pBufferStart;
+	ID3D10EffectScalarVariable*			pBufferStop;
 
 	//projection and view matrices
 	D3DXMATRIX					worldMatrix;
@@ -47,9 +49,8 @@ private:
 	//technique
 	D3D10_TECHNIQUE_DESC		techDesc;
 
-	//terrain mesh
-	ID3DX10Mesh*				pTerrainMesh;
-	ID3D10ShaderResourceView*	pTerrainTexture;
+	//buffers
+	ID3D10Buffer
 	
 	//Lights
 	D3DXVECTOR4					ambientLight;
@@ -64,6 +65,8 @@ public:
 	//constructor and destructor
 	dxManager();
 	~dxManager();
+
+	ID3D10Device*				pD3DDevice;
 
 	//initialize directx device
 	bool initialize(HWND*);	

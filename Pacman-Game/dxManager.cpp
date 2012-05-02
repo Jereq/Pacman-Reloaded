@@ -173,6 +173,9 @@ bool dxManager::loadShadersAndCreateInputLayouts()
 	//create texture effect variable
 	pColorMap = pBasicEffect->GetVariableByName( "colorMap" )->AsShaderResource();
 
+	pBufferStart = pBasicEffect->GetVariableByName("Start")->AsScalar();
+	pBufferStop = pBasicEffect->GetVariableByName("Stop")->AsScalar();
+
 	//create input layout
 	D3D10_PASS_DESC PassDesc;
 	pTechnique->GetPassByIndex( 0 )->GetDesc( &PassDesc );
@@ -191,55 +194,6 @@ bool dxManager::loadShadersAndCreateInputLayouts()
 
 bool dxManager::initializeObjects()
 {
-	//if ( FAILED( D3DX10CreateMesh(	pD3DDevice, 
-	//	vertexInputLayout, 
-	//	vertexInputLayoutNumElements, 
-	//	"POSITION", 
-	//	numVertices, 
-	//	numIndices/3, 
-	//	D3DX10_MESH_32_BIT, 
-	//	&pTerrainMesh) ) ) 
-	//{
-	//	return fatalError((LPCSTR)"Could not create mesh!");
-	//}
-
-	////insert data into mesh and commit changes
-	//pTerrainMesh->SetVertexData(0, pMeshVertices);
-	//pTerrainMesh->SetIndexData(pMeshIndices, numIndices);
-	//pTerrainMesh->CommitToDevice();
-
-	////free memory
-	//delete[] pMeshVertices;
-	//delete[] pMeshIndices;
-
-	//ambientLight = D3DXVECTOR4(1.0f,1.0f,1.0f,1.0f);
-
-	////set directional light - MAKE sure light direction is a unit vector
-	//directionalLight.color = D3DXVECTOR4(1.0f,1.0f,1.0f,1.0f);
-	//directionalLight.direction = D3DXVECTOR3(1,-1,0);
-	//D3DXVec3Normalize(&directionalLight.direction, &directionalLight.direction);
-
-	//material.ambient = 0.1f;
-	//material.diffuse = 0.5f;
-	//material.specular = 0.5f;
-	//material.shininess = 100;
-
-	////set variables
-	//ID3D10EffectVariable* pVar = pBasicEffect->GetVariableByName( "light" );
-	//pVar->SetRawValue(&directionalLight, 0, sizeof(DirectionalLight));
-
-	//pVar = pBasicEffect->GetVariableByName( "material" );
-	//pVar->SetRawValue(&material, 0, sizeof(Material));
-
-	//pVar = pBasicEffect->GetVariableByName( "ambientLight" );
-	//pVar->SetRawValue( &ambientLight, 0, 16 );
-
-	////Load texture
-	//if( D3DX10CreateShaderResourceViewFromFile(pD3DDevice, L"Terrain_texture.jpg", NULL, NULL, &pTerrainTexture, NULL) )
-	//{
-	//	return fatalError((LPCSTR)"Could not load terrain texture!");
-	//}
-
 	return true;
 }
 
@@ -264,8 +218,8 @@ void dxManager::renderScene()
 	D3DXMatrixIdentity(&worldMatrix);
 	pWorldMatrixEffectVariable->SetMatrix(worldMatrix);
 
-	//set texture
-	pColorMap->SetResource(pTerrainTexture);
+	//pBufferStart->SetInt(0);
+	//pBufferStop->SetInt(1);
 
 	//draw terrain
 	//------------------------------------------------------------------------
@@ -278,7 +232,6 @@ void dxManager::renderScene()
 	{		
 		//apply technique			
 		pTechnique->GetPassByIndex( p )->Apply( 0 );
-		//pTerrainMesh->DrawSubset(0);			
 	}		
 
 	//flip buffers

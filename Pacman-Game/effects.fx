@@ -2,6 +2,8 @@
 matrix World;
 matrix View;
 matrix Projection;
+int Start;
+int Stop;
 
 //TEXTURE VARIABLES
 //--------------------------------------------------------------------------------------
