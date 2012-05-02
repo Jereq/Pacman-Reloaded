@@ -3,9 +3,8 @@
 namespace ResourceHandling
 {
 	Texture::Texture(ID3D10Device* pDevice, std::string const& _filename)
-		: Resource(_filename), texResource(0), tex(0), textureSRV(0)
+		: Resource(_filename), device(pDevice), texResource(0), tex(0), textureSRV(0)
 	{
-		device = pDevice;
 	}
 
 	Texture::~Texture()
@@ -16,13 +15,22 @@ namespace ResourceHandling
 	void Texture::freeResource()
 	{
 		if( device )
+		{
 			device->Release();
+			device = NULL;
+		}
 		if( texResource )
+		{
 			texResource->Release();
-		if( tex )
-			tex->Release();
+			texResource = NULL;
+		}
 		if( textureSRV )
+		{
 			textureSRV->Release();
+			textureSRV = NULL;
+		}
+
+		useCount = 0;
 	}
 
 	//Load function for normal textures
@@ -86,11 +94,11 @@ namespace ResourceHandling
 		float* texels = (float*)mappedTex.pData;
 
 		int count = 0;
-		for(UINT i = 0; i <= height; i++)
+		for(UINT i = 0; i < height; i++)
 		{
-			UINT rowStart = i * mappedTex.RowPitch/4;
+			UINT rowStart = i * mappedTex.RowPitch / 4;
 
-			for(UINT j = 0; j <= width; j++)
+			for(UINT j = 0; j < width; j++)
 			{
 				float x = texels[rowStart + j*4 + 0];
 				float y = texels[rowStart + j*4 + 1];

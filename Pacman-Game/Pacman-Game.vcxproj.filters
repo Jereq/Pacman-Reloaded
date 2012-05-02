@@ -66,9 +66,6 @@
     <ClCompile Include="HID\Keyboard.cpp">
       <Filter>Source Files\HID</Filter>
     </ClCompile>
-    <ClCompile Include="AppMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -122,9 +119,6 @@
     <ClInclude Include="HID\Keyboard.h">
       <Filter>Header Files\HID</Filter>
     </ClInclude>
-    <ClInclude Include="AppMain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="dxManager.h">
       <Filter>Header Files\GFX</Filter>
     </ClInclude>
@@ -156,7 +150,7 @@
       <Filter>Header Files\GFX</Filter>
     </ClInclude>
     <ClInclude Include="lights.h">
-      <Filter>Header Files\GFX</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
     </ClInclude>
@@ -168,5 +162,6 @@
     <None Include="effects.fx">
       <Filter>Header Files\GFX</Filter>
     </None>
+    <None Include="dxManager.h.orig" />
   </ItemGroup>
 </Project>

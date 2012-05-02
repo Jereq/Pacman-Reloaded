@@ -85,7 +85,7 @@ void SoundManager::initSystem()
 		}
 	}
 
-	result = system->init(100, FMOD_INIT_3D_RIGHTHANDED, 0);
+	result = system->init(100, FMOD_INIT_NORMAL, 0);
 
 	if (result == FMOD_ERR_OUTPUT_CREATEBUFFER)
 	{
@@ -148,11 +148,14 @@ void SoundManager::clearCache()
 	soundMap.clear();
 }
 
-void SoundManager::update(FMOD_VECTOR const& cameraPos, FMOD_VECTOR const& cameraForward, FMOD_VECTOR const& cameraUp)
+void SoundManager::update(D3DXVECTOR3 const& cameraPos, D3DXVECTOR3 const& cameraForward, D3DXVECTOR3 const& cameraUp)
 {
 	FMOD::System* system = getSystem();
 
-	system->set3DListenerAttributes(0, &cameraPos, NULL, &cameraForward, &cameraUp);
+	system->set3DListenerAttributes(0,
+		&reinterpret_cast<FMOD_VECTOR const&>(cameraPos), NULL,
+		&reinterpret_cast<FMOD_VECTOR const&>(cameraForward),
+		&reinterpret_cast<FMOD_VECTOR const&>(cameraUp));
 	system->update();
 }
 
@@ -190,7 +193,7 @@ void SoundManager::playBackgroundSound(std::string const& filename, float volume
 	errCheck(result);
 }
 
-void SoundManager::playSound(std::string const& filename, FMOD_VECTOR const& position, float minDistance)
+void SoundManager::playSound(std::string const& filename, D3DXVECTOR3 const& position, float minDistance)
 {
 	FMOD::System* system = getSystem();
 
@@ -205,7 +208,7 @@ void SoundManager::playSound(std::string const& filename, FMOD_VECTOR const& pos
 	result = system->playSound(FMOD_CHANNEL_FREE, soundMap[filename], true, &channel);
 	errCheck(result);
 
-	result = channel->set3DAttributes(&position, NULL);
+	result = channel->set3DAttributes(&reinterpret_cast<FMOD_VECTOR const&>(position), NULL);
 	errCheck(result);
 
 	result = channel->set3DMinMaxDistance(minDistance, 10000.f);

@@ -13,7 +13,8 @@ namespace ResourceHandling
 	private:
 		ID3D10Device* device;
 
-		std::map<std::string, Resource::ptr> loadedResources;
+		typedef std::map<std::string, Resource::ptr> resMap_t;
+		resMap_t loadedResources;
 
 	public:
 		ResourceManager();
@@ -22,6 +23,7 @@ namespace ResourceHandling
 		void shutdown();
 
 		Texture::ptr loadTexture(std::string const& _filename);
+		Texture::ptr loadMapTexture(std::string const& _filename);
 		//void loadSound(std::string const& _filename);
 		//void loadModel(std::string const& _filename);
 

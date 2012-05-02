@@ -1,7 +1,6 @@
 #ifndef _RAWINPUT
 #define _RAWINPUT
 
-extern Camera* pCamera;
 extern unsigned char lightingTechnique;
 
 //register keyboard mouse as input devices!
@@ -44,47 +43,47 @@ void inline HandleRawInput( HWND &hWnd, HRAWINPUT &lParam )
 	//---------------------------------------------------------------------------
 	if (raw->header.dwType == RIM_TYPEKEYBOARD) 
 	{
-		switch( raw->data.keyboard.Message )
-		{
-			//key up
-			case WM_KEYUP : 
-				switch ( raw->data.keyboard.VKey )
-				{
-					case 'W' : pCamera->setMovementToggle( 0, 0 );
-					break;
+		//switch( raw->data.keyboard.Message )
+		//{
+		//	//key up
+		//	case WM_KEYUP : 
+		//		switch ( raw->data.keyboard.VKey )
+		//		{
+		//			//case 'W' : pCamera->setMovementToggle( 0, 0 );
+		//			//break;
 
-					case 'S' : pCamera->setMovementToggle( 1, 0 );
-					break;
+		//			//case 'S' : pCamera->setMovementToggle( 1, 0 );
+		//			//break;
 
-					case 'A' : pCamera->setMovementToggle( 2, 0 );
-					break;
+		//			//case 'A' : pCamera->setMovementToggle( 2, 0 );
+		//			//break;
 
-					case 'D' : pCamera->setMovementToggle( 3, 0 );
-					break;
-				}
-			break;
+		//			//case 'D' : pCamera->setMovementToggle( 3, 0 );
+		//			//break;
+		//		}
+		//	break;
 
-			//key down
-			case WM_KEYDOWN : 
-				switch ( raw->data.keyboard.VKey )
-				{
-					case VK_ESCAPE : PostQuitMessage(0);
-					break;
+		//	//key down
+		//	case WM_KEYDOWN : 
+		//		switch ( raw->data.keyboard.VKey )
+		//		{
+		//			//case VK_ESCAPE : PostQuitMessage(0);
+		//			//break;
 
-					case 'W' : pCamera->setMovementToggle( 0, 1 );
-					break;
+		//			//case 'W' : pCamera->setMovementToggle( 0, 1 );
+		//			//break;
 
-					case 'S' : pCamera->setMovementToggle( 1, -1 );
-					break;
+		//			//case 'S' : pCamera->setMovementToggle( 1, -1 );
+		//			//break;
 
-					case 'A' : pCamera->setMovementToggle( 2, -1 );
-					break;
+		//			//case 'A' : pCamera->setMovementToggle( 2, -1 );
+		//			//break;
 
-					case 'D' : pCamera->setMovementToggle( 3, 1 );
-					break;
-				}
-			break;
-		}
+		//			//case 'D' : pCamera->setMovementToggle( 3, 1 );
+		//			//break;
+		//		}
+		//	break;
+		//}
 	}
 	
 	// Handle Mouse Input
@@ -92,7 +91,7 @@ void inline HandleRawInput( HWND &hWnd, HRAWINPUT &lParam )
 	else if (raw->header.dwType == RIM_TYPEMOUSE) 
 	{
 		//mouse camera control
-		pCamera->adjustHeadingPitch( 0.0025f * raw->data.mouse.lLastX, 0.0025f * raw->data.mouse.lLastY );				
+		//pCamera->adjustHeadingPitch( 0.0025f * raw->data.mouse.lLastX, 0.0025f * raw->data.mouse.lLastY );				
 		
 	}
 

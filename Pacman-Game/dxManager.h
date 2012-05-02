@@ -1,5 +1,4 @@
-#ifndef DXMANAGER
-#define DXMANAGER
+#pragma once
 
 #include <windows.h>
 #include <d3d10.h>
@@ -10,6 +9,7 @@
 #include "vertexTypes.h"
 #include "lights.h"
 #include "ResourceHandling/mtaLoader.h"
+#include "Camera.h"
 
 class dxManager
 {
@@ -57,6 +57,9 @@ private:
 
 	std::vector<MTA::ptr>			mta;	
 	
+	//Active camera
+	Camera*						camera;
+	
 	/*******************************************************************
 	* Methods
 	********************************************************************/	
@@ -68,11 +71,18 @@ public:
 
 	ID3D10Device*				pD3DDevice;
 
+	ID3D10Device*				pD3DDevice;
+
 	//initialize directx device
 	bool initialize(HWND*);	
 
 	//scene function
 	void renderScene();	
+
+	//Get and set the active camera
+	Camera* getActiveCamera();
+	Camera const* getActiveCamera() const;
+	void setActiveCamera(Camera* _newCamera);
 
 private:
 
@@ -86,5 +96,3 @@ private:
 	//fatal error handler
 	bool fatalError(const LPCSTR msg); 
 };
-
-#endif

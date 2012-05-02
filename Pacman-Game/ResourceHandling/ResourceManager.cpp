@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 
 #include <iostream>
+#include <boost/foreach.hpp>
 
 namespace ResourceHandling
 {
@@ -20,6 +21,18 @@ namespace ResourceHandling
 	void ResourceManager::shutdown()
 	{
 		std::cout << "Shutting down resource manager" << std::endl;
+
+		if (loadedResources.size() != 0)
+		{
+			std::cout << "Freeing unreleased resources (" << loadedResources.size() << ")" << std::endl;
+
+			BOOST_FOREACH(resMap_t::value_type& val, loadedResources)
+			{
+				val.second->freeResource();
+			}
+
+			loadedResources.clear();
+		}
 	}
 
 	Texture::ptr ResourceManager::loadTexture(std::string const& _filename)
@@ -36,6 +49,29 @@ namespace ResourceHandling
 		{
 			res.reset(new Texture(device, _filename));
 			res->loadTexture();
+
+			loadedResources[_filename] = res;
+		}
+
+		res->incrementUseCount();
+
+		return res;
+	}
+
+	Texture::ptr ResourceManager::loadMapTexture(std::string const& _filename)
+	{
+		assert(device != NULL);
+
+		Texture::ptr res;
+
+		if (loadedResources.count(_filename) == 1)
+		{
+			res = boost::dynamic_pointer_cast<Texture>(loadedResources[_filename]);
+		}
+		else
+		{
+			res.reset(new Texture(device, _filename));
+			res->loadMapTexture();
 
 			loadedResources[_filename] = res;
 		}

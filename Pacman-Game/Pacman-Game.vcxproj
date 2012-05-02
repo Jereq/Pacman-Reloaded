@@ -86,7 +86,6 @@
     <ClInclude Include="lights.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="vertexTypes.h" />
-    <ClInclude Include="AppMain.h" />
     <ClInclude Include="dxManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameplayFoundations\CellIndex.h" />
@@ -95,16 +94,19 @@
     <ClInclude Include="HID\HID.h" />
     <ClInclude Include="HID\Keyboard.h" />
     <ClInclude Include="HID\Mouse.h" />
+    <ClInclude Include="hrtimer.h" />
+    <ClInclude Include="inputmanager.h" />
+    <ClInclude Include="lights.h" />
     <ClInclude Include="Print.h" />
     <ClInclude Include="ResourceHandling\mtaLoader.h" />
     <ClInclude Include="ResourceHandling\Resource.h" />
     <ClInclude Include="ResourceHandling\Texture.h" />
     <ClInclude Include="ResourceHandling\ResourceManager.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="vertextypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="dxManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameplayFoundations\CellIndex.cpp" />
@@ -123,6 +125,7 @@
     <ClCompile Include="ResourceHandling\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="dxManager.h.orig" />
     <None Include="effects.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

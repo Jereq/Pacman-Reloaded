@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 
+#include <D3DX10math.h>
+
 #include <boost/shared_ptr.hpp>
 
 #include <fmod/fmod.hpp>
@@ -32,9 +34,9 @@ public:
 
 	void clearCache();
 
-	void update(FMOD_VECTOR const& cameraPos, FMOD_VECTOR const& cameraForward, FMOD_VECTOR const& cameraUp);
+	void update(D3DXVECTOR3 const& cameraPos, D3DXVECTOR3 const& cameraForward, D3DXVECTOR3 const& cameraUp);
 
 	void playBackgroundSound(std::string const& filename);
 	void playBackgroundSound(std::string const& filename, float volume);
-	void playSound(std::string const& filename, FMOD_VECTOR const& position, float minDistance);
+	void playSound(std::string const& filename, D3DXVECTOR3 const& position, float minDistance);
 };

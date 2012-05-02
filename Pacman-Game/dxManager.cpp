@@ -1,16 +1,15 @@
 #include "dxManager.h"
 #include <math.h>
 #include "ResourceHandling\mtaLoader.h"
+#include <cassert>
 using namespace std;
-
-#include "Camera.h"
-extern Camera* pCamera;
 
 dxManager::dxManager() :	
 	pD3DDevice(NULL),
 	pSwapChain(NULL),
 	pRenderTargetView(NULL),
 	pBasicEffect(NULL)
+	camera(NULL)
 {
 	D3DXMatrixIdentity(&worldMatrix);
 }
@@ -22,6 +21,11 @@ dxManager::~dxManager()
 	if ( pD3DDevice ) pD3DDevice->Release();
 	if ( pBasicEffect ) pBasicEffect->Release();
 	if ( pDepthStencil ) pDepthStencil->Release();
+
+	if (camera)
+	{
+		delete camera;
+	}
 }
 
 #pragma region Init
@@ -198,6 +202,9 @@ bool dxManager::initializeObjects()
 
 void dxManager::renderScene()
 {
+	//Assert that there is a camera
+	assert(camera != NULL);
+
 	//clear scene
 	pD3DDevice->ClearRenderTargetView( pRenderTargetView, D3DXCOLOR(0.82f,0.863f,0.953f,1) );
 	pD3DDevice->ClearDepthStencilView( pDepthStencilView, D3D10_CLEAR_DEPTH, 1.0f, 0 );
@@ -206,12 +213,12 @@ void dxManager::renderScene()
 	//------------------------------------------------------------------------
 
 	//set view & projection matrices
-	pViewMatrixEffectVariable->SetMatrix(pCamera->getViewMatrix());
-	pProjectionMatrixEffectVariable->SetMatrix(pCamera->getProjectionMatrix());
+	pViewMatrixEffectVariable->SetMatrix(camera->getViewMatrix());
+	pProjectionMatrixEffectVariable->SetMatrix(camera->getProjectionMatrix());
 
 	//set view position
 	ID3D10EffectVectorVariable* var = pBasicEffect->GetVariableByName( "eye" )->AsVector();
-	var->SetFloatVector( (float*) pCamera->getCameraPosition() );
+	var->SetFloatVector( (float*) camera->getCameraPosition() );
 
 	//set world matrix
 	D3DXMatrixIdentity(&worldMatrix);
@@ -220,21 +227,36 @@ void dxManager::renderScene()
 	//pBufferStart->SetInt(0);
 	//pBufferStop->SetInt(1);
 
-	//draw terrain
-	//------------------------------------------------------------------------
+	////draw terrain
+	////------------------------------------------------------------------------
 
-	//get technique description
-	pTechnique->GetDesc( &techDesc );
+	////get technique description
+	//pTechnique->GetDesc( &techDesc );
 
-	//draw
-	for( UINT p = 0; p < techDesc.Passes; p++ )
-	{		
-		//apply technique			
-		pTechnique->GetPassByIndex( p )->Apply( 0 );
-	}		
+	////draw
+	//for( UINT p = 0; p < techDesc.Passes; p++ )
+	//{		
+	//	//apply technique			
+	//	pTechnique->GetPassByIndex( p )->Apply( 0 );
+	//}		
 
 	//flip buffers
 	pSwapChain->Present(0,0);
+}
+
+Camera* dxManager::getActiveCamera()
+{
+	return camera;
+}
+
+Camera const* dxManager::getActiveCamera() const
+{
+	return camera;
+}
+
+void dxManager::setActiveCamera(Camera* _newCamera)
+{
+	camera = _newCamera;
 }
 
 bool dxManager::fatalError(const LPCSTR msg)
