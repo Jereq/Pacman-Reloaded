@@ -84,7 +84,10 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\hightMap\hightMap\Camera.cpp">
+    <ClCompile Include="ResourceHandling\mtaLoader.cpp">
+      <Filter>Source Files\ResourceHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GFX</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,19 +134,22 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\hightMap\hightMap\vertexTypes.h">
-      <Filter>Header Files\GFX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\hightMap\hightMap\Camera.h">
-      <Filter>Header Files\GFX</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\hightMap\hightMap\hrTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\hightMap\hightMap\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\hightMap\hightMap\lights.h">
+    <ClInclude Include="ResourceHandling\mtaLoader.h">
+      <Filter>Header Files\ResourceHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="vertexTypes.h">
+      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="lights.h">
+      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>Header Files\GFX</Filter>
     </ClInclude>
   </ItemGroup>

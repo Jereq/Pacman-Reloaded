@@ -1,5 +1,6 @@
 #include "dxManager.h"
 #include <math.h>
+#include "ResourceHandling\mtaLoader.h"
 using namespace std;
 
 #include "Camera.h"
@@ -29,6 +30,11 @@ dxManager::~dxManager()
 
 bool dxManager::initialize( HWND* hW )
 {
+
+
+
+
+
 	//window handle
 	hWnd = hW;
 
@@ -47,6 +53,9 @@ bool dxManager::initialize( HWND* hW )
 	if ( !createRenderTargetsAndDepthBuffer(width, height) ) return false;
 
 	if ( !initializeObjects() ) return false;
+
+	mtaLoader load(pD3DDevice);
+	load.loadmta("test.mta");
 
 	return true;
 }

@@ -80,11 +80,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\hightMap\hightMap\Camera.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="..\..\..\hightMap\hightMap\hrTimer.h" />
     <ClInclude Include="..\..\..\hightMap\hightMap\InputManager.h" />
-    <ClInclude Include="..\..\..\hightMap\hightMap\lights.h" />
-    <ClInclude Include="..\..\..\hightMap\hightMap\vertexTypes.h" />
+    <ClInclude Include="lights.h" />
+    <ClInclude Include="vertexTypes.h" />
     <ClInclude Include="AppMain.h" />
     <ClInclude Include="dxManager.h" />
     <ClInclude Include="Game.h" />
@@ -95,13 +95,14 @@
     <ClInclude Include="HID\Keyboard.h" />
     <ClInclude Include="HID\Mouse.h" />
     <ClInclude Include="Print.h" />
+    <ClInclude Include="ResourceHandling\mtaLoader.h" />
     <ClInclude Include="ResourceHandling\Resource.h" />
     <ClInclude Include="ResourceHandling\Texture.h" />
     <ClInclude Include="ResourceHandling\ResourceManager.h" />
     <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\hightMap\hightMap\Camera.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="dxManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -112,6 +113,7 @@
     <ClCompile Include="HID\Keyboard.cpp" />
     <ClCompile Include="HID\Mouse.cpp" />
     <ClCompile Include="Print.cpp" />
+    <ClCompile Include="ResourceHandling\mtaLoader.cpp" />
     <ClCompile Include="ResourceHandling\Resource.cpp" />
     <ClCompile Include="ResourceHandling\ResourceManager.cpp" />
     <ClCompile Include="SoundManager.cpp" />
