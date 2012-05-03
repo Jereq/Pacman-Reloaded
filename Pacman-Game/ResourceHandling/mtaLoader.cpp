@@ -23,6 +23,10 @@ namespace Resources
 			MessageBox( 0, "Could not open .mta file", 0, 0 );
 			return m;
 		}
+
+		m->vectorMin = D3DXVECTOR3(0,0,0);
+		m->vectorMax = D3DXVECTOR3(0,0,0);
+
 		//Header
 		loadHeader(m);
 		//Animations
@@ -125,7 +129,10 @@ namespace Resources
 			v.texCoords.y = byteToFloat();
 
 			vertices.push_back(v);
+
+			findMinMax(m, v.pos);
 		}
+
 		D3D10_BUFFER_DESC bd;
 		ZeroMemory( &bd, sizeof(bd) );
 		bd.BindFlags = D3D10_BIND_SHADER_RESOURCE;
@@ -135,6 +142,23 @@ namespace Resources
 		D3D10_SUBRESOURCE_DATA data;
 		data.pSysMem = vertices.data();
 		device->CreateBuffer( &bd, &data, &m->vBuffer );
+	}
+
+	void mtaLoader::findMinMax(const MTA::ptr &m, D3DXVECTOR3 _vector3)
+	{
+		if(m->vectorMin.x > _vector3.x)
+			m->vectorMin.x = _vector3.x;
+		if(m->vectorMin.y > _vector3.y)
+			m->vectorMin.y = _vector3.y;
+		if(m->vectorMin.z > _vector3.z)
+			m->vectorMin.z = _vector3.z;
+
+		if(m->vectorMax.x < _vector3.x)
+			m->vectorMax.x = _vector3.x;
+		if(m->vectorMax.y < _vector3.y)
+			m->vectorMax.y = _vector3.y;
+		if(m->vectorMax.z < _vector3.z)
+			m->vectorMax.z = _vector3.z;
 	}
 
 	int mtaLoader::byteToInt()

@@ -196,7 +196,9 @@ namespace Graphics
 
 		for (int i = 0; i < 1; i++)
 		{	
+			
 			Resources::MTA::ptr tmp = init.loadmta(fileNames[i]);
+
 			mta.push_back(tmp);
 		}
 	

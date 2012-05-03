@@ -2,6 +2,7 @@
 
 #include "InputManager.h"
 #include "ResourceHandling/Context.h"
+#include "Actor\Player.h"
 
 namespace Pacman
 {
@@ -79,6 +80,9 @@ namespace Pacman
 		assert(result);
 
 		gManager = new Graphics::dxManager();
+
+		Player* player = new Player(D3DXVECTOR3(0,0,0));
+
 
 		result = gManager->initialize(&hWnd);
 		assert(result);

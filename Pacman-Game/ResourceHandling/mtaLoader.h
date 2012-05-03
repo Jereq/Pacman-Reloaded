@@ -28,6 +28,8 @@ namespace Resources
 		int objCount;
 		int vertexCount;
 
+		D3DXVECTOR3 vectorMin, vectorMax;
+
 		ID3D10Buffer* vBuffer;
 		ID3D10Buffer* iBuffer;
 	};
@@ -38,6 +40,9 @@ namespace Resources
 		mtaLoader(ID3D10Device* pdevice);
 		~mtaLoader();
 		MTA::ptr loadmta(std::string fileName);
+
+		//D3DXVECTOR3 
+
 	private:
 		ID3D10Device* device;
 		int pos, indCount, animCount;
@@ -50,5 +55,7 @@ namespace Resources
 		void loadAnimations(const MTA::ptr &m);
 		void loadIndices(const MTA::ptr &m);
 		void loadVertices(const MTA::ptr &m);
+
+		void findMinMax(const MTA::ptr &m, D3DXVECTOR3 _vector3);
 	};
 }
