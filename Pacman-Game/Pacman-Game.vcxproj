@@ -81,6 +81,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ResourceHandling\Context.h" />
     <ClInclude Include="hrTimer.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="lights.h" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ResourceHandling\Context.cpp" />
     <ClCompile Include="dxManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameplayFoundations\CellIndex.cpp" />

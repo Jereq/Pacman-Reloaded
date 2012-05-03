@@ -16,7 +16,7 @@ namespace Pacman
 		HWND hWnd;
 		dxManager* gManager;
 
-		ResourceHandling::ResourceManager rm;
+		ResourceHandling::ResourceManager::ptr rm;
 		SoundManager sm;
 
 		static LRESULT CALLBACK wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

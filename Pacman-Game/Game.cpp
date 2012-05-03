@@ -1,7 +1,7 @@
 #include "Game.h"
 
 #include "InputManager.h"
-#include "ResourceHandling/Texture.h"
+#include "ResourceHandling/Context.h"
 
 namespace Pacman
 {
@@ -83,7 +83,8 @@ namespace Pacman
 		result = gManager->initialize(&hWnd);
 		assert(result);
 
-		rm.startup(gManager->pD3DDevice);
+		rm.reset(new ResourceHandling::ResourceManager());
+		rm->startup(gManager->pD3DDevice);
 
 		Camera* camera = new Camera();
 
@@ -94,13 +95,14 @@ namespace Pacman
 
 		gManager->setActiveCamera(camera);
 
-		ResourceHandling::Texture::ptr test = rm.loadMapTexture("Terrain_texture.jpg");
+		ResourceHandling::Context context(rm);
+		ResourceHandling::Texture::ptr test = context.getMapTexture("Terrain_texture.jpg");
 		std::vector<D3DXCOLOR> cols = test->getColorVector();
 	}
 
 	Game::~Game()
 	{
-		rm.shutdown();
+		rm->shutdown();
 		SoundManager::release();
 	}
 

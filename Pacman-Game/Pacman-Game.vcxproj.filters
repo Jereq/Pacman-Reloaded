@@ -96,6 +96,9 @@
     <ClCompile Include="Player\Player.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceHandling\Context.cpp">
+      <Filter>Source Files\ResourceHandling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -156,6 +159,12 @@
     </ClInclude>
     <ClInclude Include="Player\Player.h">
       <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="vertextypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandling\Context.h">
+      <Filter>Header Files\ResourceHandling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
