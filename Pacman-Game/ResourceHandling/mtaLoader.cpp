@@ -39,7 +39,6 @@ namespace Resources
 		file.close();
 
 		return m;
-
 	}
 
 	void mtaLoader::loadHeader(const MTA::ptr &m)
@@ -90,29 +89,23 @@ namespace Resources
 
 	void mtaLoader::loadIndices(const MTA::ptr &m)
 	{
-		std::vector<DWORD> indices;
-		indices.reserve(m->indexCount*m->objCount);
-
-		for(int i = 0; i < m->indexCount*m->objCount; i++)
+		for (int i = 0; i < m->objCount; i++)
 		{
-			indices.push_back(byteToInt());
-		}
+			std::vector<int> indices;
+			indices.reserve(m->indexCount);
 
-		D3D10_BUFFER_DESC bd;
-		ZeroMemory( &bd, sizeof(bd) );
-		bd.BindFlags = D3D10_BIND_SHADER_RESOURCE;
-		bd.ByteWidth = sizeof(DWORD)*((m->indexCount * m->objCount)/3);
-		bd.CPUAccessFlags = 0;
-		bd.Usage = D3D10_USAGE_DEFAULT;
-		D3D10_SUBRESOURCE_DATA data;
-		data.pSysMem = indices.data();
-		device->CreateBuffer( &bd, &data, &m->iBuffer );
+			for(int j = 0; j < m->indexCount; j++)
+			{
+				indices.push_back(byteToInt());
+			}
+
+			tmpIBuffer.push_back(indices);
+		}
 	}
 
 	void mtaLoader::loadVertices(const MTA::ptr &m)
 	{
-		std::vector<vertex> vertices;
-		vertices.reserve(m->vertexCount);
+		globalVB.reserve(m->vertexCount);
 		for(int i = 0; i < m->vertexCount; i++)
 		{
 			vertex v;
@@ -128,20 +121,34 @@ namespace Resources
 			v.texCoords.x = byteToFloat();
 			v.texCoords.y = byteToFloat();
 
-			vertices.push_back(v);
-
+			globalVB.push_back(v);
 			findMinMax(m, v.pos);
 		}
+	}
 
-		D3D10_BUFFER_DESC bd;
-		ZeroMemory( &bd, sizeof(bd) );
-		bd.BindFlags = D3D10_BIND_SHADER_RESOURCE;
-		bd.ByteWidth = sizeof(vertex)*( m->vertexCount );
-		bd.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
-		bd.Usage = D3D10_USAGE_DYNAMIC;
-		D3D10_SUBRESOURCE_DATA data;
-		data.pSysMem = vertices.data();
-		device->CreateBuffer( &bd, &data, &m->vBuffer );
+			
+
+	void mtaLoader::createVertexBuffers(const MTA::ptr &m)
+	{
+		BOOST_FOREACH(Animation &a , m->animations )
+		{
+			for (int i = 0; i < a.sequence.size() - 1; i++ )
+			{
+				std::vector<doubleVertex> tmp;
+				subAnimation sa;
+				std::vector<int> tmpb1 = tmpIBuffer[a.sequence[i]];
+				std::vector<int> tmpb2 = tmpIBuffer[a.sequence[i + 1]];
+
+				for (int j = 0; j < m->indexCount; j++ )
+				{
+					vertex &v1 = globalVB[tmpb1[j]];
+					vertex &v2 = globalVB[tmpb2[j]];
+					doubleVertex d(v1, v2);
+					tmp.push_back(d);
+				}
+			}
+		}
+
 	}
 
 	void mtaLoader::findMinMax(const MTA::ptr &m, D3DXVECTOR3 _vector3)

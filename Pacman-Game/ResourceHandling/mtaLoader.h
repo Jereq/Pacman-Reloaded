@@ -6,15 +6,23 @@
 #include <D3DX10.h>
 #include "..\vertexTypes.h"
 #include <boost\shared_ptr.hpp>
+#include <boost\foreach.hpp>
 
 namespace Resources
 {
+	struct subAnimation
+	{
+		ID3D10Buffer* vBuffer;
+		ID3D10Buffer* iBuffer;
+	};
+
 	struct Animation
 	{
 		std::string name;
 		float time;
 		int seqCount;
 		std::vector<int> sequence;
+		std::vector<subAnimation> subAni;
 	};
 
 
@@ -27,11 +35,8 @@ namespace Resources
 		int indexCount;
 		int objCount;
 		int vertexCount;
-
 		D3DXVECTOR3 vectorMin, vectorMax;
 
-		ID3D10Buffer* vBuffer;
-		ID3D10Buffer* iBuffer;
 	};
 
 	class mtaLoader
@@ -44,9 +49,15 @@ namespace Resources
 		//D3DXVECTOR3 
 
 	private:
+
+		typedef std::vector<int> indexv;
+
 		ID3D10Device* device;
 		int pos, indCount, animCount;
 		std::ifstream file;
+
+		std::vector<vertex> globalVB;
+		std::vector<indexv> tmpIBuffer;
 
 		int  byteToInt();
 		std::string byteToString(int strLength);
@@ -55,7 +66,7 @@ namespace Resources
 		void loadAnimations(const MTA::ptr &m);
 		void loadIndices(const MTA::ptr &m);
 		void loadVertices(const MTA::ptr &m);
-
+		void createVertexBuffers(const MTA::ptr &m);
 		void findMinMax(const MTA::ptr &m, D3DXVECTOR3 _vector3);
 	};
 }
