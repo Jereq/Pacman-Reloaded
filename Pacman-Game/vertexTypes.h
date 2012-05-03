@@ -23,6 +23,26 @@ namespace Resources
 		vertex( D3DXVECTOR3 p, D3DXVECTOR2 t, D3DXVECTOR3 n ) : pos(p), normal(n), texCoords(t)
 		{
 		}	
+
+		bool operator<(vertex const& rhs) const
+		{
+			if (pos[0] < rhs.pos[0]) return true;
+			if (pos[0] > rhs.pos[0]) return false;
+			if (pos[1] < rhs.pos[1]) return true;
+			if (pos[1] > rhs.pos[1]) return false;
+			if (pos[2] < rhs.pos[2]) return true;
+			if (pos[2] > rhs.pos[2]) return false;
+			if (texCoords[0] < rhs.texCoords[0]) return true;
+			if (texCoords[0] > rhs.texCoords[0]) return false;
+			if (texCoords[1] < rhs.texCoords[1]) return true;
+			if (texCoords[1] > rhs.texCoords[1]) return false;
+			if (normal[0] < rhs.normal[0]) return true;
+			if (normal[0] > rhs.normal[0]) return false;
+			if (normal[1] < rhs.normal[1]) return true;
+			if (normal[1] > rhs.normal[1]) return false;
+			if (normal[2] < rhs.normal[2]) return true;
+			return false;
+		}
 	};
 
 	struct doubleVertex

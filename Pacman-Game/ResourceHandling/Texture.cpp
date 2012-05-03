@@ -80,13 +80,15 @@ namespace Resources
 
 		D3D10_TEXTURE2D_DESC desc;
 		tex->GetDesc(&desc);
-		extractColors(desc.Width, desc.Width);
+		width = desc.Width;
+		height = desc.Height;
+		extractColors();
 
 		return hr;
 	}
 
 	//Creates a vector containing all the color values for each pixel in the texture.
-	void Texture::extractColors(UINT width, UINT height)
+	void Texture::extractColors()
 	{
 		D3D10_MAPPED_TEXTURE2D mappedTex;
 		tex->Map( D3D10CalcSubresource(0, 0, 1), D3D10_MAP_READ, 0, &mappedTex );
@@ -103,7 +105,8 @@ namespace Resources
 				float x = texels[rowStart + j*4 + 0];
 				float y = texels[rowStart + j*4 + 1];
 				float z = texels[rowStart + j*4 + 2];
-				colorVector.push_back(D3DXCOLOR( x, y, z, 0.f));
+				float w = texels[rowStart + j*4 + 3];
+				colorVector.push_back(D3DXCOLOR( x, y, z, w));
 			}
 		}
 		tex->Unmap(0);
@@ -115,8 +118,18 @@ namespace Resources
 		return textureSRV;
 	}
 
-	std::vector<D3DXCOLOR> Texture::getColorVector()
+	std::vector<D3DXCOLOR> const& Texture::getColorVector() const
 	{
 		return colorVector;
+	}
+
+	UINT Texture::getWidth() const
+	{
+		return width;
+	}
+
+	UINT Texture::getHeight() const
+	{
+		return height;
 	}
 }

@@ -2,45 +2,23 @@
 
 #include <iostream>
 #include <cassert>
-#include <map>
 
 namespace GameplayFoundations
 {
-	struct Color
-	{
-		union
-		{
-			float col[3];
-			struct
-			{
-				float r;
-				float g;
-				float b;
-			};
-		};
-
-		bool operator==(Color const& rhs) const
-		{
-			return r == rhs.r &&
-				g == rhs.g &&
-				b == rhs.b;
-		}
-	};
-
 	struct ColorCode
 	{
 		unsigned char val;
-		Color col;
+		D3DXCOLOR col;
 		char charPresentation;
 		bool free;
 	};
 
-	const static ColorCode empty = {0, {0, 0, 0}, ' ', true};
-	const static ColorCode wall = {1, {1, 1, 1}, 'X', false};
-	const static ColorCode pacmanStart = {2, {0, 1, 0}, 'S', true};
-	const static ColorCode ghostStart = {3, {1, 0, 0}, 'G', true};
-	const static ColorCode food = {4, {0, 0, 1}, 'F', true};
-	const static ColorCode candy = {5, {0, 1, 1}, 'C', true};
+	const static ColorCode empty = {0, D3DXCOLOR(0.f, 0.f, 0.f, 1.f), ' ', true};
+	const static ColorCode wall = {1, D3DXCOLOR(1.f, 1.f, 1.f, 1.f), 'X', false};
+	const static ColorCode pacmanStart = {2, D3DXCOLOR(1.f, 1.f, 0.f, 1.f), 'S', true};
+	const static ColorCode ghostStart = {3, D3DXCOLOR(1.f, 0.f, 0.f, 1.f), 'G', true};
+	const static ColorCode food = {4, D3DXCOLOR(0.f, 0.f, 1.f, 1.f), 'F', true};
+	const static ColorCode candy = {5, D3DXCOLOR(0.f, 1.f, 0.f, 1.f), 'C', true};
 
 	const static ColorCode colorCodes[] =
 	{
@@ -52,7 +30,7 @@ namespace GameplayFoundations
 		candy,
 	};
 
-	const static Color testFile[] =
+	const static D3DXCOLOR testFile[] =
 	{
 		pacmanStart.col,	empty.col,	empty.col,	wall.col,		empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
 		wall.col,			food.col,	food.col,	wall.col,		empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
@@ -67,29 +45,13 @@ namespace GameplayFoundations
 	};
 	CellIndex testFileDim(10, 10);
 
-	const static Color testFileSmall[] =
+	const static D3DXCOLOR testFileSmall[] =
 	{
 		empty.col,		wall.col,	pacmanStart.col,
 		wall.col,		empty.col,	food.col,
 		ghostStart.col,	candy.col,	wall.col,
 	};
 	CellIndex testFileSmallDim(3, 3);
-
-	static bool readColor(Color const* _file, Color& _out)
-	{
-		size_t filesize = (_file == testFile ? sizeof(testFile) : sizeof(testFileSmall)) / sizeof(Color);
-		static size_t curr = 0;
-
-		if (curr >= filesize)
-		{
-			return false;
-		}
-		else
-		{
-			_out = _file[curr++];
-			return true;
-		}
-	}
 
 	GridCell& Grid::getCell(size_t _u, size_t _v)
 	{
@@ -117,7 +79,10 @@ namespace GameplayFoundations
 		return getCell(_index.u, _index.v);
 	}
 
-	void addVertex(std::map<Vertex, unsigned int>& _vertexMap, std::vector<Vertex>& _vertices, std::vector<unsigned int>& _indices, Vertex const& _vert)
+	void Grid::addVertex(Grid::vertexMap_t& _vertexMap,
+		Grid::vertexVector_t& _vertices,
+		Grid::indexVector_t& _indices,
+		Resources::vertex const& _vert)
 	{
 		if (_vertexMap.count(_vert) == 0)
 		{
@@ -128,12 +93,17 @@ namespace GameplayFoundations
 		_indices.push_back(_vertexMap[_vert]);
 	}
 
-	Grid::Grid(std::string const& _filename)
+	D3DXVECTOR3 mul(D3DXVECTOR3 const& lhs, D3DXVECTOR3 const& rhs)
 	{
-		std::cout << "Filename: " << _filename << std::endl;
+		return D3DXVECTOR3(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z);
+	}
 
-		Color const* file = testFile;
-		size = testFileDim;
+	Grid::Grid(Resources::Texture::ptr const& _map)
+	{
+		std::vector<D3DXCOLOR> cols = _map->getColorVector();
+
+		size = CellIndex(_map->getWidth(), _map->getHeight());
+		std::vector<D3DXCOLOR>::iterator it = cols.begin();
 
 		cells = new GridCell[size.u * size.v];
 
@@ -144,9 +114,7 @@ namespace GameplayFoundations
 		{
 			for (size_t cv = 0; cv < size.v; cv++)
 			{
-				Color cellC;
-				bool res = readColor(file, cellC);
-				assert(res);
+				D3DXCOLOR cellC = *(it++);
 
 				for (size_t i = 0; i < sizeof(colorCodes) / sizeof(ColorCode); i++)
 				{
@@ -214,12 +182,12 @@ namespace GameplayFoundations
 			std::cout << "(" << pos.u << ", " << pos.v << ")" << std::endl;
 		}
 		
-		std::map<Vertex, unsigned int> vertexMap;
-		std::vector<Vertex> vertices;
+		vertexMap_t vertexMap;
+		vertexVector_t vertices;
 		vertices.reserve(size.u * size.v * 8);
-		std::vector<unsigned int> indices;
+		indexVector_t indices;
 		indices.reserve(size.u * size.v * 4);
-
+		
 		for (size_t cu = 0; cu < size.u; cu++)
 		{
 			for (size_t cv = 0; cv < size.v; cv++)
@@ -229,19 +197,19 @@ namespace GameplayFoundations
 					continue;
 				}
 
-				const static Vec3 blockSize(1.f);
-				const static Vec3 up(0.f, 1.f, 0.f);
+				const static D3DXVECTOR3 blockSize(1.f, 1.f, 1.f);
+				const static D3DXVECTOR3 up(0.f, 1.f, 0.f);
 
-				Vec3 basePos = Vec3((float)cu, 0.f, (float)cv) * blockSize;
-				Vec3 bPosX = basePos + Vec3(1.f, 0.f, 0.f) * blockSize;
-				Vec3 bPosZ = basePos + Vec3(0.f, 0.f, 1.f) * blockSize;
-				Vec3 bPosXZ = basePos + Vec3(1.f, 0.f, 1.f) * blockSize;
+				D3DXVECTOR3 basePos = mul(D3DXVECTOR3((float)cu, 0.f, (float)cv), blockSize);
+				D3DXVECTOR3 bPosX = basePos + mul(D3DXVECTOR3(1.f, 0.f, 0.f), blockSize);
+				D3DXVECTOR3 bPosZ = basePos + mul(D3DXVECTOR3(0.f, 0.f, 1.f), blockSize);
+				D3DXVECTOR3 bPosXZ = basePos + mul(D3DXVECTOR3(1.f, 0.f, 1.f), blockSize);
 
 				// Create Ground
-				Vertex v0 = {basePos, {0.f, 0.f}, up};
-				Vertex v1 = {bPosX, {0.f, .5f}, up};
-				Vertex v2 = {bPosZ, {.5f, 0.f}, up};
-				Vertex v3 = {bPosXZ, {.5f, .5f}, up};
+				Resources::vertex v0(basePos, D3DXVECTOR2(0.f, 0.f), up);
+				Resources::vertex v1(bPosX, D3DXVECTOR2(0.f, .5f), up);
+				Resources::vertex v2(bPosZ, D3DXVECTOR2(.5f, 0.f), up);
+				Resources::vertex v3(bPosXZ, D3DXVECTOR2(.5f, .5f), up);
 
 				addVertex(vertexMap, vertices, indices, v0);
 				addVertex(vertexMap, vertices, indices, v1);
@@ -270,39 +238,41 @@ namespace GameplayFoundations
 
 					if (!getCell(neighbor).isFree())
 					{
-						const static Vec3 wallOffsets[4][4] =
+						const static D3DXVECTOR3 wallOffsets[4][4] =
 						{
 							{
-								Vec3(1.f, 1.f, 0.f),
-								Vec3(1.f, 0.f, 0.f),
-								Vec3(0.f, 1.f, 0.f),
-								Vec3(0.f, 0.f, 0.f),
+								D3DXVECTOR3(1.f, 1.f, 0.f),
+								D3DXVECTOR3(1.f, 0.f, 0.f),
+								D3DXVECTOR3(0.f, 1.f, 0.f),
+								D3DXVECTOR3(0.f, 0.f, 0.f),
 							},
 							{
-								Vec3(0.f, 1.f, 1.f),
-								Vec3(0.f, 0.f, 1.f),
-								Vec3(1.f, 1.f, 1.f),
-								Vec3(1.f, 0.f, 1.f),
+								D3DXVECTOR3(0.f, 1.f, 1.f),
+								D3DXVECTOR3(0.f, 0.f, 1.f),
+								D3DXVECTOR3(1.f, 1.f, 1.f),
+								D3DXVECTOR3(1.f, 0.f, 1.f),
 							},
 							{
-								Vec3(0.f, 1.f, 0.f),
-								Vec3(0.f, 0.f, 0.f),
-								Vec3(0.f, 1.f, 1.f),
-								Vec3(0.f, 0.f, 1.f),
+								D3DXVECTOR3(0.f, 1.f, 0.f),
+								D3DXVECTOR3(0.f, 0.f, 0.f),
+								D3DXVECTOR3(0.f, 1.f, 1.f),
+								D3DXVECTOR3(0.f, 0.f, 1.f),
 							},
 							{
-								Vec3(1.f, 1.f, 1.f),
-								Vec3(1.f, 0.f, 1.f),
-								Vec3(1.f, 1.f, 0.f),
-								Vec3(1.f, 0.f, 0.f),
+								D3DXVECTOR3(1.f, 1.f, 1.f),
+								D3DXVECTOR3(1.f, 0.f, 1.f),
+								D3DXVECTOR3(1.f, 1.f, 0.f),
+								D3DXVECTOR3(1.f, 0.f, 0.f),
 							}
 						};
 
 						// Create Wall
-						Vertex w0 = {basePos + wallOffsets[i][0], {.5f, 0.f}, Vec3((float)-offsetU[i], 0.f, (float)-offsetV[i])};
-						Vertex w1 = {basePos + wallOffsets[i][1], {.5f, .5f}, Vec3((float)-offsetU[i], 0.f, (float)-offsetV[i])};
-						Vertex w2 = {basePos + wallOffsets[i][2], {1.f, 0.f}, Vec3((float)-offsetU[i], 0.f, (float)-offsetV[i])};
-						Vertex w3 = {basePos + wallOffsets[i][3], {1.f, .5f}, Vec3((float)-offsetU[i], 0.f, (float)-offsetV[i])};
+						D3DXVECTOR3 normal((float)-offsetU[i], 0.f, (float)-offsetV[i]);
+
+						Resources::vertex w0(basePos + wallOffsets[i][0], D3DXVECTOR2(.5f, 0.f), normal);
+						Resources::vertex w1(basePos + wallOffsets[i][1], D3DXVECTOR2(.5f, .5f), normal);
+						Resources::vertex w2(basePos + wallOffsets[i][2], D3DXVECTOR2(1.f, 0.f), normal);
+						Resources::vertex w3(basePos + wallOffsets[i][3], D3DXVECTOR2(1.f, .5f), normal);
 
 						addVertex(vertexMap, vertices, indices, w0);
 						addVertex(vertexMap, vertices, indices, w1);

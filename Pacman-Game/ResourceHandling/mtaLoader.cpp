@@ -132,7 +132,7 @@ namespace Resources
 	{
 		BOOST_FOREACH(Animation &a , m->animations )
 		{
-			for (int i = 0; i < a.sequence.size() - 1; i++ )
+			for (size_t i = 0; i < a.sequence.size() - 1; i++ )
 			{
 				std::vector<doubleVertex> tmp;
 				subAnimation sa;
@@ -146,6 +146,8 @@ namespace Resources
 					doubleVertex d(v1, v2);
 					tmp.push_back(d);
 				}
+
+				a.subAni.push_back(sa);
 			}
 		}
 

@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "ResourceHandling/Context.h"
 #include "Actor\Player.h"
+#include "GameplayFoundations/Grid.h"
 
 namespace Pacman
 {
@@ -100,8 +101,10 @@ namespace Pacman
 		gManager->setActiveCamera(camera);
 
 		Resources::Context context(rm);
-		Resources::Texture::ptr test = context.getMapTexture("Terrain_texture.jpg");
+		Resources::Texture::ptr test = context.getMapTexture("Maps/test.png");
 		std::vector<D3DXCOLOR> cols = test->getColorVector();
+
+		GameplayFoundations::Grid grid(test);
 	}
 
 	Game::~Game()

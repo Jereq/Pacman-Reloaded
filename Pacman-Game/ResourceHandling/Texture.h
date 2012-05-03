@@ -18,7 +18,9 @@ namespace Resources
 		HRESULT loadTexture();
 		HRESULT loadMapTexture();
 		ID3D10ShaderResourceView* getTexture();
-		std::vector<D3DXCOLOR> getColorVector();
+		std::vector<D3DXCOLOR> const& getColorVector() const;
+		UINT getWidth() const;
+		UINT getHeight() const;
 
 		virtual void freeResource();
 
@@ -28,6 +30,8 @@ namespace Resources
 		ID3D10Texture2D*	tex;
 		ID3D10ShaderResourceView* textureSRV;
 		std::vector<D3DXCOLOR>	colorVector;
-		void extractColors(UINT width, UINT height);
+		UINT width;
+		UINT height;
+		void extractColors();
 	};
 }
