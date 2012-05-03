@@ -14,9 +14,9 @@ namespace Pacman
 		int windowHeight;
 
 		HWND hWnd;
-		dxManager* gManager;
+		Graphics::dxManager* gManager;
 
-		ResourceHandling::ResourceManager::ptr rm;
+		Resources::ResourceManager::ptr rm;
 		SoundManager sm;
 
 		static LRESULT CALLBACK wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

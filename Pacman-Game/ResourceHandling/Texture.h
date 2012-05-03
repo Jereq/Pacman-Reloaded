@@ -6,7 +6,7 @@
 
 #include "Resource.h"
 
-namespace ResourceHandling
+namespace Resources
 {
 	class Texture : public Resource
 	{

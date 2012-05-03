@@ -1,6 +1,6 @@
 #include "Resource.h"
 
-namespace ResourceHandling
+namespace Resources
 {
 	Resource::Resource(std::string const& _filename)
 		: useCount(0), filename(_filename)

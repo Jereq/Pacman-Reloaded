@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="animation.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ResourceHandling\Context.h" />
     <ClInclude Include="hrTimer.h" />
@@ -101,9 +102,9 @@
     <ClInclude Include="ResourceHandling\Texture.h" />
     <ClInclude Include="ResourceHandling\ResourceManager.h" />
     <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="vertextypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="animation.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ResourceHandling\Context.cpp" />
     <ClCompile Include="dxManager.cpp" />
@@ -124,7 +125,6 @@
     <ClCompile Include="ResourceHandling\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="dxManager.h.orig" />
     <None Include="effects.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,15 +1,16 @@
-#ifndef _LIGHTS
-#define _LIGHTS
+#pragma once
+#include <d3d10.h>
 
-struct DirectionalLight
+namespace Graphics
 {
-	D3DXVECTOR4 color;
-	D3DXVECTOR3 direction;
-};
+	struct DirectionalLight
+	{
+		D3DXVECTOR4 color;
+		D3DXVECTOR3 direction;
+	};
 
-struct Material
-{
-	float ambient, diffuse, specular, shininess;
-};
-
-#endif
+	struct Material
+	{
+		float ambient, diffuse, specular, shininess;
+	};
+}

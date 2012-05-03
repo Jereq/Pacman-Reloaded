@@ -4,6 +4,19 @@ matrix View;
 matrix Projection;
 int Start;
 int Stop;
+float time;
+
+tbuffer morphIndexBuffer
+{
+	int index;
+};
+
+tbuffer morphVertexBuffer
+{
+	float3 pos;
+	float3 norm;
+	float2 tex;
+};
 
 //TEXTURE VARIABLES
 //--------------------------------------------------------------------------------------

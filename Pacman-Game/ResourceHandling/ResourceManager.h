@@ -8,7 +8,7 @@
 #include "Resource.h"
 #include "Texture.h"
 
-namespace ResourceHandling
+namespace Resources
 {
 	class ResourceManager
 	{

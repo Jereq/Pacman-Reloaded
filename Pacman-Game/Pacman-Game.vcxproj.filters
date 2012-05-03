@@ -54,9 +54,6 @@
     <ClCompile Include="GameplayFoundations\CellIndex.cpp">
       <Filter>Source Files\GameplayFoundations</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceHandling\Texture.cpp">
-      <Filter>Source Files\ResourceHandling</Filter>
-    </ClCompile>
     <ClCompile Include="HID\HID.cpp">
       <Filter>Source Files\HID</Filter>
     </ClCompile>
@@ -97,6 +94,12 @@
       <Filter>Source Files\Player</Filter>
     </ClCompile>
     <ClCompile Include="ResourceHandling\Context.cpp">
+      <Filter>Source Files\ResourceHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
+      <Filter>Source Files\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceHandling\Texture.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,21 +152,24 @@
     <ClInclude Include="hrTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vertexTypes.h">
-      <Filter>Header Files\GFX</Filter>
-    </ClInclude>
-    <ClInclude Include="lights.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
     </ClInclude>
     <ClInclude Include="Player\Player.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
+    <ClInclude Include="lights.h">
+      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandling\Context.h">
+      <Filter>Header Files\ResourceHandling</Filter>
+    </ClInclude>
     <ClInclude Include="vertextypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceHandling\Context.h">
+    <ClInclude Include="vertexTypes.h">
       <Filter>Header Files\ResourceHandling</Filter>
     </ClInclude>
   </ItemGroup>
@@ -171,6 +177,5 @@
     <None Include="effects.fx">
       <Filter>Header Files\GFX</Filter>
     </None>
-    <None Include="dxManager.h.orig" />
   </ItemGroup>
 </Project>

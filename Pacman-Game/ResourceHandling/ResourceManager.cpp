@@ -3,7 +3,7 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 
-namespace ResourceHandling
+namespace Resources
 {
 	ResourceManager::ResourceManager()
 		: device(NULL)

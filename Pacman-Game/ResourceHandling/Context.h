@@ -2,7 +2,7 @@
 
 #include "ResourceManager.h"
 
-namespace ResourceHandling
+namespace Resources
 {
 	class Context
 	{

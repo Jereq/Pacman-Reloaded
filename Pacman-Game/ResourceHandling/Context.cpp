@@ -2,7 +2,7 @@
 
 #include <boost/foreach.hpp>
 
-namespace ResourceHandling
+namespace Resources
 {
 	Context::Context(ResourceManager::ptr const& _resourceManager)
 		: resourceManager(_resourceManager)

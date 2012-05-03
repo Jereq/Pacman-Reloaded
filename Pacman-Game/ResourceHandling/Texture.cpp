@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-namespace ResourceHandling
+namespace Resources
 {
 	Texture::Texture(ID3D10Device* pDevice, std::string const& _filename)
 		: Resource(_filename), device(pDevice), texResource(0), tex(0), textureSRV(0)

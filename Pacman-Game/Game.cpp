@@ -78,12 +78,12 @@ namespace Pacman
 		result = RegisterInputDevices(hWnd);
 		assert(result);
 
-		gManager = new dxManager();
+		gManager = new Graphics::dxManager();
 
 		result = gManager->initialize(&hWnd);
 		assert(result);
 
-		rm.reset(new ResourceHandling::ResourceManager());
+		rm.reset(new Resources::ResourceManager());
 		rm->startup(gManager->pD3DDevice);
 
 		Camera* camera = new Camera();
@@ -95,8 +95,8 @@ namespace Pacman
 
 		gManager->setActiveCamera(camera);
 
-		ResourceHandling::Context context(rm);
-		ResourceHandling::Texture::ptr test = context.getMapTexture("Terrain_texture.jpg");
+		Resources::Context context(rm);
+		Resources::Texture::ptr test = context.getMapTexture("Terrain_texture.jpg");
 		std::vector<D3DXCOLOR> cols = test->getColorVector();
 	}
 
