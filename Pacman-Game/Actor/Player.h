@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Windows.h>
-#include <d3dx10math.h>
+#include "..\GameplayFoundations\GameObject.h"
 
 enum PLAYERSTATE
 {
@@ -11,24 +10,27 @@ enum PLAYERSTATE
 	COUNT
 };
 
-class Player
+class Player : public GameObject
 {
 private:
 	PLAYERSTATE m_state;
 
 	UINT m_score;
 
-	D3DXVECTOR3 m_pos;
-
 	float m_speed;
 	float m_initSpeed;
 
+	float m_timer;
+
 
 public:
-	Player(D3DXVECTOR3 m_pos);
+	Player(D3DXVECTOR3 _pos);
 	~Player();
 
-	bool eatingTime();
+	void init();
+
+	bool collisionGhost();
+	bool collision();
 
 	void movement();
 
@@ -38,11 +40,4 @@ public:
 
 	void setScore(int _score);
 	UINT getScore();
-
-	void setSpeed(float _speed);
-	void resetSpeed();
-
-	D3DXVECTOR3 getPos();
-
-
 };

@@ -1,28 +1,33 @@
 #include "Player.h"
 
-Player::Player(D3DXVECTOR3 _pos)
-{
-	m_state = ALIVE;
-	m_pos = _pos;
-
-	m_initSpeed = 1.f;
-	m_speed = m_initSpeed;
-}
+Player::Player(D3DXVECTOR3 _pos) : GameObject(_pos)
+{}
 
 Player::~Player()
-{
+{}
 
+void Player::init()
+{
+	GameObject::init();
+	m_state = ALIVE;
+
+	m_timer = 0;
 }
 
-bool Player::eatingTime()
+bool Player::collisionGhost()
 {
-	if(m_state == FRENZY)
+	if(m_state != FRENZY)
 	{
+		//If it returns false will pacman die?
+		//m_state = DEAD;
 		return true;
 	}
 
-	//If it returns false will pacman die?
-	//m_state = DEAD;
+	return false;
+}
+
+bool Player::collision()
+{
 	return false;
 }
 
@@ -41,6 +46,7 @@ void Player::changeState(PLAYERSTATE _state)
 
 	case FRENZY:
 		m_state = FRENZY;
+		m_timer = 0;
 		setSpeed(2.0f);
 		break;
 
@@ -63,19 +69,3 @@ UINT Player::getScore()
 {
 	return m_score;
 }
-
-void Player::setSpeed(float _speed)
-{
-	m_speed = _speed;
-}
-
-void Player::resetSpeed()
-{
-	m_speed = m_initSpeed;
-}
-
-D3DXVECTOR3 Player::getPos()
-{
-	return m_pos;
-}
-

@@ -112,7 +112,7 @@ namespace Resources
 
 	ID3D10ShaderResourceView* Texture::getTexture()
 	{
-	return textureSRV;
+		return textureSRV;
 	}
 
 	std::vector<D3DXCOLOR> Texture::getColorVector()

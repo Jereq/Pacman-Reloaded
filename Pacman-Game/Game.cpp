@@ -69,7 +69,7 @@ namespace Pacman
 	}
 
 	Game::Game(HINSTANCE hInstance)
-		: windowWidth(1280), windowHeight(720)
+		: windowWidth(1024), windowHeight(768)
 	{
 		bool result = initWindow(hInstance);
 		assert(result);

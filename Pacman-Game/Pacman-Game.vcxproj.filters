@@ -37,11 +37,11 @@
     <Filter Include="Header Files\GFX">
       <UniqueIdentifier>{46a3a49c-2c44-4c81-9b90-afb9c9b43c51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Player">
-      <UniqueIdentifier>{1fdffe21-a5e9-4e4d-9b99-0e43dd25da5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Player">
+    <Filter Include="Source Files\Actor">
       <UniqueIdentifier>{9d3908a6-9996-4d66-8064-e179a66ef023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actor">
+      <UniqueIdentifier>{1fdffe21-a5e9-4e4d-9b99-0e43dd25da5a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,8 +90,20 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GFX</Filter>
     </ClCompile>
-    <ClCompile Include="Player\Player.cpp">
-      <Filter>Source Files\Player</Filter>
+    <ClCompile Include="GameplayFoundations\GameObject.cpp">
+      <Filter>Source Files\GameplayFoundations</Filter>
+    </ClCompile>
+    <ClCompile Include="GameplayFoundations\Timer.cpp">
+      <Filter>Source Files\GameplayFoundations</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Player.cpp">
+      <Filter>Source Files\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameplayFoundations\Collision.cpp">
+      <Filter>Source Files\GameplayFoundations</Filter>
     </ClCompile>
     <ClCompile Include="ResourceHandling\Context.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
@@ -154,8 +166,23 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
     </ClInclude>
-    <ClInclude Include="Player\Player.h">
-      <Filter>Header Files\Player</Filter>
+    <ClInclude Include="vertextypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayFoundations\GameObject.h">
+      <Filter>Header Files\GameplayFoundations</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayFoundations\Timer.h">
+      <Filter>Header Files\GameplayFoundations</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Player.h">
+      <Filter>Header Files\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayFoundations\Collision.h">
+      <Filter>Header Files\GameplayFoundations</Filter>
     </ClInclude>
     <ClInclude Include="lights.h">
       <Filter>Header Files\GFX</Filter>
