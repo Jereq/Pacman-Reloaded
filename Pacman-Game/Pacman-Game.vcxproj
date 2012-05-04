@@ -81,7 +81,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Ghost.h" />
+    <ClInclude Include="Actor\HuntGhost.h" />
     <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Actor\PointGhost.h" />
+    <ClInclude Include="Actor\RandomGhost.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
@@ -110,7 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Ghost.cpp" />
+    <ClCompile Include="Actor\HuntGhost.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Actor\PointGhost.cpp" />
+    <ClCompile Include="Actor\RandomGhost.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />

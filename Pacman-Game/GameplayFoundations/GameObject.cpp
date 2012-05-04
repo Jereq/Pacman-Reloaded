@@ -8,17 +8,19 @@ GameObject::GameObject(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max)
 
 GameObject::~GameObject()
 {
-	m_aabb->~BoundingBox();
-	m_aabb = NULL;
+
 }
 
 void GameObject::init()
 {
 	m_initSpeed = 1.f;
 	m_speed = m_initSpeed;
+	//m_pos offset depending on model
+}
 
-	m_aabb = new BoundingBox();
-	m_aabb->buildBoundingBox(m_min, m_max);
+void GameObject::update()
+{
+
 }
 
 void GameObject::setSpeed(float _speed)

@@ -2,16 +2,16 @@
 
 #include <D3DX10math.h>
 
-enum PLANENR
-{
-	TOPPLANE = 0,
-	BOTTOMPLANE = 1,
-	NEARPLANE,
-	FARPLANE,
-	LEFTPLANE,
-	RIGHTPLANE,
-	COUNTPLANE
-};
+//enum PLANENR
+//{
+//	TOPPLANE = 0,
+//	BOTTOMPLANE = 1,
+//	NEARPLANE,
+//	FARPLANE,
+//	LEFTPLANE,
+//	RIGHTPLANE,
+//	COUNTPLANE
+//};
 
 enum CORNERS
 {
@@ -29,7 +29,7 @@ class BoundingBox
 {
 private:
 	D3DXVECTOR3 m_index[8];
-	D3DXPLANE m_planes[6];
+	//D3DXPLANE m_planes[6];
 
 public:
 	BoundingBox();

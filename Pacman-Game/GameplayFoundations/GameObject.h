@@ -8,7 +8,7 @@ class GameObject
 protected:
 	D3DXVECTOR3 m_pos, m_min, m_max;
 
-	BoundingBox* m_aabb;
+	//BoundingBox* m_aabb;
 
 	float m_initSpeed, m_speed;
 
@@ -17,6 +17,7 @@ public:
 	virtual ~GameObject();
 	
 	void init();
+	void update();
 		
 	void setSpeed(float _speed);
 	void resetSpeed();
