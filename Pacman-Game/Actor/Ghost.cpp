@@ -18,17 +18,25 @@ void Ghost::init()
 
 }
 
-void Ghost::changeState(AISTATE _state)
+void Ghost::changeState(GHOSTSTATE _state)
 {
 	switch(_state)
 	{
 	case ALIVE:
+		m_state = ALIVE;
 		break;
 
 	case DEAD:
+		m_state = DEAD;
 		break;
 
 	case ESCAPE:
+		m_state = ESCAPE;
 		break;
 	}
+}
+
+GHOSTSTATE Ghost::getState()
+{
+	return m_state;
 }

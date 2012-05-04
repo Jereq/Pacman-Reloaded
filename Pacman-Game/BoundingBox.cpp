@@ -12,15 +12,17 @@ BoundingBox::~BoundingBox()
 
 void BoundingBox::buildBoundingBox(D3DXVECTOR3 _min, D3DXVECTOR3 _max)
 {
-	m_index[0] = _min; m_index[7] = _max;
+	m_index[NEAR_BOTTOMLEFT] = _min; m_index[FAR_TOPRIGHT] = _max;
 
-	m_index[1] = m_index[0]; m_index[1].x += m_index[7].x;
-	m_index[2] = m_index[0]; m_index[2].y += m_index[7].y;
-	m_index[3] = m_index[7]; m_index[3].z -= m_index[7].z;
+	m_index[NEAR_BOTTOMRIGHT] = m_index[NEAR_BOTTOMLEFT]; m_index[NEAR_BOTTOMRIGHT].x += m_index[FAR_TOPRIGHT].x;
+	m_index[NEAR_TOPLEFT] = m_index[NEAR_BOTTOMLEFT]; m_index[NEAR_TOPLEFT].y += m_index[FAR_TOPRIGHT].y;
+	m_index[NEAR_TOPRIGHT] = m_index[FAR_TOPRIGHT]; m_index[NEAR_TOPRIGHT].z -= m_index[FAR_TOPRIGHT].z;
 
-	m_index[4] = m_index[0]; m_index[4].z += m_index[7].z;
-	m_index[5] = m_index[1]; m_index[5].z += m_index[7].z;
-	m_index[6] = m_index[2]; m_index[6].z += m_index[7].z;
+	m_index[FAR_BOTTOMLEFT] = m_index[NEAR_BOTTOMLEFT]; m_index[FAR_BOTTOMLEFT].z += m_index[FAR_TOPRIGHT].z;
+	m_index[FAR_BOTTOMRIGHT] = m_index[NEAR_BOTTOMRIGHT]; m_index[FAR_BOTTOMRIGHT].z += m_index[FAR_TOPRIGHT].z;
+	m_index[FAR_TOPLEFT] = m_index[NEAR_TOPLEFT]; m_index[FAR_TOPLEFT].z += m_index[FAR_TOPRIGHT].z;
+
+	D3DXPlaneFromPoints(&m_planes[TOPPLANE], &m_index[NEAR_BOTTOMLEFT], &m_index[NEAR_BOTTOMRIGHT], &m_index[NEAR_TOPLEFT]);
 }
 
 D3DXVECTOR3 BoundingBox::getBoundingBox(int i)

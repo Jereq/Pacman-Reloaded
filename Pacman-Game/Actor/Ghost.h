@@ -2,7 +2,7 @@
 
 #include "../GameplayFoundations/GameObject.h"
 
-enum AISTATE
+enum GHOSTSTATE
 {
 	ALIVE,
 	DEAD,
@@ -13,7 +13,7 @@ enum AISTATE
 class Ghost : public GameObject
 {	
 private:
-	AISTATE m_state;
+	GHOSTSTATE m_state;
 
 public:
 	Ghost(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
@@ -23,6 +23,8 @@ public:
 
 	void update(float _deltaTime);
 
-	void changeState(AISTATE _state);
+	void changeState(GHOSTSTATE _state);
+
+	GHOSTSTATE getState();
 
 };
