@@ -43,6 +43,12 @@
     <Filter Include="Header Files\Actor">
       <UniqueIdentifier>{1fdffe21-a5e9-4e4d-9b99-0e43dd25da5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Sound">
+      <UniqueIdentifier>{ac51f925-0577-4cc4-8cbf-84e2366cec54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sound">
+      <UniqueIdentifier>{faa50644-dd56-496f-8f36-c3aad7359f62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameplayFoundations\Grid.cpp">
@@ -81,9 +87,6 @@
     <ClCompile Include="ResourceHandling\Resource.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceHandling\mtaLoader.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
@@ -116,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="Actor\Ghost.cpp">
       <Filter>Source Files\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\SoundManager.cpp">
+      <Filter>Source Files\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="ResourceHandling\Resource.h">
       <Filter>Header Files\ResourceHandling</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
@@ -204,6 +207,9 @@
     </ClInclude>
     <ClInclude Include="Actor\Ghost.h">
       <Filter>Header Files\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\SoundManager.h">
+      <Filter>Header Files\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

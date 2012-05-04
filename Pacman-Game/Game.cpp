@@ -91,6 +91,9 @@ namespace Pacman
 		rm.reset(new Resources::ResourceManager());
 		rm->startup(gManager->pD3DDevice);
 
+		sm.reset(new Sound::SoundManager());
+		sm->startup();
+
 		Camera* camera = new Camera();
 
 		//set up scene camera properties
@@ -110,7 +113,7 @@ namespace Pacman
 	Game::~Game()
 	{
 		rm->shutdown();
-		SoundManager::release();
+		sm->shutdown();
 	}
 
 	void Game::update(float deltaTime)
@@ -118,7 +121,7 @@ namespace Pacman
 		Camera* camera = gManager->getActiveCamera();
 		
 		camera->update();
-		sm.update(camera->getCameraPosition(),
+		sm->update(camera->getCameraPosition(),
 			camera->getCameraForward(),
 			camera->getCameraUp());
 		

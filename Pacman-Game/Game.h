@@ -2,7 +2,7 @@
 
 #include "dxManager.h"
 #include "ResourceHandling/ResourceManager.h"
-#include "SoundManager.h"
+#include "Sound/SoundManager.h"
 #include "Camera.h"
 
 namespace Pacman
@@ -17,7 +17,7 @@ namespace Pacman
 		Graphics::dxManager* gManager;
 
 		Resources::ResourceManager::ptr rm;
-		SoundManager sm;
+		Sound::SoundManager::ptr sm;
 
 		static LRESULT CALLBACK wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 		bool initWindow(HINSTANCE hInstance);
