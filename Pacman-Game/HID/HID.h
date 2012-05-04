@@ -13,8 +13,6 @@ public:
 	Mouse* getMouse();*/
 
 	void input(UINT _msg, WPARAM _wParam);
-	//void keyboardDown(WPARAM _wParam);
-	//void keyboardUp(WPARAM _wParam);
 	bool pressKey(char _c);
 	bool pressKeyOnce(char _c);
 

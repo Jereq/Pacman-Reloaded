@@ -24,7 +24,7 @@ private:
 
 
 public:
-	Player(D3DXVECTOR3 _pos);
+	Player(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
 	~Player();
 
 	void init();

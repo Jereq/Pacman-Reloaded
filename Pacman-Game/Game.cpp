@@ -82,7 +82,7 @@ namespace Pacman
 
 		gManager = new Graphics::dxManager();
 
-		Player* player = new Player(D3DXVECTOR3(0,0,0));
+		//Player* player = new Player(D3DXVECTOR3(0,0,0));
 
 
 		result = gManager->initialize(&hWnd);

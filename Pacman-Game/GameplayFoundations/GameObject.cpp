@@ -1,21 +1,24 @@
 #include "GameObject.h"
 
-
-GameObject::GameObject(D3DXVECTOR3 _pos) 
-	: m_pos(_pos)
+GameObject::GameObject(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max) 
+	: m_pos(_pos), m_min(_min), m_max(_max)
 {
 
 }
 
 GameObject::~GameObject()
 {
-
+	m_aabb->~BoundingBox();
+	m_aabb = NULL;
 }
 
 void GameObject::init()
 {
 	m_initSpeed = 1.f;
 	m_speed = m_initSpeed;
+
+	m_aabb = new BoundingBox();
+	m_aabb->buildBoundingBox(m_min, m_max);
 }
 
 void GameObject::setSpeed(float _speed)

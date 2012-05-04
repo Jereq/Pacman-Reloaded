@@ -29,16 +29,6 @@ void HID::input(UINT _msg, WPARAM _wParam)
 	}
 }
 
-//void HID::keyboardDown(WPARAM _wParam)
-//{
-//	m_keyboard->keyDown(_wParam);
-//}
-//
-//void HID::keyboardUp(WPARAM _wParam)
-//{
-//	m_keyboard->keyUp(_wParam);
-//}
-
 bool HID::pressKey(char _c)
 {
 	if(m_keyboard->getPressedKey(_c) == true) 

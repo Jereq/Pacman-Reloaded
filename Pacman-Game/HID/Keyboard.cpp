@@ -1,6 +1,5 @@
 #include "Keyboard.h"
 
-
 Keyboard::Keyboard()
 {
 	for(int i = 0; i < 256; i++)

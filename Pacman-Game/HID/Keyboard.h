@@ -15,7 +15,6 @@ public:
 	bool pressOnce(char _c);
 
 private:
-
 	bool m_keys[256];
 
 	bool m_prevKey[256];

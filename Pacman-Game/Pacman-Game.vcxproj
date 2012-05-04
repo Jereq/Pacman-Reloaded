@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Ghost.h" />
     <ClInclude Include="Actor\Player.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="BoundingBox.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Ghost.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="BoundingBox.cpp" />

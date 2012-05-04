@@ -1,6 +1,7 @@
 #include "Player.h"
 
-Player::Player(D3DXVECTOR3 _pos) : GameObject(_pos)
+Player::Player(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max) 
+	: GameObject(_pos, _min, _max)
 {}
 
 Player::~Player()

@@ -114,6 +114,9 @@
     <ClCompile Include="ResourceHandling\Texture.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
+    <ClCompile Include="Actor\Ghost.cpp">
+      <Filter>Source Files\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -198,6 +201,9 @@
     </ClInclude>
     <ClInclude Include="vertexTypes.h">
       <Filter>Header Files\ResourceHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Ghost.h">
+      <Filter>Header Files\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
