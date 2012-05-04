@@ -10,6 +10,7 @@
 #include "lights.h"
 #include "ResourceHandling/mtaLoader.h"
 #include "Camera.h"
+#include <DxErr.h>
 
 namespace Graphics
 {
@@ -33,18 +34,19 @@ namespace Graphics
 
 		//input layout
 		ID3D10InputLayout*						pVertexLayout;
+		ID3D10InputLayout*						pDoubleVertexLayout;
 
 		//effects and techniques
-		ID3D10Effect*							pBasicEffect;
-		ID3D10EffectTechnique*					pTechnique;
+		ID3D10Effect*							pStaticEffect;
+		ID3D10Effect*							pDynamicEffect;
+		ID3D10EffectTechnique*					pSingelVertexTechnique;
+		ID3D10EffectTechnique*					pDoubelVertexTechnique;
 
 		//effect variable pointers
 		ID3D10EffectMatrixVariable*				pViewMatrixEffectVariable;
 		ID3D10EffectMatrixVariable*				pProjectionMatrixEffectVariable;
 		ID3D10EffectMatrixVariable*				pWorldMatrixEffectVariable;
 		ID3D10EffectShaderResourceVariable*		pColorMap;
-		ID3D10EffectScalarVariable*				pBufferStart;
-		ID3D10EffectScalarVariable*				pBufferStop;
 		ID3D10EffectScalarVariable*				pTime;
 
 		//projection and view matrices
@@ -98,3 +100,21 @@ namespace Graphics
 		bool fatalError(const LPCSTR msg); 
 	};
 }
+
+#if defined(DEBUG) | defined(_DEBUG)
+#ifndef HR
+#define HR(x)                                              \
+{                                                          \
+	HRESULT hr = (x);                                      \
+	if(FAILED(hr))                                         \
+{                                                      \
+	DXTrace(__FILE__, (DWORD)__LINE__, hr, #x, true); \
+}                                                      \
+}
+#endif
+
+#else
+#ifndef HR
+#define HR(x) (x)
+#endif
+#endif

@@ -2,8 +2,6 @@
 matrix World;
 matrix View;
 matrix Projection;
-int Start;
-int Stop;
 float time;
 
 tbuffer morphIndexBuffer
@@ -63,11 +61,15 @@ RasterizerState rsSolid
 
 //VERTEX AND PIXEL SHADER INPUTS
 //--------------------------------------------------------------------------------------
+
 struct VS_INPUT
 {
-	float4 p : POSITION;
-	float2 t : TEXCOORD; 
-	float3 n : NORMAL;  
+	float4 p0 : POSITION;
+	float4 p1 : TEXCOORD0;
+	float2 t0 : TEXCOORD1;
+	float2 t1 : TEXCOORD2; 
+	float3 n0 : TEXCOORD3;  
+	float3 n1 : TEXCOORD4;  
 };
 
 struct PS_INPUT
@@ -98,16 +100,19 @@ PS_INPUT VS( VS_INPUT input )
 	PS_INPUT output;
 	
 	//set position into clip space
-	input.p = mul( input.p, World );
-	output.p = mul( input.p, View );    
+	input.p0 = mul( input.p0, World );
+	input.p1 = mul( input.p1, World );
+
+	float4 tmp = lerp(input.p0, input.p1, time);
+	output.p = mul( tmp, View );    
 	output.p = mul( output.p, Projection );	
 	
 	//set texture coords
-	output.t = input.t;			
+	output.t = lerp(input.t0, input.t1, time);			
 	
 	//set required lighting vectors for interpolation
-	float3 V = normalize( eye - (float3) input.p );
-	output.n = normalize( mul(input.n, (float3x3)World) );	
+	float3 V = normalize( eye - (float3) tmp );
+	output.n = normalize( mul(lerp(input.n0, input.n1, time), (float3x3)World) );	
 	output.h = normalize( -light.dir + V );		  
     
 	return output;  

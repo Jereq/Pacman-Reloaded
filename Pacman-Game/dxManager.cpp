@@ -9,7 +9,8 @@ namespace Graphics
 		pD3DDevice(NULL),
 		pSwapChain(NULL),
 		pRenderTargetView(NULL),
-		pBasicEffect(NULL),
+		pStaticEffect(NULL),
+		pDynamicEffect(NULL),
 		camera(NULL)
 	{
 		D3DXMatrixIdentity(&worldMatrix);
@@ -20,7 +21,8 @@ namespace Graphics
 		if ( pRenderTargetView ) pRenderTargetView->Release();
 		if ( pSwapChain ) pSwapChain->Release();
 		if ( pD3DDevice ) pD3DDevice->Release();
-		if ( pBasicEffect ) pBasicEffect->Release();
+		if ( pStaticEffect ) pStaticEffect->Release();
+		if ( pDynamicEffect ) pDynamicEffect->Release();
 		if ( pDepthStencil ) pDepthStencil->Release();
 
 		if (camera)
@@ -145,7 +147,7 @@ namespace Graphics
 
 	bool dxManager::loadShadersAndCreateInputLayouts()
 	{
-		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"effects.fx", 
+		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"static.fx", 
 			NULL, NULL, 
 			"fx_4_0", 
 			D3D10_SHADER_ENABLE_STRICTNESS, 
@@ -153,33 +155,61 @@ namespace Graphics
 			pD3DDevice, 
 			NULL, 
 			NULL, 
-			&pBasicEffect, 
+			&pStaticEffect, 
 			NULL,
 			NULL	) ) ) return fatalError((LPCSTR)"Could not load effect file!");	
 
-		pTechnique = pBasicEffect->GetTechniqueByName("RENDER");	
-		if ( pTechnique == NULL ) return fatalError((LPCSTR)"Could not find specified technique!");	
+		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"dynamic.fx", 
+			NULL, NULL, 
+			"fx_4_0", 
+			D3D10_SHADER_ENABLE_STRICTNESS, 
+			0, 
+			pD3DDevice, 
+			NULL, 
+			NULL, 
+			&pDynamicEffect, 
+			NULL,
+			NULL	) ) ) return fatalError((LPCSTR)"Could not load effect file!");	
+
+		pSingelVertexTechnique = pStaticEffect->GetTechniqueByName("RENDER");	
+		pDoubelVertexTechnique = pDynamicEffect->GetTechniqueByName("RENDER");
+
+		if ( pSingelVertexTechnique == NULL ) return fatalError((LPCSTR)"Could not find static technique!");	
+		if ( pDoubelVertexTechnique == NULL ) return fatalError((LPCSTR)"Could not find dynamic technique!");	
 
 		//create matrix effect pointers
-		pViewMatrixEffectVariable = pBasicEffect->GetVariableByName( "View" )->AsMatrix();
-		pProjectionMatrixEffectVariable = pBasicEffect->GetVariableByName( "Projection" )->AsMatrix();
-		pWorldMatrixEffectVariable = pBasicEffect->GetVariableByName( "World" )->AsMatrix();	
+		pViewMatrixEffectVariable = pStaticEffect->GetVariableByName( "View" )->AsMatrix();
+		pProjectionMatrixEffectVariable = pStaticEffect->GetVariableByName( "Projection" )->AsMatrix();
+		pWorldMatrixEffectVariable = pStaticEffect->GetVariableByName( "World" )->AsMatrix();	
 
 		//create texture effect variable
-		pColorMap = pBasicEffect->GetVariableByName( "colorMap" )->AsShaderResource();
+		pColorMap = pStaticEffect->GetVariableByName( "colorMap" )->AsShaderResource();
 
-		pBufferStart = pBasicEffect->GetVariableByName("Start")->AsScalar();
-		pBufferStop = pBasicEffect->GetVariableByName("Stop")->AsScalar();
-		pTime = pBasicEffect->GetVariableByName("time")->AsScalar();
+		pTime = pDynamicEffect->GetVariableByName("time")->AsScalar();
 
-		//create input layout
-		D3D10_PASS_DESC PassDesc;
-		pTechnique->GetPassByIndex( 0 )->GetDesc( &PassDesc );
+		//create input layout simple vertex
+		D3D10_PASS_DESC SimplePassDesc;
+
+		pSingelVertexTechnique->GetPassByIndex( 0 )->GetDesc( &SimplePassDesc );
+
 		if ( FAILED( pD3DDevice->CreateInputLayout( Resources::vertexInputLayout, 
-			Resources::vertexInputLayoutNumElements, 
-			PassDesc.pIAInputSignature,
-			PassDesc.IAInputSignatureSize, 
+			Resources::simpleVertexInputLayoutNumElements, 
+			SimplePassDesc.pIAInputSignature,
+			SimplePassDesc.IAInputSignatureSize, 
 			&pVertexLayout ) ) ) return fatalError((LPCSTR)"Could not create Input Layout!");
+
+		////create input layout double vertex
+		//D3D10_PASS_DESC DoublePassDesc;
+
+		//pDoubelVertexTechnique->GetPassByIndex( 0 )->GetDesc( &DoublePassDesc );
+
+		//HRESULT hr = pD3DDevice->CreateInputLayout( Resources::doubleVertexInputLayout, 
+		//	Resources::doubleVertexInputLayoutNumElements, 
+		//	DoublePassDesc.pIAInputSignature,
+		//	DoublePassDesc.IAInputSignatureSize, 
+		//	&pDoubleVertexLayout );
+
+		//if ( FAILED( hr ) ) return fatalError((LPCSTR)"Could not create Double Input Layout!");
 
 		// Set the input layout
 		pD3DDevice->IASetInputLayout( pVertexLayout );
@@ -195,10 +225,8 @@ namespace Graphics
 		Resources::mtaLoader init(pD3DDevice);
 
 		for (int i = 0; i < 1; i++)
-		{	
-			
+		{			
 			Resources::MTA::ptr tmp = init.loadmta(fileNames[i]);
-
 			mta.push_back(tmp);
 		}
 	
@@ -222,7 +250,7 @@ namespace Graphics
 		pProjectionMatrixEffectVariable->SetMatrix(camera->getProjectionMatrix());
 
 		//set view position
-		ID3D10EffectVectorVariable* var = pBasicEffect->GetVariableByName( "eye" )->AsVector();
+		ID3D10EffectVectorVariable* var = pStaticEffect->GetVariableByName( "eye" )->AsVector();
 		var->SetFloatVector( (float*) camera->getCameraPosition() );
 
 		//set world matrix

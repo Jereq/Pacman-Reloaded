@@ -38,6 +38,8 @@ namespace Resources
 
 		file.close();
 
+		createVertexBuffers(m);
+
 		return m;
 	}
 
@@ -130,6 +132,27 @@ namespace Resources
 
 	void mtaLoader::createVertexBuffers(const MTA::ptr &m)
 	{
+		D3D10_BUFFER_DESC VertexbuffDesc;
+		VertexbuffDesc.BindFlags = D3D10_BIND_VERTEX_BUFFER;
+		VertexbuffDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
+		VertexbuffDesc.MiscFlags = 0;
+		VertexbuffDesc.Usage = D3D10_USAGE_DYNAMIC;
+
+		D3D10_BUFFER_DESC IndexBuffDesc;
+		IndexBuffDesc.BindFlags = D3D10_BIND_INDEX_BUFFER;
+		IndexBuffDesc.ByteWidth = sizeof(UINT) * m->indexCount;
+		IndexBuffDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
+		IndexBuffDesc.MiscFlags = 0;
+		IndexBuffDesc.Usage = D3D10_USAGE_DYNAMIC;
+
+		std::vector<UINT> indexBuff;
+		indexBuff.reserve(m->indexCount);
+
+		for (int i = 0; i < m->indexCount; i++)
+		{
+			indexBuff.push_back(i);
+		}
+
 		BOOST_FOREACH(Animation &a , m->animations )
 		{
 			for (size_t i = 0; i < a.sequence.size() - 1; i++ )
@@ -146,6 +169,15 @@ namespace Resources
 					doubleVertex d(v1, v2);
 					tmp.push_back(d);
 				}
+
+				D3D10_SUBRESOURCE_DATA data;
+				data.pSysMem = tmp.data();
+				VertexbuffDesc.ByteWidth = sizeof(doubleVertex) * tmp.size();
+				device->CreateBuffer(&VertexbuffDesc, NULL, &sa.vBuffer);
+
+				D3D10_SUBRESOURCE_DATA ind;
+				ind.pSysMem = indexBuff.data();
+				device->CreateBuffer(&IndexBuffDesc, &ind, &sa.iBuffer);
 
 				a.subAni.push_back(sa);
 			}

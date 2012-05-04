@@ -231,7 +231,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="effects.fx">
+    <None Include="static.fx">
+      <Filter>Header Files\GFX</Filter>
+    </None>
+    <None Include="dynamic.fx">
       <Filter>Header Files\GFX</Filter>
     </None>
   </ItemGroup>
