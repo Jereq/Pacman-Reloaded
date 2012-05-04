@@ -181,7 +181,57 @@ namespace GameplayFoundations
 			CellIndex const& pos = ghostStartPos[i];
 			std::cout << "(" << pos.u << ", " << pos.v << ")" << std::endl;
 		}
-		
+	}
+
+	Grid::~Grid()
+	{
+		if (cells)
+		{
+			delete[] cells;
+		}
+	}
+
+	CellIndex Grid::getSize() const
+	{
+		return size;
+	}
+
+	Paths Grid::getOpenPaths(CellIndex const& _cell) const
+	{
+		Paths ret = {0};
+
+		if (_cell.u > 0 && getCell(_cell.u - 1, _cell.v).isFree())
+		{
+			ret.nU = true;
+		}
+		if (_cell.u < size.u - 1 && getCell(_cell.u + 1, _cell.v).isFree())
+		{
+			ret.pU = true;
+		}
+		if (_cell.v > 0 && getCell(_cell.u, _cell.v - 1).isFree())
+		{
+			ret.nV = true;
+		}
+		if (_cell.v < size.v - 1 && getCell(_cell.u, _cell.v + 1).isFree())
+		{
+			ret.pV = true;
+		}
+
+		return ret;
+	}
+
+	void Grid::removeObject(CellIndex const& _cell, void* _obj)
+	{
+		getCell(_cell).removeObject(_obj);
+	}
+
+	void Grid::addObject(CellIndex const& _cell, void* _obj)
+	{
+		getCell(_cell).addObject(_obj);
+	}
+
+	ID3DX10Mesh* Grid::createMesh(ID3D10Device* _device)
+	{
 		vertexMap_t vertexMap;
 		vertexVector_t vertices;
 		vertices.reserve(size.u * size.v * 8);
@@ -285,63 +335,21 @@ namespace GameplayFoundations
 			}
 		}
 
-		//for (size_t i = 0; i < vertices.size(); i++)
-		//{
-		//	Vertex vert = vertices[i];
-		//	std::cout << "Vert[" << i << "]:\t(" << vert.position.x << ", " << vert.position.y << ", " << vert.position.z << ")\t(" <<
-		//		vert.normal.x << ", " << vert.normal.y << ", " << vert.normal.z << ")" << std::endl;
-		//}
+		ID3DX10Mesh* mesh;
+		D3DX10CreateMesh(
+			_device,
+			Resources::vertexInputLayout,
+			Resources::vertexInputLayoutNumElements,
+			"POSITION",
+			vertices.size(),
+			indices.size() / 3,
+			0,
+			&mesh);
 
-		//for (size_t i = 0; i < indices.size(); i += 3)
-		//{
-		//	std::cout << "Face[" << i / 3 << "]:\t" << indices[i] << ", " << indices[i+1] << ", " << indices[i+2] << std::endl;
-		//}
-	}
+		mesh->SetVertexData(NULL, vertices.data());
+		mesh->SetIndexData(0, indices.size());
+		mesh->CommitToDevice();
 
-	Grid::~Grid()
-	{
-		if (cells)
-		{
-			delete[] cells;
-		}
-	}
-
-	CellIndex Grid::getSize() const
-	{
-		return size;
-	}
-
-	Paths Grid::getOpenPaths(CellIndex const& _cell) const
-	{
-		Paths ret = {0};
-
-		if (_cell.u > 0 && getCell(_cell.u - 1, _cell.v).isFree())
-		{
-			ret.nU = true;
-		}
-		if (_cell.u < size.u - 1 && getCell(_cell.u + 1, _cell.v).isFree())
-		{
-			ret.pU = true;
-		}
-		if (_cell.v > 0 && getCell(_cell.u, _cell.v - 1).isFree())
-		{
-			ret.nV = true;
-		}
-		if (_cell.v < size.v - 1 && getCell(_cell.u, _cell.v + 1).isFree())
-		{
-			ret.pV = true;
-		}
-
-		return ret;
-	}
-
-	void Grid::removeObject(CellIndex const& _cell, void* _obj)
-	{
-		getCell(_cell).removeObject(_obj);
-	}
-
-	void Grid::addObject(CellIndex const& _cell, void* _obj)
-	{
-		getCell(_cell).addObject(_obj);
+		return mesh;
 	}
 }

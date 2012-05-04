@@ -4,6 +4,8 @@
 #include <vector>
 #include <map>
 
+#include <boost/shared_ptr.hpp>
+
 #include <D3DX10math.h>
 
 #include "GridCell.h"
@@ -52,6 +54,8 @@ namespace GameplayFoundations
 			Resources::vertex const& _vert);
 
 	public:
+		typedef boost::shared_ptr<Grid> ptr;
+
 		Grid(Resources::Texture::ptr const& _map);
 		~Grid();
 
@@ -63,6 +67,8 @@ namespace GameplayFoundations
 
 		void removeObject(CellIndex const& _cell, void* _obj);
 		void addObject(CellIndex const& _cell, void* _obj);
+
+		ID3DX10Mesh* createMesh(ID3D10Device* _device);
 	};
 
 	template<typename Coll>

@@ -106,9 +106,9 @@ namespace Pacman
 
 		Resources::Context context(rm);
 		Resources::Texture::ptr test = context.getMapTexture("Maps/test.png");
-		std::vector<D3DXCOLOR> cols = test->getColorVector();
 
-		GameplayFoundations::Grid grid(test);
+		currentGrid.reset(new GameplayFoundations::Grid(test));
+		levelMesh = currentGrid->createMesh(gManager->pD3DDevice);
 	}
 
 	Game::~Game()
