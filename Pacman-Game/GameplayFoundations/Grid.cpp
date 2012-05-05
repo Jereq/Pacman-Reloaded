@@ -339,7 +339,7 @@ namespace GameplayFoundations
 		D3DX10CreateMesh(
 			_device,
 			Resources::vertexInputLayout,
-			Resources::vertexInputLayoutNumElements,
+			Resources::simpleVertexInputLayoutNumElements,
 			"POSITION",
 			vertices.size(),
 			indices.size() / 3,
@@ -347,7 +347,7 @@ namespace GameplayFoundations
 			&mesh);
 
 		mesh->SetVertexData(NULL, vertices.data());
-		mesh->SetIndexData(0, indices.size());
+		mesh->SetIndexData(indices.data(), indices.size());
 		mesh->CommitToDevice();
 
 		return mesh;
