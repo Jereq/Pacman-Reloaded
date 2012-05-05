@@ -25,6 +25,7 @@ namespace Pacman
 
 		GameplayFoundations::Grid::ptr currentGrid;
 		ID3DX10Mesh* levelMesh;
+		Resources::Texture::ptr levelTex;
 
 	public:
 		Game(HINSTANCE _hInstance);

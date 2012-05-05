@@ -229,6 +229,29 @@ namespace Graphics
 			Resources::MTA::ptr tmp = init.loadmta(fileNames[i]);
 			mta.push_back(tmp);
 		}
+
+		// Setup light and test material
+		ambientLight = D3DXVECTOR4(1.f, 1.f, 1.f, 1.f);
+
+		directionalLight.color = D3DXVECTOR4(1.f, 1.f, 1.f, 1.f);
+		directionalLight.direction = D3DXVECTOR3(.3f, -1, 0.5f);
+		D3DXVec3Normalize(&directionalLight.direction, &directionalLight.direction);
+
+		material.ambient = .1f;
+		material.diffuse = .9f;
+		material.specular = 0.5f;
+		material.shininess = 30;
+
+		ID3D10EffectVariable* pVar = pStaticEffect->GetVariableByName("light");
+		pVar->SetRawValue(&directionalLight, 0, sizeof(DirectionalLight));
+
+		pVar = pStaticEffect->GetVariableByName("material");
+		pVar->SetRawValue(&material, 0, sizeof(Material));
+
+		pVar = pStaticEffect->GetVariableByName("ambientLight");
+		pVar->SetRawValue(&ambientLight, 0, sizeof(ambientLight));
+
+		
 	
 		return true;
 	}
@@ -260,18 +283,21 @@ namespace Graphics
 		//pBufferStart->SetInt(0);
 		//pBufferStop->SetInt(1);
 
-		////draw terrain
-		////------------------------------------------------------------------------
+		//draw terrain
+		//------------------------------------------------------------------------
 
-		////get technique description
-		//pTechnique->GetDesc( &techDesc );
+		pColorMap->SetResource(wallTex->getTexture());
 
-		////draw
-		//for( UINT p = 0; p < techDesc.Passes; p++ )
-		//{		
-		//	//apply technique			
-		//	pTechnique->GetPassByIndex( p )->Apply( 0 );
-		//}		
+		//get technique description
+		pSingelVertexTechnique->GetDesc( &techDesc );
+
+		//draw
+		for( UINT p = 0; p < techDesc.Passes; p++ )
+		{		
+			//apply technique			
+			pSingelVertexTechnique->GetPassByIndex( p )->Apply( 0 );
+			walls->DrawSubset(0);
+		}		
 
 		//flip buffers
 		pSwapChain->Present(0,0);
@@ -298,4 +324,13 @@ namespace Graphics
 		return false;
 	}
 
+	void dxManager::setWallMesh(ID3DX10Mesh* _mesh)
+	{
+		walls = _mesh;
+	}
+
+	void dxManager::setWallTex(Resources::Texture::ptr const& _tex)
+	{
+		wallTex = _tex;
+	}
 }

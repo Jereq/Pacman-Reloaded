@@ -99,8 +99,7 @@ namespace Pacman
 
 		//set up scene camera properties
 		camera->setPerspectiveProjectionLH( 45.0f, (float)windowWidth / windowHeight, 0.1f, 100.0f );
-		camera->setPositionAndView( 0.0f, 1.0f, 0.0f, 0.0f, 0.0f );
-		camera->setMovementSpeed(10);
+		camera->setPositionAndView( -6.0f, 15.f, -6.0f, 45.0f, 40.0f );
 
 		gManager->setActiveCamera(camera);
 
@@ -109,6 +108,11 @@ namespace Pacman
 
 		currentGrid.reset(new GameplayFoundations::Grid(test));
 		levelMesh = currentGrid->createMesh(gManager->pD3DDevice);
+
+		levelTex = rm->loadTexture("Textures/mapTex.png");
+
+		gManager->setWallMesh(levelMesh);
+		gManager->setWallTex(levelTex);
 	}
 
 	Game::~Game()

@@ -24,7 +24,7 @@ Texture2D colorMap;
 //texture sampler state
 SamplerState linearSampler
 {
-    Filter = min_mag_mip_linear;
+    Filter = min_mag_mip_point;
     AddressU = Clamp;
     AddressV = Clamp;
     MaxAnisotropy = 16;
@@ -54,7 +54,7 @@ float3 eye;
 RasterizerState rsSolid
 {
 	  FillMode = Solid;
-	  CullMode = NONE;
+	  CullMode = FRONT;
 	  FrontCounterClockwise = false;
 };
 
@@ -96,24 +96,24 @@ PS_INPUT VS( VS_INPUT input )
 	
 	//set position into clip space
 	input.p = mul( input.p, World );
-	output.p = mul( input.p, View );    
-	output.p = mul( output.p, Projection );	
+	output.p = mul( input.p, View );
+	output.p = mul( output.p, Projection );
 	
 	//set texture coords
-	output.t = input.t;			
+	output.t = input.t;
 	
 	//set required lighting vectors for interpolation
 	float3 V = normalize( eye - (float3) input.p );
-	output.n = normalize( mul(input.n, (float3x3)World) );	
-	output.h = normalize( -light.dir + V );		  
+	output.n = normalize( mul(input.n, (float3x3)World) );
+	output.h = normalize( -light.dir + V );
     
-	return output;  
+	return output;
 }
 
 float4 PS( PS_INPUT input ) : SV_Target
-{     	
+{
 	//renormalize interpolated vectors
-	input.n = normalize( input.n );		
+	input.n = normalize( input.n );
 	input.h = normalize( input.h );
 	
 	//calculate lighting	
@@ -123,24 +123,13 @@ float4 PS( PS_INPUT input ) : SV_Target
 	return I * colorMap.Sample(linearSampler, input.t);
 	
 	//no texturing pure lighting
-	return I;    
+	//return I;
 }
 //--------------------------------------------------------------------------------------
 // Technique
 //--------------------------------------------------------------------------------------
 
 technique10 RENDER
-{
-    pass P0
-    {
-        SetVertexShader( CompileShader( vs_4_0, VS() ) );
-        SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_4_0, PS() ) );
-        SetRasterizerState( rsSolid );
-    }    
-}
-
-technique10 ANIMATION
 {
     pass P0
     {

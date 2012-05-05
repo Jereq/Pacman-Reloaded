@@ -9,6 +9,7 @@
 #include "vertexTypes.h"
 #include "lights.h"
 #include "ResourceHandling/mtaLoader.h"
+#include "ResourceHandling/Texture.h"
 #include "Camera.h"
 #include <DxErr.h>
 
@@ -65,6 +66,9 @@ namespace Graphics
 		//Active camera
 		Camera*								camera;
 	
+		ID3DX10Mesh* walls;
+		Resources::Texture::ptr wallTex;
+
 		/*******************************************************************
 		* Methods
 		********************************************************************/	
@@ -86,6 +90,9 @@ namespace Graphics
 		Camera* getActiveCamera();
 		Camera const* getActiveCamera() const;
 		void setActiveCamera(Camera* _newCamera);
+
+		void setWallMesh(ID3DX10Mesh* _mesh);
+		void setWallTex(Resources::Texture::ptr const& _tex);
 
 	private:
 
