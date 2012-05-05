@@ -1,11 +1,9 @@
-#ifndef _XCAMERA
-#define _XCAMERA
+#pragma once
 
 #include <d3dx10.h>
-#include "hrTimer.h"
 
-#define TWO_PI 6.283185307179586476925286766559
-#define DEG_TO_RAD 0.01745329251994329576923690768489
+const double TWO_PI = D3DX_PI * 2;
+const double DEG_TO_RAD = D3DX_PI / 180;
 
 class Camera
 {	
@@ -23,16 +21,11 @@ private:
 	D3DXMATRIX rotationMatrix;				//Rotation matrix
 		
 	//view vectors
-	const D3DXVECTOR3 dV, dU;				//default view and up vectors
-	D3DXVECTOR3 eye, view, up;
+	const static D3DXVECTOR3 dV, dU;		//default view and up vectors
+	D3DXVECTOR3 eye, target, up;
 
 	//movement vectors and movement toggles
-	D3DXVECTOR3 forward, strafeRight;		
-	int movementToggles[4];					//fwrd, bck, strfLft, strfRght
-	float movementSpeed;
-
-	//camera timer for movement
-	timer camTimer;	
+	D3DXVECTOR3 forward;
 		
 	/*******************************************************************
 	* Methods
@@ -49,8 +42,6 @@ public:
 	//camera positioning methods
 	void setPositionAndView( float x, float y, float z, float hDeg, float pDeg );
 	void adjustHeadingPitch( float hRad, float pRad );
-	void setMovementToggle( int i, int v );	
-	void setMovementSpeed( float s );	
 
 	//update camera view/position
 	void update();	
@@ -59,7 +50,8 @@ public:
 	D3DXMATRIX&		getViewMatrix(){ return viewMatrix; }
 	D3DXMATRIX&		getProjectionMatrix(){ return projectionMatrix; }
 	D3DXVECTOR3&	getCameraPosition(){ return eye; }
-	D3DXVECTOR3&	getCameraForward(){ return view; }
+	D3DXVECTOR3&	getCameraTarget(){ return target; }
+	D3DXVECTOR3&	getCameraForward(){ return forward; }
 	D3DXVECTOR3&	getCameraUp(){ return up; }
 
 private:
@@ -67,5 +59,3 @@ private:
 	//create view, forward, strafe vectors from heading/pitch
 	void updateView();
 };
-
-#endif
