@@ -18,6 +18,11 @@ void Ghost::init()
 
 }
 
+void Ghost::update(float _deltaTime)
+{
+
+}
+
 void Ghost::changeState(GHOSTSTATE _state)
 {
 	switch(_state)

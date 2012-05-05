@@ -9,3 +9,8 @@ RandomGhost::~RandomGhost()
 {
 
 }
+
+void RandomGhost::update(float _deltaTime)
+{
+
+}

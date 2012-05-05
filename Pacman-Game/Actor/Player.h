@@ -29,8 +29,7 @@ public:
 
 	void init();
 
-	bool collisionGhost();
-	bool collision();
+	bool beEatingOrNot();
 
 	void movement();
 

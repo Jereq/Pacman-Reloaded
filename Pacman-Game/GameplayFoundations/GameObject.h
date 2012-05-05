@@ -18,9 +18,14 @@ public:
 	
 	void init();
 	void update();
+
+	bool collision();
 		
 	void setSpeed(float _speed);
 	void resetSpeed();
 
 	D3DXVECTOR3 getPos();
+
+	D3DXVECTOR3 getMinCorner();
+	D3DXVECTOR3 getMaxCorner();
 };

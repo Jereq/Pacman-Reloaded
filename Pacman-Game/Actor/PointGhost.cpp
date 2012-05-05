@@ -9,3 +9,8 @@ PointGhost::~PointGhost()
 {
 
 }
+
+void PointGhost::update(float _deltaTime)
+{
+
+}

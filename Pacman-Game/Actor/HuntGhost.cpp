@@ -9,3 +9,8 @@ HuntGhost::~HuntGhost()
 {
 
 }
+
+void HuntGhost::update(float _deltaTime)
+{
+
+}

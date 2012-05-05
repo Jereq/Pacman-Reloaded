@@ -15,20 +15,15 @@ void Player::init()
 	m_timer = 0;
 }
 
-bool Player::collisionGhost()
+bool Player::beEatingOrNot()
 {
-	if(m_state != FRENZY)
+	if(m_state == FRENZY)
 	{
-		//If it returns false will pacman die?
-		//m_state = DEAD;
 		return true;
 	}
 
-	return false;
-}
-
-bool Player::collision()
-{
+	//If it returns false will pacman die?
+	changeState(DEAD);
 	return false;
 }
 

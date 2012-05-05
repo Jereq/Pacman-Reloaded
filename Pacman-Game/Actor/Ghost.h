@@ -27,4 +27,6 @@ public:
 
 	GHOSTSTATE getState();
 
+
+
 };
