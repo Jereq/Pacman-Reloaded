@@ -198,18 +198,18 @@ namespace Graphics
 			SimplePassDesc.IAInputSignatureSize, 
 			&pVertexLayout ) ) ) return fatalError((LPCSTR)"Could not create Input Layout!");
 
-		////create input layout double vertex
-		//D3D10_PASS_DESC DoublePassDesc;
+		//create input layout double vertex
+		D3D10_PASS_DESC DoublePassDesc;
 
-		//pDoubelVertexTechnique->GetPassByIndex( 0 )->GetDesc( &DoublePassDesc );
+		pDoubelVertexTechnique->GetPassByIndex( 0 )->GetDesc( &DoublePassDesc );
 
-		//HRESULT hr = pD3DDevice->CreateInputLayout( Resources::doubleVertexInputLayout, 
-		//	Resources::doubleVertexInputLayoutNumElements, 
-		//	DoublePassDesc.pIAInputSignature,
-		//	DoublePassDesc.IAInputSignatureSize, 
-		//	&pDoubleVertexLayout );
+		HRESULT hr = pD3DDevice->CreateInputLayout( Resources::doubleVertexInputLayout, 
+			Resources::doubleVertexInputLayoutNumElements, 
+			DoublePassDesc.pIAInputSignature,
+			DoublePassDesc.IAInputSignatureSize, 
+			&pDoubleVertexLayout );
 
-		//if ( FAILED( hr ) ) return fatalError((LPCSTR)"Could not create Double Input Layout!");
+		if ( FAILED( hr ) ) return fatalError((LPCSTR)"Could not create Double Input Layout!");
 
 		// Set the input layout
 		pD3DDevice->IASetInputLayout( pVertexLayout );

@@ -82,23 +82,14 @@ namespace Resources
 	const int simpleVertexInputLayoutNumElements = 3;
 
 	const D3D10_INPUT_ELEMENT_DESC doubleVertexInputLayout[] = 
-	{	
+	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(doubleVertex, pos0), D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD0", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(doubleVertex, pos1), D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD1", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(doubleVertex, normal0), D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD2", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(doubleVertex, normal1), D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD3", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offsetof(doubleVertex, texCoords0), D3D10_INPUT_PER_VERTEX_DATA, 0 },		
-		{ "TEXCOORD4", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offsetof(doubleVertex, texCoords1), D3D10_INPUT_PER_VERTEX_DATA, 0 }	
-	};	
+		{ "POSITION", 1, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(doubleVertex, pos1), D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(doubleVertex, normal0), D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 1, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(doubleVertex, normal1), D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offsetof(doubleVertex, texCoords0), D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, offsetof(doubleVertex, texCoords1), D3D10_INPUT_PER_VERTEX_DATA, 0 }
+	};
 
-/*	const D3D10_INPUT_ELEMENT_DESC doubleVertexInputLayout[] = 
-	{	
-		{ "POSITION0", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "POSITION1", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL0", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL1", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 36, D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD0", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 48, D3D10_INPUT_PER_VERTEX_DATA, 0 },		
-		{ "TEXCOORD1", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 56, D3D10_INPUT_PER_VERTEX_DATA, 0 }	
-	};*/	
-	const int doubleVertexInputLayoutNumElements = 6;
+	const int doubleVertexInputLayoutNumElements = sizeof(doubleVertexInputLayout) / sizeof(D3D10_INPUT_ELEMENT_DESC);
 }
