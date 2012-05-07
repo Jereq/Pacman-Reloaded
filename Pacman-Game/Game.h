@@ -5,6 +5,7 @@
 #include "Sound/SoundManager.h"
 #include "GFX/Camera.h"
 #include "GameplayFoundations/Grid.h"
+#include "HID\HID.h"
 
 namespace Pacman
 {

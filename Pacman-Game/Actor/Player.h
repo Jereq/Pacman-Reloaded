@@ -2,18 +2,10 @@
 
 #include "..\GameplayFoundations\GameObject.h"
 
-enum PLAYERSTATE
-{
-	ALIVE,
-	DEAD,
-	FRENZY,
-	COUNT
-};
-
 class Player : public GameObject
 {
 private:
-	PLAYERSTATE m_state;
+	//PLAYERSTATE m_state;
 
 	UINT m_score;
 
@@ -33,9 +25,9 @@ public:
 
 	void movement();
 
-	void changeState(PLAYERSTATE _ps);
+	//void changeState(GO_STATE _goState);
 
-	PLAYERSTATE getState();
+	//GO_STATE getState();
 
 	void setScore(int _score);
 	UINT getScore();

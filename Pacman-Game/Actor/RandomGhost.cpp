@@ -12,5 +12,32 @@ RandomGhost::~RandomGhost()
 
 void RandomGhost::update(float _deltaTime)
 {
+	/*
+	if(Wall == true)
+	{
+		if(roads == right/left/back)
+		{
+			random [0,2];
+			go[random];
+		}
+		else if(walls == right)
+			go left;
+		else if(walls == left)
+			go right;
+		else
+	}
+	else if(roads < 2)
+	{
+		if(roads == 3)
+			random[0,3];
+		else if(roads == 4)
+			random[0,4];
 
+		go[random];
+	}
+	else
+	{
+		go(cell in front);
+	}
+	*/
 }

@@ -5,10 +5,14 @@
 #include "Actor\Player.h"
 #include "GameplayFoundations/Grid.h"
 
+
+
 namespace Pacman
 {
 	LRESULT Game::wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
+		static HID* m_HID = new HID(hWnd);
+		m_HID->input(message, wParam);
 		switch (message) 
 		{
 			//raw input handler
@@ -126,7 +130,7 @@ namespace Pacman
 	void Game::update(float deltaTime)
 	{
 		Camera* camera = gManager->getActiveCamera();
-		
+
 		camera->update();
 		sm->update(camera->getCameraPosition(),
 			camera->getCameraForward(),

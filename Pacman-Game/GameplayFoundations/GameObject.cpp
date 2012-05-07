@@ -23,6 +23,27 @@ void GameObject::update()
 
 }
 
+void GameObject::changeState(GO_STATE _state)
+{
+	switch(_state)
+	{
+	case ALIVE:
+		m_state = ALIVE;
+		break;
+
+	case DEAD:
+		m_state = DEAD;
+		break;
+
+	case FRENZY:
+		m_state = FRENZY;
+		break;
+
+	//case COUNT:
+	//	break;
+	}
+}
+
 void GameObject::setSpeed(float _speed)
 {
 	m_speed = _speed;
@@ -46,4 +67,9 @@ D3DXVECTOR3 GameObject::getMinCorner()
 D3DXVECTOR3 GameObject::getMaxCorner()
 {
 	return m_max;
+}
+
+GO_STATE GameObject::getState()
+{
+	return m_state;
 }
