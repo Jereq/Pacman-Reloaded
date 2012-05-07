@@ -12,6 +12,7 @@
 #include "../ResourceHandling/Texture.h"
 #include "Camera.h"
 #include <DxErr.h>
+#include <list>
 
 namespace Graphics
 {
@@ -39,26 +40,37 @@ namespace Graphics
 	};
 
 
-	//struct dynamicObject
-	//{
-	//public:
-	//	float time;
-	//	MTA::ptr mta;
+	struct dynamicObject
+	{
+	public:
+		float time;
+		Resources::MTA::ptr mta;
+		int aIndex, saIndex;
+		D3DXMATRIX world;
 
-	//	dynamicObject(MTA::ptr _mta)
-	//	{
-	//		mta = _mta;
-	//	}
+		dynamicObject(Resources::MTA::ptr _mta, float _time, int _aIndex, int _saIndex, D3DXMATRIX _world)
+		{
+			mta = _mta;
+			time = _time;
+			aIndex = _aIndex;
+			saIndex = _saIndex;
+			world = _world;
+		}
+	};
 
-	//	setTime(float _time)
-	//	{
-	//		time = _time;
-	//	}
-	//};
+	struct staticObject 
+	{
+		D3DXMATRIX world;
+		ID3DX10Mesh* mesh;
+		Resources::Texture::ptr tex;
 
-	//struct staticObject 
-	//{
-	//};
+		staticObject(ID3DX10Mesh* _mesh, Resources::Texture::ptr _tex, D3DXMATRIX _world)
+		{
+			mesh = _mesh;
+			tex = _tex;
+			world = _world;
+		}
+	};
 
 	class dxManager
 	{
@@ -110,9 +122,12 @@ namespace Graphics
 	
 		//Active camera
 		Camera*									camera;
-	
-		ID3DX10Mesh* walls;
-		Resources::Texture::ptr wallTex;
+
+		typedef std::list<staticObject>			sol;
+		typedef std::list<dynamicObject>		dol;
+
+		sol										sObj;
+		dol										dObj;
 
 		/*******************************************************************
 		* Methods
@@ -142,6 +157,9 @@ namespace Graphics
 		minMax getbounds(int _index);
 		bool initializeObjects(Resources::ResourceManager::ptr _res);
 
+		void AddDynamicObject(dynamicObject _dObj);
+		void AddStaticObject(staticObject _sObj);
+
 	private:
 
 		//initialization methods
@@ -155,20 +173,20 @@ namespace Graphics
 	};
 }
 
-#if defined(DEBUG) | defined(_DEBUG)
-#ifndef HR
-#define HR(x)                                              \
-{                                                          \
-	HRESULT hr = (x);                                      \
-	if(FAILED(hr))                                         \
-{                                                      \
-	DXTrace(__FILE__, (DWORD)__LINE__, hr, #x, true); \
-}                                                      \
-}
-#endif
-
-#else
-#ifndef HR
-#define HR(x) (x)
-#endif
-#endif
+//#if defined(DEBUG) | defined(_DEBUG)
+//#ifndef HR
+//#define HR(x)                                              \
+//{                                                          \
+//	HRESULT hr = (x);                                      \
+//	if(FAILED(hr))                                         \
+//{                                                      \
+//	DXTrace(__FILE__, (DWORD)__LINE__, hr, #x, true); \
+//}                                                      \
+//}
+//#endif
+//
+//#else
+//#ifndef HR
+//#define HR(x) (x)
+//#endif
+//#endif

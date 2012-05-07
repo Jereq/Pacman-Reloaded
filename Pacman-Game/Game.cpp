@@ -114,9 +114,6 @@ namespace Pacman
 		levelMesh = currentGrid->createMesh(gManager->pD3DDevice);
 
 		levelTex = rm->loadTexture("Textures/mapTex.png");
-
-		gManager->setWallMesh(levelMesh);
-		gManager->setWallTex(levelTex);
 	}
 
 	Game::~Game()
@@ -165,6 +162,11 @@ namespace Pacman
 			camera->getCameraForward(),
 			camera->getCameraUp());
 		
+		D3DXMATRIX tmp;
+		D3DXMatrixIdentity(&tmp);
+
+		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
+
 		gManager->renderScene();
 	}
 }

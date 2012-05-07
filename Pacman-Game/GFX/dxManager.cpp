@@ -2,6 +2,7 @@
 #include <math.h>
 #include "../ResourceHandling\mtaLoader.h"
 #include <cassert>
+#include <boost/foreach.hpp>
 
 namespace Graphics
 {
@@ -244,9 +245,7 @@ namespace Graphics
 		pVar->SetRawValue(&material, 0, sizeof(Material));
 
 		pVar = pStaticEffect->GetVariableByName("ambientLight");
-		pVar->SetRawValue(&ambientLight, 0, sizeof(ambientLight));
-
-		
+		pVar->SetRawValue(&ambientLight, 0, sizeof(ambientLight));	
 	
 		return true;
 	}
@@ -269,32 +268,45 @@ namespace Graphics
 
 		//set view position
 		ID3D10EffectVectorVariable* var = pStaticEffect->GetVariableByName( "eye" )->AsVector();
-		var->SetFloatVector( (float*) camera->getCameraPosition() );
+		var->SetFloatVector( (float*) camera->getCameraPosition() );		
 
-		//set world matrix
-		D3DXMatrixIdentity(&worldMatrix);
-		pWorldMatrixEffectVariable->SetMatrix(worldMatrix);
-
+		//Draw static object
 		pD3DDevice->IASetInputLayout( pVertexLayout );
-
-		//draw terrain
-		//------------------------------------------------------------------------
-
-		pColorMap->SetResource(wallTex->getTexture());
-
-		//get technique description
 		pSingelVertexTechnique->GetDesc( &techDesc );
 
-		//draw
-		for( UINT p = 0; p < techDesc.Passes; p++ )
-		{		
-			//apply technique			
-			pSingelVertexTechnique->GetPassByIndex( p )->Apply( 0 );
-			walls->DrawSubset(0);
+		BOOST_FOREACH(staticObject const& s, sObj)
+		{
+			pColorMap->SetResource(s.tex->getTexture());
+			pWorldMatrixEffectVariable->SetMatrix((float*)&s.world);
+
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{				
+				pSingelVertexTechnique->GetPassByIndex( p )->Apply( 0 );
+				s.mesh->DrawSubset(0);
+			}
+		}
+
+		//Draw dynamic objects
+		pD3DDevice->IASetInputLayout( pDoubleVertexLayout );
+
+		BOOST_FOREACH(dynamicObject const& d, dObj)
+		{
+			pColorMap->SetResource(d.mta->texture->getTexture());
+			pWorldMatrixEffectVariable->SetMatrix((float*)&d.world);
+			pTime->SetFloat(d.time);
+
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{				
+				pDoubelVertexTechnique->GetPassByIndex( p )->Apply( 0 );
+				d.mta->animations[d.aIndex].subAnimation[d.saIndex]->DrawSubset(0);
+			}
 		}		
 
 		//flip buffers
 		pSwapChain->Present(0,0);
+
+		dObj.clear();
+		sObj.clear();
 	}
 
 	Camera* dxManager::getActiveCamera()
@@ -318,18 +330,14 @@ namespace Graphics
 		return false;
 	}
 
-	void dxManager::setWallMesh(ID3DX10Mesh* _mesh)
+	void dxManager::AddDynamicObject( dynamicObject _dObj )
 	{
-		walls = _mesh;
+		dObj.push_back(_dObj);
 	}
 
-	void dxManager::setWallTex(Resources::Texture::ptr const& _tex)
+	void dxManager::AddStaticObject( staticObject _sObj )
 	{
-		wallTex = _tex;
+		sObj.push_back(_sObj);
 	}
 
-	minMax dxManager::getbounds(int _index)
-	{
-		return minMax(mta[_index]->vectorMin, mta[_index]->vectorMax);		
-	}
 }
