@@ -150,6 +150,9 @@
     <ClCompile Include="GameplayFoundations\Events\MouseMoveEvent.cpp">
       <Filter>Source Files\GameplayFoundations\Events</Filter>
     </ClCompile>
+    <ClCompile Include="GameplayFoundations\Events\EventQueue.cpp">
+      <Filter>Source Files\GameplayFoundations\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -212,9 +215,6 @@
     <ClInclude Include="ResourceHandling\Context.h">
       <Filter>Header Files\ResourceHandling</Filter>
     </ClInclude>
-    <ClInclude Include="vertextypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vertexTypes.h">
       <Filter>Header Files\ResourceHandling</Filter>
     </ClInclude>
@@ -259,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="ResourceHandling\vertexTypes.h">
       <Filter>Header Files\ResourceHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayFoundations\Events\EventQueue.h">
+      <Filter>Header Files\GameplayFoundations\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

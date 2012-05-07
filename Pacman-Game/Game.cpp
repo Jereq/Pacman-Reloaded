@@ -4,8 +4,9 @@
 #include "ResourceHandling/Context.h"
 #include "Actor\Player.h"
 #include "GameplayFoundations/Grid.h"
-
-
+#include "GameplayFoundations/Events/KeyboardKeyEvent.h"
+using GameplayFoundations::Events::Event;
+using GameplayFoundations::Events::KeyboardKeyEvent;
 
 namespace Pacman
 {
@@ -124,8 +125,6 @@ namespace Pacman
 
 	void Game::update(float deltaTime)
 	{
-
-
 		/* SOME PSUEDO COOOOOODE
 
 		for(int i = 0; i < food.size(); i++)
@@ -154,6 +153,18 @@ namespace Pacman
 			}
 		}
 		*/
+		
+		while (!eventQueue.isEmpty())
+		{
+			Event::ptr ev = eventQueue.popEvent();
+
+			switch (ev->eventType)
+			{
+			case Event::KEYBOARD_KEY_EVENT:
+				exit(0);
+				break;
+			}
+		}
 
 		Camera* camera = gManager->getActiveCamera();
 
