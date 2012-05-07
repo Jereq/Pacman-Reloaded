@@ -49,6 +49,12 @@
     <Filter Include="Header Files\Sound">
       <UniqueIdentifier>{faa50644-dd56-496f-8f36-c3aad7359f62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameplayFoundations\Events">
+      <UniqueIdentifier>{49f4c1e4-ef75-46d1-97f9-f70aa50c97b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameplayFoundations\Events">
+      <UniqueIdentifier>{7dc0c373-1749-45a0-a5f0-fe900e530acb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameplayFoundations\Grid.cpp">
@@ -126,11 +132,23 @@
     <ClCompile Include="GFX\animation.cpp">
       <Filter>Source Files\GFX</Filter>
     </ClCompile>
+    <ClCompile Include="GameplayFoundations\Events\Event.cpp">
+      <Filter>Source Files\GameplayFoundations\Events</Filter>
+    </ClCompile>
     <ClCompile Include="GFX\Camera.cpp">
       <Filter>Source Files\GFX</Filter>
     </ClCompile>
+    <ClCompile Include="GameplayFoundations\Events\MouseButtonEvent.cpp">
+      <Filter>Source Files\GameplayFoundations\Events</Filter>
+    </ClCompile>
     <ClCompile Include="GFX\dxManager.cpp">
       <Filter>Source Files\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="GameplayFoundations\Events\KeyboardKeyEvent.cpp">
+      <Filter>Source Files\GameplayFoundations\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameplayFoundations\Events\MouseMoveEvent.cpp">
+      <Filter>Source Files\GameplayFoundations\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +232,18 @@
     </ClInclude>
     <ClInclude Include="Actor\HuntGhost.h">
       <Filter>Header Files\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayFoundations\Events\Event.h">
+      <Filter>Header Files\GameplayFoundations\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayFoundations\Events\MouseButtonEvent.h">
+      <Filter>Header Files\GameplayFoundations\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayFoundations\Events\KeyboardKeyEvent.h">
+      <Filter>Header Files\GameplayFoundations\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayFoundations\Events\MouseMoveEvent.h">
+      <Filter>Header Files\GameplayFoundations\Events</Filter>
     </ClInclude>
     <ClInclude Include="GFX\animation.h">
       <Filter>Header Files\GFX</Filter>
