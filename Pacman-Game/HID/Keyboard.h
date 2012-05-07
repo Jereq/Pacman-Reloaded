@@ -8,11 +8,11 @@ public:
 	Keyboard();
 	~Keyboard();
 
-	static void keyDown(WPARAM _wParam);
-	static void keyUp(WPARAM _wParam);
+	void keyDown(WPARAM _wParam);
+	void keyUp(WPARAM _wParam);
 
-	static bool getPressedKey(char _c);
-	static bool pressOnce(char _c);
+	bool getPressedKey(char _c);
+	bool pressOnce(char _c);
 
 private:
 	bool m_keys[256];
