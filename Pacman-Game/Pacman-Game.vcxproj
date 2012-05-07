@@ -94,13 +94,13 @@
     <ClInclude Include="GameplayFoundations\Events\MouseButtonEvent.h" />
     <ClInclude Include="GameplayFoundations\Events\KeyboardKeyEvent.h" />
     <ClInclude Include="GameplayFoundations\Events\MouseMoveEvent.h" />
-    <ClInclude Include="ResourceHandling\Context.h" />
+    <ClInclude Include="Resources\Context.h" />
     <ClInclude Include="GameplayFoundations\GameObject.h" />
     <ClInclude Include="GameplayFoundations\Timer.h" />
     <ClInclude Include="hrTimer.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="GFX\lights.h" />
-    <ClInclude Include="ResourceHandling\vertexTypes.h" />
+    <ClInclude Include="Resources\vertexTypes.h" />
     <ClInclude Include="GFX\dxManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameplayFoundations\CellIndex.h" />
@@ -110,10 +110,10 @@
     <ClInclude Include="HID\Keyboard.h" />
     <ClInclude Include="HID\Mouse.h" />
     <ClInclude Include="Print.h" />
-    <ClInclude Include="ResourceHandling\mtaLoader.h" />
-    <ClInclude Include="ResourceHandling\Resource.h" />
-    <ClInclude Include="ResourceHandling\Texture.h" />
-    <ClInclude Include="ResourceHandling\ResourceManager.h" />
+    <ClInclude Include="Resources\mtaLoader.h" />
+    <ClInclude Include="Resources\Resource.h" />
+    <ClInclude Include="Resources\Texture.h" />
+    <ClInclude Include="Resources\ResourceManager.h" />
     <ClInclude Include="Sound\SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +130,7 @@
     <ClCompile Include="GameplayFoundations\Events\MouseButtonEvent.cpp" />
     <ClCompile Include="GameplayFoundations\Events\KeyboardKeyEvent.cpp" />
     <ClCompile Include="GameplayFoundations\Events\MouseMoveEvent.cpp" />
-    <ClCompile Include="ResourceHandling\Context.cpp" />
+    <ClCompile Include="Resources\Context.cpp" />
     <ClCompile Include="GFX\dxManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameplayFoundations\CellIndex.cpp" />
@@ -143,12 +143,12 @@
     <ClCompile Include="HID\Keyboard.cpp" />
     <ClCompile Include="HID\Mouse.cpp" />
     <ClCompile Include="Print.cpp" />
-    <ClCompile Include="ResourceHandling\mtaLoader.cpp" />
-    <ClCompile Include="ResourceHandling\Resource.cpp" />
-    <ClCompile Include="ResourceHandling\ResourceManager.cpp" />
+    <ClCompile Include="Resources\mtaLoader.cpp" />
+    <ClCompile Include="Resources\Resource.cpp" />
+    <ClCompile Include="Resources\ResourceManager.cpp" />
     <ClCompile Include="Sound\SoundManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
-    <ClCompile Include="ResourceHandling\Texture.cpp" />
+    <ClCompile Include="Resources\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GFX\dynamic.fx" />

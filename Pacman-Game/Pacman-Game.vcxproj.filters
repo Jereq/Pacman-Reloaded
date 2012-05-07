@@ -19,12 +19,6 @@
     <Filter Include="Header Files\GameplayFoundations">
       <UniqueIdentifier>{e96b1e9f-0e70-4927-b713-01c1f3f042f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ResourceHandling">
-      <UniqueIdentifier>{b6662e17-a081-4a25-9ea5-5708887c47bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ResourceHandling">
-      <UniqueIdentifier>{ddc2f6b9-4758-451c-862a-8c2a475c7f33}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\HID">
       <UniqueIdentifier>{c0d1d738-b15e-4bd4-ab1a-2816e7f234c7}</UniqueIdentifier>
     </Filter>
@@ -55,6 +49,12 @@
     <Filter Include="Header Files\GameplayFoundations\Events">
       <UniqueIdentifier>{7dc0c373-1749-45a0-a5f0-fe900e530acb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{b6662e17-a081-4a25-9ea5-5708887c47bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources">
+      <UniqueIdentifier>{ddc2f6b9-4758-451c-862a-8c2a475c7f33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameplayFoundations\Grid.cpp">
@@ -81,17 +81,8 @@
     <ClCompile Include="Print.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceHandling\ResourceManager.cpp">
-      <Filter>Source Files\ResourceHandling</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceHandling\Resource.cpp">
-      <Filter>Source Files\ResourceHandling</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceHandling\mtaLoader.cpp">
-      <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
     <ClCompile Include="GameplayFoundations\GameObject.cpp">
       <Filter>Source Files\GameplayFoundations</Filter>
@@ -107,12 +98,6 @@
     </ClCompile>
     <ClCompile Include="GameplayFoundations\Collision.cpp">
       <Filter>Source Files\GameplayFoundations</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceHandling\Context.cpp">
-      <Filter>Source Files\ResourceHandling</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceHandling\Texture.cpp">
-      <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Ghost.cpp">
       <Filter>Source Files\Actor</Filter>
@@ -153,6 +138,21 @@
     <ClCompile Include="GameplayFoundations\Events\EventQueue.cpp">
       <Filter>Source Files\GameplayFoundations\Events</Filter>
     </ClCompile>
+    <ClCompile Include="Resources\Context.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\mtaLoader.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Resource.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\ResourceManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Texture.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -163,9 +163,6 @@
     </ClInclude>
     <ClInclude Include="GameplayFoundations\CellIndex.h">
       <Filter>Header Files\GameplayFoundations</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceHandling\Texture.h">
-      <Filter>Header Files\ResourceHandling</Filter>
     </ClInclude>
     <ClInclude Include="HID\HID.h">
       <Filter>Header Files\HID</Filter>
@@ -179,20 +176,11 @@
     <ClInclude Include="Print.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceHandling\ResourceManager.h">
-      <Filter>Header Files\ResourceHandling</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceHandling\Resource.h">
-      <Filter>Header Files\ResourceHandling</Filter>
-    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceHandling\mtaLoader.h">
-      <Filter>Header Files\ResourceHandling</Filter>
     </ClInclude>
     <ClInclude Include="hrTimer.h">
       <Filter>Header Files</Filter>
@@ -211,12 +199,6 @@
     </ClInclude>
     <ClInclude Include="GameplayFoundations\Collision.h">
       <Filter>Header Files\GameplayFoundations</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceHandling\Context.h">
-      <Filter>Header Files\ResourceHandling</Filter>
-    </ClInclude>
-    <ClInclude Include="vertexTypes.h">
-      <Filter>Header Files\ResourceHandling</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Ghost.h">
       <Filter>Header Files\Actor</Filter>
@@ -257,11 +239,26 @@
     <ClInclude Include="GFX\lights.h">
       <Filter>Header Files\GFX</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceHandling\vertexTypes.h">
-      <Filter>Header Files\ResourceHandling</Filter>
-    </ClInclude>
     <ClInclude Include="GameplayFoundations\Events\EventQueue.h">
       <Filter>Header Files\GameplayFoundations\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Context.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\mtaLoader.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Resource.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ResourceManager.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Texture.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\vertexTypes.h">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

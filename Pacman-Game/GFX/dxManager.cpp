@@ -1,6 +1,6 @@
 #include "dxManager.h"
 #include <math.h>
-#include "../ResourceHandling\mtaLoader.h"
+#include "../Resources/mtaLoader.h"
 #include <cassert>
 #include <boost/foreach.hpp>
 

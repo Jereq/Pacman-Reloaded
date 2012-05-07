@@ -6,10 +6,10 @@
 
 #include <vector>
 
-#include "../ResourceHandling/vertexTypes.h"
+#include "../Resources/vertexTypes.h"
 #include "lights.h"
-#include "../ResourceHandling/mtaLoader.h"
-#include "../ResourceHandling/Texture.h"
+#include "../Resources/mtaLoader.h"
+#include "../Resources/Texture.h"
 #include "Camera.h"
 #include <DxErr.h>
 #include <list>

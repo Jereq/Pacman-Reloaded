@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GFX/dxManager.h"
-#include "ResourceHandling/ResourceManager.h"
+#include "Resources/ResourceManager.h"
 #include "Sound/SoundManager.h"
 #include "GFX/Camera.h"
 #include "GameplayFoundations/Grid.h"
