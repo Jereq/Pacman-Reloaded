@@ -11,8 +11,6 @@ namespace Pacman
 {
 	LRESULT Game::wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-		static HID* m_HID = new HID(hWnd);
-		m_HID->input(message, wParam);
 		switch (message) 
 		{
 			//raw input handler
@@ -129,6 +127,37 @@ namespace Pacman
 
 	void Game::update(float deltaTime)
 	{
+
+
+		/* SOME PSUEDO COOOOOODE
+
+		for(int i = 0; i < food.size(); i++)
+		{
+			if(pacman.cell == food[i].cell)
+			{
+				
+			}
+		}
+		for(int i = 0; i < ghost.size(); i++)
+		{
+			if(pacman.cell == ghost[i].cell)
+			{
+				if(collision() == true)
+				{
+					if(pacman->beEatingOrNot == true)
+					{
+						ghost[i]->changeState(DEAD);
+						break;
+					}
+					else
+					{
+						changeScene
+					}
+				}
+			}
+		}
+		*/
+
 		Camera* camera = gManager->getActiveCamera();
 
 		camera->update();

@@ -16,18 +16,17 @@ class GameObject
 protected:
 	D3DXVECTOR3 m_pos, m_min, m_max;
 
-	//BoundingBox* m_aabb;
-
 	GO_STATE m_state;
 
-	float m_initSpeed, m_speed;
+	float m_speed, m_speedInit, m_speedFrenzy;
+	float m_timer;
 
 public:
 	GameObject(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
 	virtual ~GameObject();
 	
 	void init();
-	void update();
+	void update(float _deltaTime);
 
 	void changeState(GO_STATE _state);
 
@@ -42,4 +41,7 @@ public:
 	D3DXVECTOR3 getMaxCorner();
 
 	GO_STATE getState();
+
+private:
+	void frenzyMode(float _deltaTime);
 };

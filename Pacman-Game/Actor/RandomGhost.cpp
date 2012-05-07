@@ -10,6 +10,13 @@ RandomGhost::~RandomGhost()
 
 }
 
+void RandomGhost::init()
+{
+	GameObject::init();
+	m_speedInit = 4.5f;
+	m_speed = m_speedInit;
+}
+
 void RandomGhost::update(float _deltaTime)
 {
 	/*

@@ -14,3 +14,10 @@ void HuntGhost::update(float _deltaTime)
 {
 
 }
+
+void HuntGhost::init()
+{
+	GameObject::init();
+	m_speedInit = 3.5f;
+	m_speed = m_speedInit;
+}

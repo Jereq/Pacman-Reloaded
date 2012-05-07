@@ -12,18 +12,22 @@ void Player::init()
 	GameObject::init();
 	m_state = ALIVE;
 
+	m_speedInit = 4.f;
+	m_speed = m_speedInit;
+	m_speedFrenzy = m_speedInit * 1.2f;
+
 	m_timer = 0;
 }
 
 bool Player::beEatingOrNot()
 {
-	if(m_state != FRENZY)
+	if(m_state == FRENZY)
 	{
-		//If it returns false will pacman die?
-		changeState(DEAD);
 		return true;
 	}
 
+	//If it returns false will pacman die?
+	changeState(DEAD);
 	return false;
 }
 

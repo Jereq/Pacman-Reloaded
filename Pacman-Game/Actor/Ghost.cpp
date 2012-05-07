@@ -15,6 +15,7 @@ void Ghost::init()
 {
 	GameObject::init();
 	m_state = DEAD;
+	m_speedFrenzy = 0.8f;
 }
 
 void Ghost::update(float _deltaTime)

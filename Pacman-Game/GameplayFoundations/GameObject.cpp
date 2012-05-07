@@ -13,14 +13,17 @@ GameObject::~GameObject()
 
 void GameObject::init()
 {
-	m_initSpeed = 1.f;
-	m_speed = m_initSpeed;
+	m_speedInit = 1.f;
+	m_speed = m_speedInit;
 	//m_pos offset depending on model
 }
 
-void GameObject::update()
+void GameObject::update(float _deltaTime)
 {
-
+	if(m_state == FRENZY)
+	{
+		frenzyMode(_deltaTime);
+	}
 }
 
 void GameObject::changeState(GO_STATE _state)
@@ -28,6 +31,8 @@ void GameObject::changeState(GO_STATE _state)
 	switch(_state)
 	{
 	case ALIVE:
+		m_timer = 0;
+		resetSpeed();
 		m_state = ALIVE;
 		break;
 
@@ -36,13 +41,26 @@ void GameObject::changeState(GO_STATE _state)
 		break;
 
 	case FRENZY:
+		setSpeed(m_speedFrenzy);
 		m_state = FRENZY;
 		break;
-
 	//case COUNT:
 	//	break;
 	}
+
+	//It would be neat with an Observer here
+	//signed
 }
+
+void GameObject::frenzyMode(float _deltaTime)
+{
+	m_timer += _deltaTime;
+	if(m_timer > 5.f)
+	{
+		changeState(ALIVE);
+	}
+}
+
 
 void GameObject::setSpeed(float _speed)
 {
@@ -51,7 +69,7 @@ void GameObject::setSpeed(float _speed)
 
 void GameObject::resetSpeed()
 {
-	m_speed = m_initSpeed;
+	m_speed = m_speedInit;
 }
 
 D3DXVECTOR3 GameObject::getPos()

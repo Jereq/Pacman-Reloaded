@@ -18,6 +18,8 @@ namespace Pacman
 		HWND hWnd;
 		Graphics::dxManager* gManager;
 
+		HID* m_HID;
+
 		Resources::ResourceManager::ptr rm;
 		Sound::SoundManager::ptr sm;
 

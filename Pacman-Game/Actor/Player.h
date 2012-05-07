@@ -9,11 +9,8 @@ private:
 
 	UINT m_score;
 
-	float m_speed;
-	float m_initSpeed;
-
-	float m_timer;
-
+	//float m_speed;
+	//float m_initSpeed;
 
 public:
 	Player(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
