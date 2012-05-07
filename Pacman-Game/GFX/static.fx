@@ -24,7 +24,7 @@ Texture2D colorMap;
 //texture sampler state
 SamplerState linearSampler
 {
-    Filter = min_mag_mip_point;
+    Filter = min_mag_mip_linear;
     AddressU = Clamp;
     AddressV = Clamp;
     MaxAnisotropy = 16;

@@ -30,29 +30,6 @@ namespace GameplayFoundations
 		candy,
 	};
 
-	const static D3DXCOLOR testFile[] =
-	{
-		pacmanStart.col,	empty.col,	empty.col,	wall.col,		empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
-		wall.col,			food.col,	food.col,	wall.col,		empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
-		wall.col,			candy.col,	food.col,	wall.col,		empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
-		wall.col,			food.col,	empty.col,	ghostStart.col,	empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
-		wall.col,			food.col,	food.col,	wall.col,		empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
-		wall.col,			candy.col,	food.col,	wall.col,		empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
-		wall.col,			food.col,	empty.col,	ghostStart.col,	empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
-		wall.col,			food.col,	food.col,	wall.col,		empty.col,	empty.col,	empty.col,	food.col,	food.col,		wall.col,
-		wall.col,			candy.col,	food.col,	wall.col,		empty.col,	empty.col,	empty.col,	food.col,	ghostStart.col,	wall.col,
-		wall.col,			food.col,	empty.col,	ghostStart.col,	wall.col,	wall.col,	wall.col,	wall.col,	wall.col,		wall.col,
-	};
-	CellIndex testFileDim(10, 10);
-
-	const static D3DXCOLOR testFileSmall[] =
-	{
-		empty.col,		wall.col,	pacmanStart.col,
-		wall.col,		empty.col,	food.col,
-		ghostStart.col,	candy.col,	wall.col,
-	};
-	CellIndex testFileSmallDim(3, 3);
-
 	GridCell& Grid::getCell(size_t _u, size_t _v)
 	{
 		assert(_u < size.u);
@@ -237,6 +214,24 @@ namespace GameplayFoundations
 		vertices.reserve(size.u * size.v * 8);
 		indexVector_t indices;
 		indices.reserve(size.u * size.v * 4);
+
+		const static float TEXTURE_MARGIN = 1.f / 32.f;
+
+		const static D3DXVECTOR2 GROUND_TEXCOORD[4] =
+		{
+			D3DXVECTOR2(0.f, 0.f),
+			D3DXVECTOR2(0.f, .5f - TEXTURE_MARGIN),
+			D3DXVECTOR2(.5f - TEXTURE_MARGIN, 0.f),
+			D3DXVECTOR2(.5f - TEXTURE_MARGIN, .5f - TEXTURE_MARGIN),
+		};
+
+		const static D3DXVECTOR2 WALL_TEXCOORD[4] =
+		{
+			D3DXVECTOR2(.5f + TEXTURE_MARGIN, 0.f),
+			D3DXVECTOR2(.5f + TEXTURE_MARGIN, .5f - TEXTURE_MARGIN),
+			D3DXVECTOR2(1.f, 0.f),
+			D3DXVECTOR2(1.f, .5f - TEXTURE_MARGIN),
+		};
 		
 		for (size_t cu = 0; cu < size.u; cu++)
 		{
@@ -256,10 +251,10 @@ namespace GameplayFoundations
 				D3DXVECTOR3 bPosXZ = basePos + mul(D3DXVECTOR3(1.f, 0.f, 1.f), blockSize);
 
 				// Create Ground
-				Resources::vertex v0(basePos, D3DXVECTOR2(0.f, 0.f), up);
-				Resources::vertex v1(bPosX, D3DXVECTOR2(0.f, .5f), up);
-				Resources::vertex v2(bPosZ, D3DXVECTOR2(.5f, 0.f), up);
-				Resources::vertex v3(bPosXZ, D3DXVECTOR2(.5f, .5f), up);
+				Resources::vertex v0(basePos, GROUND_TEXCOORD[0], up);
+				Resources::vertex v1(bPosX, GROUND_TEXCOORD[1], up);
+				Resources::vertex v2(bPosZ, GROUND_TEXCOORD[2], up);
+				Resources::vertex v3(bPosXZ, GROUND_TEXCOORD[3], up);
 
 				addVertex(vertexMap, vertices, indices, v0);
 				addVertex(vertexMap, vertices, indices, v1);
@@ -319,10 +314,10 @@ namespace GameplayFoundations
 						// Create Wall
 						D3DXVECTOR3 normal((float)-offsetU[i], 0.f, (float)-offsetV[i]);
 
-						Resources::vertex w0(basePos + wallOffsets[i][0], D3DXVECTOR2(.5f, 0.f), normal);
-						Resources::vertex w1(basePos + wallOffsets[i][1], D3DXVECTOR2(.5f, .5f), normal);
-						Resources::vertex w2(basePos + wallOffsets[i][2], D3DXVECTOR2(1.f, 0.f), normal);
-						Resources::vertex w3(basePos + wallOffsets[i][3], D3DXVECTOR2(1.f, .5f), normal);
+						Resources::vertex w0(basePos + wallOffsets[i][0], WALL_TEXCOORD[0], normal);
+						Resources::vertex w1(basePos + wallOffsets[i][1], WALL_TEXCOORD[1], normal);
+						Resources::vertex w2(basePos + wallOffsets[i][2], WALL_TEXCOORD[2], normal);
+						Resources::vertex w3(basePos + wallOffsets[i][3], WALL_TEXCOORD[3], normal);
 
 						addVertex(vertexMap, vertices, indices, w0);
 						addVertex(vertexMap, vertices, indices, w1);
