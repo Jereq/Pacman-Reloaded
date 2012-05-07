@@ -92,6 +92,8 @@ namespace Pacman
 		rm.reset(new Resources::ResourceManager());
 		rm->startup(gManager->pD3DDevice);
 
+		gManager->initializeObjects(rm);
+
 		sm.reset(new Sound::SoundManager());
 		sm->startup();
 

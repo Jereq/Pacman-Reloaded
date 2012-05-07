@@ -4,25 +4,19 @@
 #include <string>
 #include <vector>
 #include <D3DX10.h>
-#include "..\vertexTypes.h"
+#include "vertexTypes.h"
 #include <boost\shared_ptr.hpp>
 #include <boost\foreach.hpp>
+#include "ResourceManager.h"
 
 namespace Resources
 {
-	struct subAnimation
-	{
-		ID3D10Buffer* vBuffer;
-		ID3D10Buffer* iBuffer;
-	};
-
 	struct Animation
 	{
 		std::string name;
 		float time;
-		int seqCount;
 		std::vector<int> sequence;
-		std::vector<subAnimation> subAni;
+		std::vector<ID3DX10Mesh*> subAnimation;
 	};
 
 
@@ -31,7 +25,7 @@ namespace Resources
 		typedef boost::shared_ptr<MTA> ptr;
 
 		std::vector<Animation> animations;
-		std::string textureName;
+		Resources::Texture::ptr texture;
 		int indexCount;
 		int objCount;
 		int vertexCount;
@@ -42,7 +36,7 @@ namespace Resources
 	class mtaLoader
 	{
 	public:
-		mtaLoader(ID3D10Device* pdevice);
+		mtaLoader(ID3D10Device* pdevice, Resources::ResourceManager::ptr _res);
 		~mtaLoader();
 		MTA::ptr loadmta(std::string fileName);
 
@@ -51,6 +45,7 @@ namespace Resources
 	private:
 
 		typedef std::vector<int> indexv;
+		Resources::ResourceManager::ptr res;
 
 		ID3D10Device* device;
 		int pos, indCount, animCount;

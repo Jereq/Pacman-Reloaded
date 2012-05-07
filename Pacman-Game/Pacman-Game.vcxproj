@@ -85,18 +85,18 @@
     <ClInclude Include="Actor\Player.h" />
     <ClInclude Include="Actor\PointGhost.h" />
     <ClInclude Include="Actor\RandomGhost.h" />
-    <ClInclude Include="animation.h" />
+    <ClInclude Include="GFX\animation.h" />
     <ClInclude Include="BoundingBox.h" />
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="GFX\Camera.h" />
     <ClInclude Include="GameplayFoundations\Collision.h" />
     <ClInclude Include="ResourceHandling\Context.h" />
     <ClInclude Include="GameplayFoundations\GameObject.h" />
     <ClInclude Include="GameplayFoundations\Timer.h" />
     <ClInclude Include="hrTimer.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="lights.h" />
-    <ClInclude Include="vertexTypes.h" />
-    <ClInclude Include="dxManager.h" />
+    <ClInclude Include="GFX\lights.h" />
+    <ClInclude Include="ResourceHandling\vertexTypes.h" />
+    <ClInclude Include="GFX\dxManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameplayFoundations\CellIndex.h" />
     <ClInclude Include="GameplayFoundations\Grid.h" />
@@ -117,11 +117,11 @@
     <ClCompile Include="Actor\Player.cpp" />
     <ClCompile Include="Actor\PointGhost.cpp" />
     <ClCompile Include="Actor\RandomGhost.cpp" />
-    <ClCompile Include="animation.cpp" />
+    <ClCompile Include="GFX\animation.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="GFX\Camera.cpp" />
     <ClCompile Include="ResourceHandling\Context.cpp" />
-    <ClCompile Include="dxManager.cpp" />
+    <ClCompile Include="GFX\dxManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameplayFoundations\CellIndex.cpp" />
     <ClCompile Include="GameplayFoundations\Collision.cpp" />
@@ -141,8 +141,8 @@
     <ClCompile Include="ResourceHandling\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="dynamic.fx" />
-    <None Include="static.fx" />
+    <None Include="GFX\dynamic.fx" />
+    <None Include="GFX\static.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

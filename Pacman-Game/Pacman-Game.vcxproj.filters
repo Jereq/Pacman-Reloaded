@@ -72,9 +72,6 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dxManager.cpp">
-      <Filter>Source Files\GFX</Filter>
-    </ClCompile>
     <ClCompile Include="Print.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -89,9 +86,6 @@
     </ClCompile>
     <ClCompile Include="ResourceHandling\mtaLoader.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\GFX</Filter>
     </ClCompile>
     <ClCompile Include="GameplayFoundations\GameObject.cpp">
       <Filter>Source Files\GameplayFoundations</Filter>
@@ -111,9 +105,6 @@
     <ClCompile Include="ResourceHandling\Context.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
-    <ClCompile Include="animation.cpp">
-      <Filter>Source Files\GFX</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceHandling\Texture.cpp">
       <Filter>Source Files\ResourceHandling</Filter>
     </ClCompile>
@@ -131,6 +122,15 @@
     </ClCompile>
     <ClCompile Include="Actor\PointGhost.cpp">
       <Filter>Source Files\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="GFX\animation.cpp">
+      <Filter>Source Files\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="GFX\Camera.cpp">
+      <Filter>Source Files\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="GFX\dxManager.cpp">
+      <Filter>Source Files\GFX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +155,6 @@
     <ClInclude Include="HID\Keyboard.h">
       <Filter>Header Files\HID</Filter>
     </ClInclude>
-    <ClInclude Include="dxManager.h">
-      <Filter>Header Files\GFX</Filter>
-    </ClInclude>
     <ClInclude Include="Print.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -179,11 +176,6 @@
     <ClInclude Include="hrTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-    </ClInclude>
-    <ClInclude Include="vertextypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameplayFoundations\GameObject.h">
       <Filter>Header Files\GameplayFoundations</Filter>
     </ClInclude>
@@ -198,12 +190,6 @@
     </ClInclude>
     <ClInclude Include="GameplayFoundations\Collision.h">
       <Filter>Header Files\GameplayFoundations</Filter>
-    </ClInclude>
-    <ClInclude Include="lights.h">
-      <Filter>Header Files\GFX</Filter>
-    </ClInclude>
-    <ClInclude Include="animation.h">
-      <Filter>Header Files\GFX</Filter>
     </ClInclude>
     <ClInclude Include="ResourceHandling\Context.h">
       <Filter>Header Files\ResourceHandling</Filter>
@@ -229,12 +215,27 @@
     <ClInclude Include="Actor\HuntGhost.h">
       <Filter>Header Files\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="GFX\animation.h">
+      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="GFX\Camera.h">
+      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="GFX\dxManager.h">
+      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="GFX\lights.h">
+      <Filter>Header Files\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHandling\vertexTypes.h">
+      <Filter>Header Files\ResourceHandling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="static.fx">
+    <None Include="GFX\dynamic.fx">
       <Filter>Header Files\GFX</Filter>
     </None>
-    <None Include="dynamic.fx">
+    <None Include="GFX\static.fx">
       <Filter>Header Files\GFX</Filter>
     </None>
   </ItemGroup>

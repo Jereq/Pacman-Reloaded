@@ -2,9 +2,10 @@
 
 namespace Resources
 {
-	mtaLoader::mtaLoader(ID3D10Device* pdevice) : pos(0), indCount(0), animCount(0)
+	mtaLoader::mtaLoader(ID3D10Device* pdevice, Resources::ResourceManager::ptr _res) : pos(0), indCount(0), animCount(0)
 	{
 		device = pdevice;
+		res = _res;
 	}
 
 	mtaLoader::~mtaLoader()
@@ -54,8 +55,8 @@ namespace Resources
 		//Texture Name String Length
 		int textstrLength	= 0;
 		textstrLength = byteToInt();
-		//Texture file name
-		m->textureName = byteToString(textstrLength);
+		//Texture
+		m->texture = res->loadTexture(byteToString(textstrLength));
 		//Animations Count
 		animCount = byteToInt();
 	}
@@ -78,10 +79,10 @@ namespace Resources
 			a.time = byteToFloat();
 
 			//Animation Sequence Count
-			a.seqCount = byteToInt();
+			int tmp = byteToInt();
 
 			//Animation Sequence
-			for(int i = 0; i < a.seqCount; i++)
+			for(int i = 0; i < tmp; i++)
 			{
 				a.sequence.push_back(byteToInt());
 			}
@@ -132,19 +133,6 @@ namespace Resources
 
 	void mtaLoader::createVertexBuffers(const MTA::ptr &m)
 	{
-		D3D10_BUFFER_DESC VertexbuffDesc;
-		VertexbuffDesc.BindFlags = D3D10_BIND_VERTEX_BUFFER;
-		VertexbuffDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
-		VertexbuffDesc.MiscFlags = 0;
-		VertexbuffDesc.Usage = D3D10_USAGE_DYNAMIC;
-
-		D3D10_BUFFER_DESC IndexBuffDesc;
-		IndexBuffDesc.BindFlags = D3D10_BIND_INDEX_BUFFER;
-		IndexBuffDesc.ByteWidth = sizeof(UINT) * m->indexCount;
-		IndexBuffDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
-		IndexBuffDesc.MiscFlags = 0;
-		IndexBuffDesc.Usage = D3D10_USAGE_DYNAMIC;
-
 		std::vector<UINT> indexBuff;
 		indexBuff.reserve(m->indexCount);
 
@@ -158,7 +146,7 @@ namespace Resources
 			for (size_t i = 0; i < a.sequence.size() - 1; i++ )
 			{
 				std::vector<doubleVertex> tmp;
-				subAnimation sa;
+				ID3DX10Mesh* mesh;
 				std::vector<int> tmpb1 = tmpIBuffer[a.sequence[i]];
 				std::vector<int> tmpb2 = tmpIBuffer[a.sequence[i + 1]];
 
@@ -170,19 +158,15 @@ namespace Resources
 					tmp.push_back(d);
 				}
 
-				D3D10_SUBRESOURCE_DATA data;
-				data.pSysMem = tmp.data();
-				VertexbuffDesc.ByteWidth = sizeof(doubleVertex) * tmp.size();
-				device->CreateBuffer(&VertexbuffDesc, NULL, &sa.vBuffer);
+				D3DX10CreateMesh(device, Resources::doubleVertexInputLayout, Resources::doubleVertexInputLayoutNumElements,
+					"POSITION", tmp.size(), indexBuff.size(), 0, &mesh);
 
-				D3D10_SUBRESOURCE_DATA ind;
-				ind.pSysMem = indexBuff.data();
-				device->CreateBuffer(&IndexBuffDesc, &ind, &sa.iBuffer);
+				mesh->SetVertexData(NULL, tmp.data());
+				mesh->SetIndexData(indexBuff.data(), indexBuff.size());
 
-				a.subAni.push_back(sa);
+				a.subAnimation.push_back(mesh);
 			}
 		}
-
 	}
 
 	void mtaLoader::findMinMax(const MTA::ptr &m, D3DXVECTOR3 _vector3)

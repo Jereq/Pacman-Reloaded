@@ -11,7 +11,7 @@
 #include "GridCell.h"
 #include "CellIndex.h"
 
-#include "../vertexTypes.h"
+#include "../ResourceHandling/vertexTypes.h"
 #include "../ResourceHandling/Texture.h"
 
 namespace GameplayFoundations

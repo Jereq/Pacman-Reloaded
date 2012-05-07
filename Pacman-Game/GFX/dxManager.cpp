@@ -1,6 +1,6 @@
 #include "dxManager.h"
 #include <math.h>
-#include "ResourceHandling\mtaLoader.h"
+#include "../ResourceHandling\mtaLoader.h"
 #include <cassert>
 
 namespace Graphics
@@ -51,8 +51,6 @@ namespace Graphics
 		createViewports(width, height);
 
 		if ( !createRenderTargetsAndDepthBuffer(width, height) ) return false;
-
-		if ( !initializeObjects() ) return false;
 
 		return true;
 	}
@@ -147,7 +145,7 @@ namespace Graphics
 
 	bool dxManager::loadShadersAndCreateInputLayouts()
 	{
-		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"static.fx", 
+		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"GFX/static.fx", 
 			NULL, NULL, 
 			"fx_4_0", 
 			D3D10_SHADER_ENABLE_STRICTNESS, 
@@ -159,7 +157,7 @@ namespace Graphics
 			NULL,
 			NULL	) ) ) return fatalError((LPCSTR)"Could not load effect file!");	
 
-		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"dynamic.fx", 
+		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"GFX/dynamic.fx", 
 			NULL, NULL, 
 			"fx_4_0", 
 			D3D10_SHADER_ENABLE_STRICTNESS, 
@@ -211,18 +209,15 @@ namespace Graphics
 
 		if ( FAILED( hr ) ) return fatalError((LPCSTR)"Could not create Double Input Layout!");
 
-		// Set the input layout
-		pD3DDevice->IASetInputLayout( pVertexLayout );
-
 		return true;
 	}
 	#pragma endregion Init
 
-	bool dxManager::initializeObjects()
+	bool dxManager::initializeObjects(Resources::ResourceManager::ptr _res)
 	{
 	
 		std::string fileNames[] = {"pacman.mta"};//, "blinky.mta", "pinky.mta", "inky.mta", "clyde.mta" };
-		Resources::mtaLoader init(pD3DDevice);
+		Resources::mtaLoader init(pD3DDevice, _res);
 
 		for (int i = 0; i < 1; i++)
 		{			
@@ -280,8 +275,7 @@ namespace Graphics
 		D3DXMatrixIdentity(&worldMatrix);
 		pWorldMatrixEffectVariable->SetMatrix(worldMatrix);
 
-		//pBufferStart->SetInt(0);
-		//pBufferStop->SetInt(1);
+		pD3DDevice->IASetInputLayout( pVertexLayout );
 
 		//draw terrain
 		//------------------------------------------------------------------------
@@ -332,5 +326,10 @@ namespace Graphics
 	void dxManager::setWallTex(Resources::Texture::ptr const& _tex)
 	{
 		wallTex = _tex;
+	}
+
+	minMax dxManager::getbounds(int _index)
+	{
+		return minMax(mta[_index]->vectorMin, mta[_index]->vectorMax);		
 	}
 }

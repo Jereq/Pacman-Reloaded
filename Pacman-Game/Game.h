@@ -1,9 +1,9 @@
 #pragma once
 
-#include "dxManager.h"
+#include "GFX/dxManager.h"
 #include "ResourceHandling/ResourceManager.h"
 #include "Sound/SoundManager.h"
-#include "Camera.h"
+#include "GFX/Camera.h"
 #include "GameplayFoundations/Grid.h"
 
 namespace Pacman

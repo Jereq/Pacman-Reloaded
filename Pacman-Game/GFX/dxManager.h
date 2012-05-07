@@ -6,15 +6,60 @@
 
 #include <vector>
 
-#include "vertexTypes.h"
+#include "../ResourceHandling/vertexTypes.h"
 #include "lights.h"
-#include "ResourceHandling/mtaLoader.h"
-#include "ResourceHandling/Texture.h"
+#include "../ResourceHandling/mtaLoader.h"
+#include "../ResourceHandling/Texture.h"
 #include "Camera.h"
 #include <DxErr.h>
 
 namespace Graphics
 {
+	enum Actor
+	{
+		PACMAN,
+		BLINKY,
+		PINKY,
+		INKY,
+		CLYDE,
+		COUNT
+	};
+
+	struct minMax 
+	{
+	public:
+		D3DXVECTOR3 min;
+		D3DXVECTOR3 max;
+
+		minMax(D3DXVECTOR3 _min, D3DXVECTOR3 _max)
+		{
+			min = _min;
+			max = _max;
+		}
+	};
+
+
+	//struct dynamicObject
+	//{
+	//public:
+	//	float time;
+	//	MTA::ptr mta;
+
+	//	dynamicObject(MTA::ptr _mta)
+	//	{
+	//		mta = _mta;
+	//	}
+
+	//	setTime(float _time)
+	//	{
+	//		time = _time;
+	//	}
+	//};
+
+	//struct staticObject 
+	//{
+	//};
+
 	class dxManager
 	{
 		/*******************************************************************
@@ -61,10 +106,10 @@ namespace Graphics
 		DirectionalLight						directionalLight;
 		Material								material;
 
-		std::vector<Resources::MTA::ptr>	mta;	
+		std::vector<Resources::MTA::ptr>		mta;	
 	
 		//Active camera
-		Camera*								camera;
+		Camera*									camera;
 	
 		ID3DX10Mesh* walls;
 		Resources::Texture::ptr wallTex;
@@ -94,6 +139,9 @@ namespace Graphics
 		void setWallMesh(ID3DX10Mesh* _mesh);
 		void setWallTex(Resources::Texture::ptr const& _tex);
 
+		minMax getbounds(int _index);
+		bool initializeObjects(Resources::ResourceManager::ptr _res);
+
 	private:
 
 		//initialization methods
@@ -101,7 +149,6 @@ namespace Graphics
 		bool loadShadersAndCreateInputLayouts();
 		void createViewports( UINT width, UINT height );
 		bool createRenderTargetsAndDepthBuffer( UINT width, UINT height );
-		bool initializeObjects();
 
 		//fatal error handler
 		bool fatalError(const LPCSTR msg); 
