@@ -98,8 +98,9 @@ namespace Resources
 		D3DX10CreateMesh(device, Resources::vertexInputLayout, Resources::simpleVertexInputLayoutNumElements,
 			"POSITION", _loadData.VB.size(), _loadData.IB.size() / 3, 0, &mesh);
 
-		mesh->SetVertexData(NULL, _loadData.VB.data());
+		mesh->SetVertexData(0, _loadData.VB.data());
 		mesh->SetIndexData(_loadData.IB.data(), _loadData.IB.size());		
+		mesh->CommitToDevice();
 
 		_model->setMesh(mesh);
 		_model->setTextureName(_loadData.textureName);

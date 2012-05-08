@@ -172,10 +172,11 @@ namespace Resources
 
 				ID3DX10Mesh* mesh;
 				D3DX10CreateMesh(device, Resources::doubleVertexInputLayout, Resources::doubleVertexInputLayoutNumElements,
-					"POSITION", tmp.size(), indexBuff.size(), 0, &mesh);
+					"POSITION", tmp.size(), indexBuff.size() / 3, 0, &mesh);
 
 				mesh->SetVertexData(NULL, tmp.data());
 				mesh->SetIndexData(indexBuff.data(), indexBuff.size());
+				mesh->CommitToDevice();
 
 				animRes.subAnimations.push_back(mesh);
 			}

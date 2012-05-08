@@ -190,9 +190,19 @@ namespace Pacman
 		D3DXMATRIX tmp;
 		D3DXMatrixIdentity(&tmp);
 
+		D3DXMATRIX sma;
+		D3DXMatrixScaling(&sma, 0.05f, 0.05f, 0.05f);
+		D3DXMATRIX trans;
+		D3DXMatrixTranslation(&trans, 5, 4, 5);
+		D3DXMATRIX rot;
+		D3DXMatrixRotationY(&rot, 3.14f / 2);
+
+		static float time = 0;
+		time += deltaTime;
+
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
-		gManager->AddDynamicObject(Graphics::dynamicObject(pacman, 0, 0, 0, tmp));
-		gManager->AddStaticObject(Graphics::staticObject(food->getMesh(), food->getTexture(), tmp));
+		gManager->AddDynamicObject(Graphics::dynamicObject(pacman, deltaTime / 20.f, 0, 0, sma * rot * trans));
+		//gManager->AddStaticObject(Graphics::staticObject(food->getMesh(), food->getTexture(), tmp));
 
 		gManager->renderScene();
 	}
