@@ -41,8 +41,6 @@ namespace MT_Parser
             {
                 texture = openFile.FileName.ToString();
             }
-
-            txb_texIn.Text = texture;
         }
 
         private void btn_parseAndSave_Click(object sender, EventArgs e)
@@ -61,8 +59,8 @@ namespace MT_Parser
 
                 v.Write(obj.getVertexCount);
                 v.Write(obj.getIndexCount);
-                v.Write(texture.Length);
-                v.Write(texture);
+                v.Write(txb_texIn.Text.Length);
+                v.Write(txb_texIn.Text);
 
                 foreach (Vertex ve in obj.getVertices)
                 {
