@@ -96,6 +96,8 @@
     <ClInclude Include="GameplayFoundations\Events\MouseButtonEvent.h" />
     <ClInclude Include="GameplayFoundations\Events\KeyboardKeyEvent.h" />
     <ClInclude Include="GameplayFoundations\Events\MouseMoveEvent.h" />
+    <ClInclude Include="Resources\MTLoader.h" />
+    <ClInclude Include="Resources\MTModel.h" />
     <ClInclude Include="Resources\MapTexture.h" />
     <ClInclude Include="Resources\MTAModel.h" />
     <ClInclude Include="Resources\Context.h" />
@@ -136,6 +138,8 @@
     <ClCompile Include="GameplayFoundations\Events\MouseButtonEvent.cpp" />
     <ClCompile Include="GameplayFoundations\Events\KeyboardKeyEvent.cpp" />
     <ClCompile Include="GameplayFoundations\Events\MouseMoveEvent.cpp" />
+    <ClCompile Include="Resources\MTLoader.cpp" />
+    <ClCompile Include="Resources\MTModel.cpp" />
     <ClCompile Include="Resources\MapTexture.cpp" />
     <ClCompile Include="Resources\MTAModel.cpp" />
     <ClCompile Include="Resources\Context.cpp" />

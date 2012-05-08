@@ -162,8 +162,14 @@
     <ClCompile Include="Actor\Actor.cpp">
       <Filter>Source Files\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Resources\MTLoader.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="Actor\Food.cpp">
-      <Filter>Source Files\Actor</Filter>
+      <Filter>Source Files\Actor</Filter>       
+    </ClCompile>
+    <ClCompile Include="Resources\MTModel.cpp">
+      <Filter>Source Files\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +282,12 @@
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Resources\MapTexture.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\MTLoader.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\MTModel.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Actor.h">

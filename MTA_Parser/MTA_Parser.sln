@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTA_Parser", "MTA_Parser\MTA_Parser.csproj", "{15932714-547E-4815-9253-7C90D0361F46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MT_Parser", "MT_Parser\MT_Parser.csproj", "{50C7AB37-9CEA-453D-9877-9A594AE2F6C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{15932714-547E-4815-9253-7C90D0361F46}.Debug|x86.Build.0 = Debug|x86
 		{15932714-547E-4815-9253-7C90D0361F46}.Release|x86.ActiveCfg = Release|x86
 		{15932714-547E-4815-9253-7C90D0361F46}.Release|x86.Build.0 = Release|x86
+		{50C7AB37-9CEA-453D-9877-9A594AE2F6C8}.Debug|x86.ActiveCfg = Debug|x86
+		{50C7AB37-9CEA-453D-9877-9A594AE2F6C8}.Debug|x86.Build.0 = Debug|x86
+		{50C7AB37-9CEA-453D-9877-9A594AE2F6C8}.Release|x86.ActiveCfg = Release|x86
+		{50C7AB37-9CEA-453D-9877-9A594AE2F6C8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
