@@ -30,14 +30,14 @@ namespace Resources
 		return newRes;
 	}
 
-	Texture::ptr Context::getMapTexture(std::string const& _filename)
+	MapTexture::ptr Context::getMapTexture(std::string const& _filename)
 	{
 		if (reservedResources.count(_filename) == 1)
 		{
-			return boost::dynamic_pointer_cast<Texture>(reservedResources[_filename]);
+			return boost::dynamic_pointer_cast<MapTexture>(reservedResources[_filename]);
 		}
 
-		Texture::ptr newRes = resourceManager->loadMapTexture(_filename);
+		MapTexture::ptr newRes = resourceManager->loadMapTexture(_filename);
 		reservedResources[_filename] = newRes;
 
 		return newRes;

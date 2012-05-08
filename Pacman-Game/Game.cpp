@@ -110,7 +110,7 @@ namespace Pacman
 		gManager->setActiveCamera(camera);
 
 		Resources::Context context(rm);
-		Resources::Texture::ptr test = context.getMapTexture("Maps/test.png");
+		Resources::MapTexture::ptr test = context.getMapTexture("Maps/test.png");
 
 		currentGrid.reset(new GameplayFoundations::Grid(test));
 		levelMesh = currentGrid->createMesh(gManager->pD3DDevice);

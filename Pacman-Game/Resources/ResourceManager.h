@@ -7,6 +7,7 @@
 
 #include "Resource.h"
 #include "Texture.h"
+#include "MapTexture.h"
 #include "MTAModel.h"
 #include "mtaLoader.h"
 
@@ -31,7 +32,7 @@ namespace Resources
 		void shutdown();
 
 		Texture::ptr loadTexture(std::string const& _filename);
-		Texture::ptr loadMapTexture(std::string const& _filename);
+		MapTexture::ptr loadMapTexture(std::string const& _filename);
 		MTAModel::ptr loadModel(std::string const& _filename);
 
 		void freeResource(Resource::ptr const& _resource);

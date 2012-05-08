@@ -62,19 +62,19 @@ namespace Resources
 		return res;
 	}
 
-	Texture::ptr ResourceManager::loadMapTexture(std::string const& _filename)
+	MapTexture::ptr ResourceManager::loadMapTexture(std::string const& _filename)
 	{
 		assert(device != NULL);
 
-		Texture::ptr res;
+		MapTexture::ptr res;
 
 		if (loadedResources.count(_filename) == 1)
 		{
-			res = boost::dynamic_pointer_cast<Texture>(loadedResources[_filename]);
+			res = boost::dynamic_pointer_cast<MapTexture>(loadedResources[_filename]);
 		}
 		else
 		{
-			res.reset(new Texture(device, _filename));
+			res.reset(new MapTexture(device, _filename));
 			res->loadMapTexture();
 
 			loadedResources[_filename] = res;

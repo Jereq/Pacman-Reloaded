@@ -55,7 +55,7 @@ namespace Resources
 		return hr;
 	}
 
-	void MapTexture::extractColors(std::vector<D3DXCOLOR> colors)
+	void MapTexture::extractColors(std::vector<D3DXCOLOR>& colors)
 	{
 		D3D10_MAPPED_TEXTURE2D mappedTex;
 		tex->Map( D3D10CalcSubresource(0, 0, 1), D3D10_MAP_READ, 0, &mappedTex );

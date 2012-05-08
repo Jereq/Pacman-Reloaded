@@ -18,7 +18,7 @@ namespace Resources
 		HRESULT loadMapTexture();
 		UINT getWidth() const;
 		UINT getHeight() const;
-		void extractColors(std::vector<D3DXCOLOR> colors);
+		void extractColors(std::vector<D3DXCOLOR>& colors);
 
 		virtual void freeResource();
 	private:

@@ -13,6 +13,7 @@
 
 #include "../Resources/vertexTypes.h"
 #include "../Resources/Texture.h"
+#include "../Resources/MapTexture.h"
 
 namespace GameplayFoundations
 {
@@ -56,7 +57,7 @@ namespace GameplayFoundations
 	public:
 		typedef boost::shared_ptr<Grid> ptr;
 
-		Grid(Resources::Texture::ptr const& _map);
+		Grid(Resources::MapTexture::ptr const& _map);
 		~Grid();
 
 		CellIndex getSize() const;

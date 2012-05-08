@@ -75,9 +75,10 @@ namespace GameplayFoundations
 		return D3DXVECTOR3(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z);
 	}
 
-	Grid::Grid(Resources::Texture::ptr const& _map)
+	Grid::Grid(Resources::MapTexture::ptr const& _map)
 	{
-		std::vector<D3DXCOLOR> cols = _map->getColorVector();
+		std::vector<D3DXCOLOR> cols;
+		_map->extractColors(cols);
 
 		size = CellIndex(_map->getWidth(), _map->getHeight());
 		std::vector<D3DXCOLOR>::iterator it = cols.begin();
