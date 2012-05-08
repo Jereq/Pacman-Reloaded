@@ -34,6 +34,7 @@ namespace Pacman
 		Resources::Texture::ptr levelTex;
 
 		Resources::MTAModel::ptr pacman;
+		Resources::MTModel::ptr food;
 
 	public:
 		Game(HINSTANCE _hInstance);

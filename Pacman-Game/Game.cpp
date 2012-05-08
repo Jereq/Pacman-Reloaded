@@ -124,7 +124,7 @@ namespace Pacman
 		levelTex = rm->loadTexture("Textures/mapTex.png");
 
 		pacman = rm->loadMTAModel("pacman.mta");
-
+		food = rm->loadMTModel("models/Food.mt");
 	}
 
 	Game::~Game()
@@ -192,6 +192,7 @@ namespace Pacman
 
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
 		gManager->AddDynamicObject(Graphics::dynamicObject(pacman, 0, 0, 0, tmp));
+		gManager->AddStaticObject(Graphics::staticObject(food->getMesh(), food->getTexture(), tmp));
 
 		gManager->renderScene();
 	}
