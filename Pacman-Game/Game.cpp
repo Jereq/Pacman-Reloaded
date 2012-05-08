@@ -117,7 +117,7 @@ namespace Pacman
 
 		levelTex = rm->loadTexture("Textures/mapTex.png");
 
-		pacman = rm->loadModel("pacman.mta");
+		pacman = rm->loadMTAModel("pacman.mta");
 	}
 
 	Game::~Game()

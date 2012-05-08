@@ -18,6 +18,7 @@ namespace Resources
 		device = _device;
 
 		mtaLoad.startup(device);
+		mtLoader.startup(device);
 	}
 
 	void ResourceManager::shutdown()
@@ -85,7 +86,7 @@ namespace Resources
 		return res;
 	}
 
-	MTAModel::ptr ResourceManager::loadModel(std::string const& _filename)
+	MTAModel::ptr ResourceManager::loadMTAModel(std::string const& _filename)
 	{
 		assert(device != NULL);
 
@@ -99,6 +100,31 @@ namespace Resources
 		{
 			res.reset(new MTAModel(_filename));
 			mtaLoad.loadmta(res);
+
+			res->setTexture(loadTexture(res->getTextureName()));
+
+			loadedResources[_filename] = res;
+		}
+
+		res->incrementUseCount();
+
+		return res;
+	}
+
+	MTModel::ptr ResourceManager::loadMTModel(std::string const& _filename)
+	{
+		assert(device != NULL);
+
+		MTModel::ptr res;
+
+		if (loadedResources.count(_filename) == 1)
+		{
+			res = boost::dynamic_pointer_cast<MTModel>(loadedResources[_filename]);
+		}
+		else
+		{
+			res.reset(new MTModel(_filename));
+			mtLoader.loadMT(res);
 
 			res->setTexture(loadTexture(res->getTextureName()));
 

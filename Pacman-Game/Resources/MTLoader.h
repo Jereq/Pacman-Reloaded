@@ -15,8 +15,6 @@
 
 namespace Resources
 {
-	const static float INFINITY = std::numeric_limits<float>::infinity();
-
 	class MTLoader
 	{
 	public:
@@ -46,8 +44,14 @@ namespace Resources
 
 			LoadData()
 				: indexCount(0), vertexCount(0),
-				minPos(INFINITY, INFINITY, INFINITY),
-				maxPos(-INFINITY, -INFINITY, -INFINITY)
+				minPos(
+					std::numeric_limits<float>::infinity(),
+					std::numeric_limits<float>::infinity(),
+					std::numeric_limits<float>::infinity()),
+				maxPos(
+					-std::numeric_limits<float>::infinity(),
+					-std::numeric_limits<float>::infinity(),
+					-std::numeric_limits<float>::infinity())
 			{
 			}
 		};
