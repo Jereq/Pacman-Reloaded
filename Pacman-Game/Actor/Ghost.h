@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../GameplayFoundations/GameObject.h"
+#include "Actor.h"
 
 //enum GHOSTSTATE
 //{
@@ -10,7 +10,7 @@
 //	COUNT
 //};
 
-class Ghost : public GameObject
+class Ghost : public Actor
 {	
 private:
 	//GHOSTSTATE m_state;

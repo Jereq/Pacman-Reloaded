@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max) 
-	: GameObject(_pos, _min, _max)
+	: Actor(_pos, _min, _max)
 {}
 
 Player::~Player()
@@ -9,12 +9,14 @@ Player::~Player()
 
 void Player::init()
 {
-	GameObject::init();
+	Actor::init();
 	m_state = ALIVE;
 
 	m_speedInit = 4.f;
 	m_speed = m_speedInit;
 	m_speedFrenzy = m_speedInit * 1.2f;
+
+	m_scoreAmount = 0;
 
 	m_timer = 0;
 }
@@ -31,41 +33,12 @@ bool Player::beEatingOrNot()
 	return false;
 }
 
-//void Player::changeState(PLAYERSTATE _state)
-//{
-//	switch(_state)
-//	{
-//	case ALIVE:
-//		m_state = ALIVE;
-//		resetSpeed();
-//		break;
-//
-//	case DEAD:
-//		m_state = DEAD;
-//		break;
-//
-//	case FRENZY:
-//		m_state = FRENZY;
-//		m_timer = 0;
-//		setSpeed(2.0f);
-//		break;
-//
-//	//case COUNT:
-//	//	break;
-//	}
-//}
-
-//PLAYERSTATE Player::getState()
-//{
-//	return m_state;
-//}
-
 void Player::setScore(int _score)
 {
-	m_score = _score;
+	m_scoreAmount = _score;
 }
 
 UINT Player::getScore()
 {
-	return m_score;
+	return m_scoreAmount;
 }

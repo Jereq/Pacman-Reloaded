@@ -17,7 +17,7 @@ void PointGhost::update(float _deltaTime)
 
 void PointGhost::init()
 {
-	GameObject::init();
+	Ghost::init();
 	m_speedInit = 4.0f;
 	m_speed = m_speedInit;
 }

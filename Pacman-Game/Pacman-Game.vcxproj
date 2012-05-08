@@ -80,6 +80,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Actor.h" />
+    <ClInclude Include="Actor\Food.h" />
     <ClInclude Include="Actor\Ghost.h" />
     <ClInclude Include="Actor\HuntGhost.h" />
     <ClInclude Include="Actor\Player.h" />
@@ -119,6 +121,8 @@
     <ClInclude Include="Sound\SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Actor.cpp" />
+    <ClCompile Include="Actor\Food.cpp" />
     <ClCompile Include="Actor\Ghost.cpp" />
     <ClCompile Include="Actor\HuntGhost.cpp" />
     <ClCompile Include="Actor\Player.cpp" />

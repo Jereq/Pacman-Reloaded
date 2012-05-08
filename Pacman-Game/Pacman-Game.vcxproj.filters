@@ -159,6 +159,12 @@
     <ClCompile Include="Resources\MapTexture.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Actor\Actor.cpp">
+      <Filter>Source Files\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Food.cpp">
+      <Filter>Source Files\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -271,6 +277,12 @@
     </ClInclude>
     <ClInclude Include="Resources\MapTexture.h">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Actor.h">
+      <Filter>Header Files\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Food.h">
+      <Filter>Header Files\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

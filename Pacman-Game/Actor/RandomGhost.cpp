@@ -12,7 +12,7 @@ RandomGhost::~RandomGhost()
 
 void RandomGhost::init()
 {
-	GameObject::init();
+	Ghost::init();
 	m_speedInit = 4.5f;
 	m_speed = m_speedInit;
 }
