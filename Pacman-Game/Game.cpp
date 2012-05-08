@@ -13,14 +13,18 @@ namespace Pacman
 {
 	LRESULT Game::wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
+		HID* m_HID = HID::getInstance(hWnd);
+
+		m_HID->input(message, wParam);
+
 		switch (message) 
 		{
 			//raw input handler
-		case WM_INPUT:
+	/*	case WM_INPUT:
 			{
 				HandleRawInput( hWnd, (HRAWINPUT&) lParam );
 			}
-			break;	
+			break;*/	
 
 			// The user hit the close button, close the application
 		case WM_DESTROY	:	PostQuitMessage(0);
@@ -102,6 +106,8 @@ namespace Pacman
 		sm->startup();
 
 		Camera* camera = new Camera();
+		
+		m_HID = HID::getInstance(hWnd);
 
 		//set up scene camera properties
 		camera->setPerspectiveProjectionLH( 45.0f, (float)windowWidth / windowHeight, 0.1f, 100.0f );
@@ -118,6 +124,7 @@ namespace Pacman
 		levelTex = rm->loadTexture("Textures/mapTex.png");
 
 		pacman = rm->loadMTAModel("pacman.mta");
+
 	}
 
 	Game::~Game()
@@ -128,6 +135,11 @@ namespace Pacman
 
 	void Game::update(float deltaTime)
 	{
+
+		if(m_HID->pressKeyOnce(VK_ESCAPE))
+		{
+			PostQuitMessage(0);
+		}
 		/* SOME PSUEDO COOOOOODE
 
 		for(int i = 0; i < food.size(); i++)
@@ -175,7 +187,6 @@ namespace Pacman
 		sm->update(camera->getCameraPosition(),
 			camera->getCameraForward(),
 			camera->getCameraUp());
-		
 		D3DXMATRIX tmp;
 		D3DXMatrixIdentity(&tmp);
 

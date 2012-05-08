@@ -1,5 +1,8 @@
 #include "HID.h"
 
+bool HID::instance = false;
+HID* HID::hid = NULL;
+
 HID::HID(HWND _hWnd)
 {
 	m_keyboard = new Keyboard();
@@ -13,6 +16,8 @@ HID::~HID()
 
 	m_keyboard->~Keyboard();
 	m_keyboard = NULL;
+
+	instance = false;
 }
 
 void HID::input(UINT _msg, WPARAM _wParam)
@@ -84,13 +89,18 @@ POINT HID::getMousePos()
 	return m_mouse->getPos();
 }
 
-//
-//Keyboard* HID::getKeyboard()
-//{
-//	return m_keyboard;
-//}
-//
-//Mouse* HID::getMouse()
-//{
-//	return m_mouse;
-//}
+
+//Get the instance of the HID
+HID* HID::getInstance(HWND _hWnd)
+{
+	if(!instance)
+	{
+		hid = new HID(_hWnd);
+		instance = true;
+		return hid;
+	}
+	else
+	{
+		return hid;
+	}
+}
