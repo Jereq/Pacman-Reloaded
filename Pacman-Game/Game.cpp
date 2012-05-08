@@ -2,6 +2,7 @@
 
 #include "InputManager.h"
 #include "Resources/Context.h"
+#include "Resources/MTAModel.h"
 #include "Actor\Player.h"
 #include "GameplayFoundations/Grid.h"
 #include "GameplayFoundations/Events/KeyboardKeyEvent.h"
@@ -95,7 +96,7 @@ namespace Pacman
 		rm.reset(new Resources::ResourceManager());
 		rm->startup(gManager->pD3DDevice);
 
-		gManager->initializeObjects(rm);
+		gManager->initializeObjects();
 
 		sm.reset(new Sound::SoundManager());
 		sm->startup();
@@ -115,6 +116,8 @@ namespace Pacman
 		levelMesh = currentGrid->createMesh(gManager->pD3DDevice);
 
 		levelTex = rm->loadTexture("Textures/mapTex.png");
+
+		pacman = rm->loadModel("pacman.mta");
 	}
 
 	Game::~Game()
@@ -177,6 +180,7 @@ namespace Pacman
 		D3DXMatrixIdentity(&tmp);
 
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
+		gManager->AddDynamicObject(Graphics::dynamicObject(pacman, 0, 0, 0, tmp));
 
 		gManager->renderScene();
 	}

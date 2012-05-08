@@ -2,7 +2,7 @@
 
 namespace Graphics
 {
-	Animation::Animation(Resources::MTA::ptr _mta)
+	Animation::Animation(Resources::MTAModel::ptr _mta)
 	{
 		mta = _mta;
 

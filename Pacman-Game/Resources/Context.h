@@ -17,5 +17,6 @@ namespace Resources
 
 		Texture::ptr getTexture(std::string const& _filename);
 		Texture::ptr getMapTexture(std::string const& _filename);
+		MTAModel::ptr getModel(std::string const& _filename);
 	};
 }

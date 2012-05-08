@@ -7,6 +7,8 @@
 
 #include "Resource.h"
 #include "Texture.h"
+#include "MTAModel.h"
+#include "mtaLoader.h"
 
 namespace Resources
 {
@@ -18,6 +20,7 @@ namespace Resources
 
 	private:
 		ID3D10Device* device;
+		mtaLoader mtaLoad;
 
 		resMap_t loadedResources;
 
@@ -29,8 +32,7 @@ namespace Resources
 
 		Texture::ptr loadTexture(std::string const& _filename);
 		Texture::ptr loadMapTexture(std::string const& _filename);
-		//void loadSound(std::string const& _filename);
-		//void loadModel(std::string const& _filename);
+		MTAModel::ptr loadModel(std::string const& _filename);
 
 		void freeResource(Resource::ptr const& _resource);
 	};

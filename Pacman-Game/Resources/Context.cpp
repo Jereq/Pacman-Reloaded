@@ -42,4 +42,17 @@ namespace Resources
 
 		return newRes;
 	}
+
+	MTAModel::ptr Context::getModel(std::string const& _filename)
+	{
+		if (reservedResources.count(_filename) == 1)
+		{
+			return boost::dynamic_pointer_cast<MTAModel>(reservedResources[_filename]);
+		}
+
+		MTAModel::ptr newRes = resourceManager->loadModel(_filename);
+		reservedResources[_filename] = newRes;
+
+		return newRes;
+	}
 }

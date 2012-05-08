@@ -153,6 +153,9 @@
     <ClCompile Include="Resources\Texture.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Resources\MTAModel.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -258,6 +261,9 @@
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Resources\vertexTypes.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\MTAModel.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,11 +8,11 @@ namespace Graphics
 	{
 	public:
 
-		Animation(Resources::MTA::ptr _mta);
+		Animation(Resources::MTAModel::ptr _mta);
 		void Draw(float _t);
 
 	private:
 
-		Resources::MTA::ptr mta;
+		Resources::MTAModel::ptr mta;
 	};
 }

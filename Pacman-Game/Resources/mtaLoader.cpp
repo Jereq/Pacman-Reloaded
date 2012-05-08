@@ -2,218 +2,237 @@
 
 namespace Resources
 {
-	mtaLoader::mtaLoader(ID3D10Device* pdevice, Resources::ResourceManager::ptr _res) : pos(0), indCount(0), animCount(0)
+	mtaLoader::mtaLoader()
+		: device(NULL)
 	{
-		device = pdevice;
-		res = _res;
 	}
 
 	mtaLoader::~mtaLoader()
 	{
-
 	}
 
-	MTA::ptr mtaLoader::loadmta(std::string fileName)
+	void mtaLoader::startup(ID3D10Device* _device)
 	{
-		MTA::ptr m(new MTA());
+		device = _device;
+	}
 
-		file.open( fileName, std::ios::in | std::ios::binary );
+	void mtaLoader::shutdown()
+	{
+	}
 
-		if(!file.is_open())
+	void mtaLoader::loadmta(MTAModel::ptr const& _model)
+	{
+		assert(_model);
+		
+		LoadData loadData;
+
+		loadData.file.open( _model->getFilename(), std::ios::in | std::ios::binary );
+
+		if(!loadData.file.is_open())
 		{
 			MessageBox( 0, "Could not open .mta file", 0, 0 );
-			return m;
+			return;
 		}
 
-		m->vectorMin = D3DXVECTOR3(0,0,0);
-		m->vectorMax = D3DXVECTOR3(0,0,0);
-
 		//Header
-		loadHeader(m);
+		loadHeader(loadData);
 		//Animations
-		loadAnimations(m);
+		loadAnimations(loadData);
 		//Indices
-		loadIndices(m);
+		loadIndices(loadData);
 		//Vertices
-		loadVertices(m);
+		loadVertices(loadData);
 
-		file.close();
+		loadData.file.close();
 
-		createVertexBuffers(m);
+		createVertexBuffers(loadData, _model);
 
-		return m;
+		return;
 	}
 
-	void mtaLoader::loadHeader(const MTA::ptr &m)
+	void mtaLoader::loadHeader(LoadData& _loadData)
 	{
 		//OBJ file Count
-		m->objCount = byteToInt();
+		_loadData.objCount = byteToInt(_loadData.file);
 		//Indices Count
-		m->indexCount = byteToInt();
+		_loadData.indexCount = byteToInt(_loadData.file);
 		//Vertices Count
-		m->vertexCount = byteToInt();
+		_loadData.vertexCount = byteToInt(_loadData.file);
 		//Texture Name String Length
-		int textstrLength	= 0;
-		textstrLength = byteToInt();
-		//Texture
-		m->texture = res->loadTexture(byteToString(textstrLength));
+		int textstrLength = byteToInt(_loadData.file);
+		//Texture name
+		_loadData.textureName = byteToString(textstrLength, _loadData.file);
 		//Animations Count
-		animCount = byteToInt();
+		_loadData.animCount = byteToInt(_loadData.file);
 	}
 
-	void mtaLoader::loadAnimations(const MTA::ptr &m)
+	void mtaLoader::loadAnimations(LoadData& _loadData)
 	{
-		m->animations.reserve( animCount );
+		_loadData.animations.reserve( _loadData.animCount );
 
-		for(int i = 0; i < animCount; i++)
+		for(int i = 0; i < _loadData.animCount; i++)
 		{
-			Animation a;
+			AnimationData a;
 			//Animation Name Length
-			int animNameLength = 0;
-			animNameLength = byteToInt();
+			int animNameLength = byteToInt(_loadData.file);
 
 			//Animation Name
-			a.name = byteToString(animNameLength);
+			a.name = byteToString(animNameLength, _loadData.file);
 
 			//Animation Time
-			a.time = byteToFloat();
+			a.time = byteToFloat(_loadData.file);
 
 			//Animation Sequence Count
-			int tmp = byteToInt();
+			int tmp = byteToInt(_loadData.file);
 
 			//Animation Sequence
 			for(int i = 0; i < tmp; i++)
 			{
-				a.sequence.push_back(byteToInt());
+				a.sequence.push_back(byteToInt(_loadData.file));
 			}
-			m->animations.push_back(a);
+
+			_loadData.animations.push_back(a);
 		}
 	}
 
-	void mtaLoader::loadIndices(const MTA::ptr &m)
+	void mtaLoader::loadIndices(LoadData& _loadData)
 	{
-		for (int i = 0; i < m->objCount; i++)
+		for (int i = 0; i < _loadData.objCount; i++)
 		{
 			std::vector<int> indices;
-			indices.reserve(m->indexCount);
+			indices.reserve(_loadData.indexCount);
 
-			for(int j = 0; j < m->indexCount; j++)
+			for(int j = 0; j < _loadData.indexCount; j++)
 			{
-				indices.push_back(byteToInt());
+				indices.push_back(byteToInt(_loadData.file));
 			}
 
-			tmpIBuffer.push_back(indices);
+			_loadData.tmpIBuffer.push_back(indices);
 		}
 	}
 
-	void mtaLoader::loadVertices(const MTA::ptr &m)
+	void mtaLoader::loadVertices(LoadData& _loadData)
 	{
-		globalVB.reserve(m->vertexCount);
-		for(int i = 0; i < m->vertexCount; i++)
+		_loadData.globalVB.reserve(_loadData.vertexCount);
+		for(int i = 0; i < _loadData.vertexCount; i++)
 		{
 			vertex v;
 
-			v.pos.x = byteToFloat();
-			v.pos.y = byteToFloat();
-			v.pos.z = byteToFloat();
+			v.pos.x = byteToFloat(_loadData.file);
+			v.pos.y = byteToFloat(_loadData.file);
+			v.pos.z = byteToFloat(_loadData.file);
 
-			v.normal.x = byteToFloat();
-			v.normal.y = byteToFloat();
-			v.normal.z = byteToFloat();
+			v.normal.x = byteToFloat(_loadData.file);
+			v.normal.y = byteToFloat(_loadData.file);
+			v.normal.z = byteToFloat(_loadData.file);
 
-			v.texCoords.x = byteToFloat();
-			v.texCoords.y = byteToFloat();
+			v.texCoords.x = byteToFloat(_loadData.file);
+			v.texCoords.y = byteToFloat(_loadData.file);
 
-			globalVB.push_back(v);
-			findMinMax(m, v.pos);
+			_loadData.globalVB.push_back(v);
+			findMinMax(_loadData, v.pos);
 		}
 	}
 
-			
-
-	void mtaLoader::createVertexBuffers(const MTA::ptr &m)
+	void mtaLoader::createVertexBuffers(LoadData& _loadData, MTAModel::ptr const& _model)
 	{
-		std::vector<UINT> indexBuff;
-		indexBuff.reserve(m->indexCount);
+		std::vector<UINT16> indexBuff;
+		indexBuff.reserve(_loadData.indexCount);
 
-		for (int i = 0; i < m->indexCount; i++)
+		for (int i = 0; i < _loadData.indexCount; i++)
 		{
 			indexBuff.push_back(i);
 		}
 
-		BOOST_FOREACH(Animation &a , m->animations )
+		std::vector<MTAModel::Animation> animationsRes;
+		animationsRes.reserve(_loadData.animations.size());
+
+		BOOST_FOREACH(AnimationData &a, _loadData.animations )
 		{
+			MTAModel::Animation animRes;
+			animRes.name = a.name;
+			animRes.time = a.time;
+			animRes.subAnimations.reserve(a.sequence.size() - 1);
+
 			for (size_t i = 0; i < a.sequence.size() - 1; i++ )
 			{
-				std::vector<doubleVertex> tmp;
-				ID3DX10Mesh* mesh;
-				std::vector<int> tmpb1 = tmpIBuffer[a.sequence[i]];
-				std::vector<int> tmpb2 = tmpIBuffer[a.sequence[i + 1]];
+				std::vector<int>& tmpb1 = _loadData.tmpIBuffer[a.sequence[i]];
+				std::vector<int>& tmpb2 = _loadData.tmpIBuffer[a.sequence[i + 1]];
 
-				for (int j = 0; j < m->indexCount; j++ )
+				std::vector<doubleVertex> tmp;
+				tmp.reserve(_loadData.indexCount);
+
+				for (int j = 0; j < _loadData.indexCount; j++ )
 				{
-					vertex &v1 = globalVB[tmpb1[j]];
-					vertex &v2 = globalVB[tmpb2[j]];
+					vertex &v1 = _loadData.globalVB[tmpb1[j]];
+					vertex &v2 = _loadData.globalVB[tmpb2[j]];
 					doubleVertex d(v1, v2);
 					tmp.push_back(d);
 				}
 
+				ID3DX10Mesh* mesh;
 				D3DX10CreateMesh(device, Resources::doubleVertexInputLayout, Resources::doubleVertexInputLayoutNumElements,
 					"POSITION", tmp.size(), indexBuff.size(), 0, &mesh);
 
 				mesh->SetVertexData(NULL, tmp.data());
 				mesh->SetIndexData(indexBuff.data(), indexBuff.size());
 
-				a.subAnimation.push_back(mesh);
+				animRes.subAnimations.push_back(mesh);
 			}
+
+			animationsRes.push_back(animRes);
 		}
+
+		_model->setTextureName(_loadData.textureName);
+		_model->setAnimations(animationsRes);
+		_model->setBoundingBox(_loadData.minPos, _loadData.maxPos);
 	}
 
-	void mtaLoader::findMinMax(const MTA::ptr &m, D3DXVECTOR3 _vector3)
+	void mtaLoader::findMinMax(LoadData& _loadData, D3DXVECTOR3 _vector3)
 	{
-		if(m->vectorMin.x > _vector3.x)
-			m->vectorMin.x = _vector3.x;
-		if(m->vectorMin.y > _vector3.y)
-			m->vectorMin.y = _vector3.y;
-		if(m->vectorMin.z > _vector3.z)
-			m->vectorMin.z = _vector3.z;
+		if(_loadData.minPos.x > _vector3.x)
+			_loadData.minPos.x = _vector3.x;
+		if(_loadData.minPos.y > _vector3.y)
+			_loadData.minPos.y = _vector3.y;
+		if(_loadData.minPos.z > _vector3.z)
+			_loadData.minPos.z = _vector3.z;
 
-		if(m->vectorMax.x < _vector3.x)
-			m->vectorMax.x = _vector3.x;
-		if(m->vectorMax.y < _vector3.y)
-			m->vectorMax.y = _vector3.y;
-		if(m->vectorMax.z < _vector3.z)
-			m->vectorMax.z = _vector3.z;
+		if(_loadData.maxPos.x < _vector3.x)
+			_loadData.maxPos.x = _vector3.x;
+		if(_loadData.maxPos.y < _vector3.y)
+			_loadData.maxPos.y = _vector3.y;
+		if(_loadData.maxPos.z < _vector3.z)
+			_loadData.maxPos.z = _vector3.z;
 	}
 
-	int mtaLoader::byteToInt()
+	int mtaLoader::byteToInt(std::ifstream& _file)
 	{
 		char b[4];
 		int temp = 0;;
 
-		file.read( b, sizeof(int) );
+		_file.read( b, sizeof(int) );
 		memcpy( &temp, b, sizeof(int) );
 
 		return temp;
 	}
 
-	float mtaLoader::byteToFloat()
+	float mtaLoader::byteToFloat(std::ifstream& _file)
 	{
 		char b[4];
 		float temp = 0;;
 
-		file.read( b, sizeof(float) );
+		_file.read( b, sizeof(float) );
 		memcpy( &temp, b, sizeof(float) );
 
 		return temp;
 	}
 
-	std::string mtaLoader::byteToString(int strLength)
+	std::string mtaLoader::byteToString(int strLength, std::ifstream& _file)
 	{
-		pos = (int)file.tellg();
-		file.seekg( pos + 1 );
+		int pos = (int)_file.tellg();
+		_file.seekg( pos + 1 );
 		char* c = new char[strLength];
-		file.read( c, strLength);
+		_file.read( c, strLength);
 		std::string s(c, strLength);
 	
 		return s;

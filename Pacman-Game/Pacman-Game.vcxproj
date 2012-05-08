@@ -94,6 +94,7 @@
     <ClInclude Include="GameplayFoundations\Events\MouseButtonEvent.h" />
     <ClInclude Include="GameplayFoundations\Events\KeyboardKeyEvent.h" />
     <ClInclude Include="GameplayFoundations\Events\MouseMoveEvent.h" />
+    <ClInclude Include="Resources\MTAModel.h" />
     <ClInclude Include="Resources\Context.h" />
     <ClInclude Include="GameplayFoundations\GameObject.h" />
     <ClInclude Include="GameplayFoundations\Timer.h" />
@@ -130,6 +131,7 @@
     <ClCompile Include="GameplayFoundations\Events\MouseButtonEvent.cpp" />
     <ClCompile Include="GameplayFoundations\Events\KeyboardKeyEvent.cpp" />
     <ClCompile Include="GameplayFoundations\Events\MouseMoveEvent.cpp" />
+    <ClCompile Include="Resources\MTAModel.cpp" />
     <ClCompile Include="Resources\Context.cpp" />
     <ClCompile Include="GFX\dxManager.cpp" />
     <ClCompile Include="Game.cpp" />

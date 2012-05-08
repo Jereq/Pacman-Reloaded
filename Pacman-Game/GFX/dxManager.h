@@ -44,11 +44,11 @@ namespace Graphics
 	{
 	public:
 		float time;
-		Resources::MTA::ptr mta;
+		Resources::MTAModel::ptr mta;
 		int aIndex, saIndex;
 		D3DXMATRIX world;
 
-		dynamicObject(Resources::MTA::ptr _mta, float _time, int _aIndex, int _saIndex, D3DXMATRIX _world)
+		dynamicObject(Resources::MTAModel::ptr _mta, float _time, int _aIndex, int _saIndex, D3DXMATRIX _world)
 		{
 			mta = _mta;
 			time = _time;
@@ -105,6 +105,11 @@ namespace Graphics
 		ID3D10EffectMatrixVariable*				pProjectionMatrixEffectVariable;
 		ID3D10EffectMatrixVariable*				pWorldMatrixEffectVariable;
 		ID3D10EffectShaderResourceVariable*		pColorMap;
+
+		ID3D10EffectMatrixVariable*				pDViewMatrixEffectVariable;
+		ID3D10EffectMatrixVariable*				pDProjectionMatrixEffectVariable;
+		ID3D10EffectMatrixVariable*				pDWorldMatrixEffectVariable;
+		ID3D10EffectShaderResourceVariable*		pDColorMap;
 		ID3D10EffectScalarVariable*				pTime;
 
 		//projection and view matrices
@@ -118,7 +123,7 @@ namespace Graphics
 		DirectionalLight						directionalLight;
 		Material								material;
 
-		std::vector<Resources::MTA::ptr>		mta;	
+		std::vector<Resources::MTAModel::ptr>	mta;	
 	
 		//Active camera
 		Camera*									camera;
@@ -155,7 +160,7 @@ namespace Graphics
 		void setWallTex(Resources::Texture::ptr const& _tex);
 
 		minMax getbounds(int _index);
-		bool initializeObjects(Resources::ResourceManager::ptr _res);
+		bool initializeObjects();
 
 		void AddDynamicObject(dynamicObject _dObj);
 		void AddStaticObject(staticObject _sObj);

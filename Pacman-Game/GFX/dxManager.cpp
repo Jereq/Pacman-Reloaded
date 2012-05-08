@@ -179,10 +179,15 @@ namespace Graphics
 		//create matrix effect pointers
 		pViewMatrixEffectVariable = pStaticEffect->GetVariableByName( "View" )->AsMatrix();
 		pProjectionMatrixEffectVariable = pStaticEffect->GetVariableByName( "Projection" )->AsMatrix();
-		pWorldMatrixEffectVariable = pStaticEffect->GetVariableByName( "World" )->AsMatrix();	
+		pWorldMatrixEffectVariable = pStaticEffect->GetVariableByName( "World" )->AsMatrix();
+
+		pDViewMatrixEffectVariable = pDynamicEffect->GetVariableByName( "View" )->AsMatrix();
+		pDProjectionMatrixEffectVariable = pDynamicEffect->GetVariableByName( "Projection" )->AsMatrix();
+		pDWorldMatrixEffectVariable = pDynamicEffect->GetVariableByName( "World" )->AsMatrix();
 
 		//create texture effect variable
 		pColorMap = pStaticEffect->GetVariableByName( "colorMap" )->AsShaderResource();
+		pDColorMap = pDynamicEffect->GetVariableByName( "colorMap" )->AsShaderResource();
 
 		pTime = pDynamicEffect->GetVariableByName("time")->AsScalar();
 
@@ -214,18 +219,8 @@ namespace Graphics
 	}
 	#pragma endregion Init
 
-	bool dxManager::initializeObjects(Resources::ResourceManager::ptr _res)
+	bool dxManager::initializeObjects()
 	{
-	
-		std::string fileNames[] = {"pacman.mta"};//, "blinky.mta", "pinky.mta", "inky.mta", "clyde.mta" };
-		Resources::mtaLoader init(pD3DDevice, _res);
-
-		for (int i = 0; i < 1; i++)
-		{			
-			Resources::MTA::ptr tmp = init.loadmta(fileNames[i]);
-			mta.push_back(tmp);
-		}
-
 		// Setup light and test material
 		ambientLight = D3DXVECTOR4(1.f, 1.f, 1.f, 1.f);
 
@@ -245,6 +240,15 @@ namespace Graphics
 		pVar->SetRawValue(&material, 0, sizeof(Material));
 
 		pVar = pStaticEffect->GetVariableByName("ambientLight");
+		pVar->SetRawValue(&ambientLight, 0, sizeof(ambientLight));
+
+		pVar = pDynamicEffect->GetVariableByName("light");
+		pVar->SetRawValue(&directionalLight, 0, sizeof(DirectionalLight));
+
+		pVar = pDynamicEffect->GetVariableByName("material");
+		pVar->SetRawValue(&material, 0, sizeof(Material));
+
+		pVar = pDynamicEffect->GetVariableByName("ambientLight");
 		pVar->SetRawValue(&ambientLight, 0, sizeof(ambientLight));	
 	
 		return true;
@@ -286,19 +290,28 @@ namespace Graphics
 			}
 		}
 
+		//set view & projection matrices
+		pDViewMatrixEffectVariable->SetMatrix(camera->getViewMatrix());
+		pDProjectionMatrixEffectVariable->SetMatrix(camera->getProjectionMatrix());
+
+		//set view position
+		var = pDynamicEffect->GetVariableByName( "eye" )->AsVector();
+		var->SetFloatVector( (float*) camera->getCameraPosition() );	
+
 		//Draw dynamic objects
 		pD3DDevice->IASetInputLayout( pDoubleVertexLayout );
+		pDoubelVertexTechnique->GetDesc( &techDesc );
 
 		BOOST_FOREACH(dynamicObject const& d, dObj)
 		{
-			pColorMap->SetResource(d.mta->texture->getTexture());
-			pWorldMatrixEffectVariable->SetMatrix((float*)&d.world);
+			pDColorMap->SetResource(d.mta->getTexture()->getTexture());
+			pDWorldMatrixEffectVariable->SetMatrix((float*)&d.world);
 			pTime->SetFloat(d.time);
 
 			for( UINT p = 0; p < techDesc.Passes; p++ )
 			{				
 				pDoubelVertexTechnique->GetPassByIndex( p )->Apply( 0 );
-				d.mta->animations[d.aIndex].subAnimation[d.saIndex]->DrawSubset(0);
+				d.mta->getSubAnimation(d.aIndex, d.saIndex)->DrawSubset(0);
 			}
 		}		
 

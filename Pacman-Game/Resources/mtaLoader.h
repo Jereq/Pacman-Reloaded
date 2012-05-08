@@ -3,65 +3,76 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <limits>
+
 #include <D3DX10.h>
-#include "vertexTypes.h"
+
 #include <boost\shared_ptr.hpp>
 #include <boost\foreach.hpp>
-#include "ResourceManager.h"
+
+#include "vertexTypes.h"
+#include "MTAModel.h"
 
 namespace Resources
 {
-	struct Animation
-	{
-		std::string name;
-		float time;
-		std::vector<int> sequence;
-		std::vector<ID3DX10Mesh*> subAnimation;
-	};
-
-
-	struct MTA
-	{
-		typedef boost::shared_ptr<MTA> ptr;
-
-		std::vector<Animation> animations;
-		Resources::Texture::ptr texture;
-		int indexCount;
-		int objCount;
-		int vertexCount;
-		D3DXVECTOR3 vectorMin, vectorMax;
-
-	};
+	const static float INFINITY = std::numeric_limits<float>::infinity();
 
 	class mtaLoader
 	{
 	public:
-		mtaLoader(ID3D10Device* pdevice, Resources::ResourceManager::ptr _res);
+		mtaLoader();
 		~mtaLoader();
-		MTA::ptr loadmta(std::string fileName);
+		void startup(ID3D10Device* pdevice);
+		void shutdown();
 
-		//D3DXVECTOR3 
+		void loadmta(MTAModel::ptr const& _model);
 
 	private:
+		struct AnimationData
+		{
+			std::string name;
+			float time;
+			std::vector<int> sequence;
+		};
 
-		typedef std::vector<int> indexv;
-		Resources::ResourceManager::ptr res;
+		struct LoadData
+		{
+			std::ifstream file;
+
+			int objCount;
+			int indexCount;
+			int vertexCount;
+			int animCount;
+			std::string textureName;
+			std::vector<AnimationData> animations;
+
+			typedef std::vector<int> indexv;
+			std::vector<indexv> tmpIBuffer;
+
+			std::vector<vertex> globalVB;
+
+			D3DXVECTOR3 minPos, maxPos;
+
+			LoadData()
+				: objCount(0), indexCount(0), vertexCount(0), animCount(0),
+				minPos(INFINITY, INFINITY, INFINITY),
+				maxPos(-INFINITY, -INFINITY, -INFINITY)
+			{
+			}
+		};
 
 		ID3D10Device* device;
-		int pos, indCount, animCount;
-		std::ifstream file;
 
-		std::vector<vertex> globalVB;
-		std::vector<indexv> tmpIBuffer;
+		int  byteToInt(std::ifstream& _file);
+		std::string byteToString(int strLength, std::ifstream& _file);
+		float byteToFloat(std::ifstream& _file);
 
-		int  byteToInt();
-		std::string byteToString(int strLength);
-		float byteToFloat();
-		void loadHeader(const MTA::ptr &m);
-		void loadAnimations(const MTA::ptr &m);
-		void loadIndices(const MTA::ptr &m);
-		void loadVertices(const MTA::ptr &m);
-		void createVertexBuffers(const MTA::ptr &m);
-		void findMinMax(const MTA::ptr &m, D3DXVECTOR3 _vector3);
+		void loadHeader(LoadData& _loadData);
+		void loadAnimations(LoadData& _loadData);
+		void loadIndices(LoadData& _loadData);
+		void loadVertices(LoadData& _loadData);
+		void createVertexBuffers(LoadData& _loadData, MTAModel::ptr const& _model);
+
+		void findMinMax(LoadData& _loadData, D3DXVECTOR3 _vector3);
 	};
 }
