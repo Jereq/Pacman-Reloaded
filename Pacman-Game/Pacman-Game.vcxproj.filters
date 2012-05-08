@@ -156,6 +156,9 @@
     <ClCompile Include="Resources\MTAModel.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Resources\MapTexture.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayFoundations\Grid.h">
@@ -264,6 +267,9 @@
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Resources\MTAModel.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\MapTexture.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
