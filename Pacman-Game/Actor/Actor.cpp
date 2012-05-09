@@ -1,8 +1,8 @@
 
 #include "Actor.h"
 
-Actor::Actor(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max)
-	 : GameObject(_pos, _min, _max)
+Actor::Actor(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos)
+	 : GameObject(_pos)
 {
 	m_model = _model;
 }
@@ -14,6 +14,8 @@ Actor::~Actor()
 
 void Actor::init()
 {
+	m_min = m_model->getbbMin();
+	m_max = m_model->getbbMax();
 	m_speedInit = 1.f;
 	m_speed = m_speedInit;
 	//m_pos offset depending on model
@@ -31,7 +33,7 @@ void Actor::update(float _deltaTime)
 
 void Actor::draw(Graphics::dxManager* _dxManager)
 {
-	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, m_time, 1, 2, m_world));
+	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, m_time, 0, , m_world));
 }
 
 

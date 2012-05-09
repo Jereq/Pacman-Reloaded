@@ -101,6 +101,16 @@ namespace Resources
 		bbMax = _maxPos;
 	}
 
+	D3DXVECTOR3 MTAModel::getbbMin()
+	{
+		return bbMin;
+	}
+
+	D3DXVECTOR3 MTAModel::getbbMin()
+	{
+		return bbMax;
+	}
+
 	void MTAModel::setAnimations(std::vector<Animation> const& _animations)
 	{
 		animations = _animations;

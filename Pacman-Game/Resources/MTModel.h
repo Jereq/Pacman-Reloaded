@@ -31,6 +31,8 @@ namespace Resources
 		void setTexture(Texture::ptr const& _texture);
 
 		void setBoundingBox(D3DXVECTOR3 const& _minPos, D3DXVECTOR3 const& _maxPos);
+		D3DXVECTOR3 getbbMin();
+		D3DXVECTOR3 getbbMax();
 
 		void setMesh(ID3DX10Mesh* _mesh);
 

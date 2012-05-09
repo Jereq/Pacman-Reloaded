@@ -8,7 +8,7 @@ private:
 
 public:
 
-	RandomGhost(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
+	RandomGhost(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);
 	virtual ~RandomGhost();
 
 	void init();

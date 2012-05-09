@@ -44,6 +44,16 @@ namespace Resources
 		bbMax = _maxPos;
 	}
 
+	D3DXVECTOR3 MTModel::getbbMin()
+	{
+		return bbMin;
+	}
+
+	D3DXVECTOR3 MTModel::getbbMin()
+	{
+		return bbMax;
+	}
+
 	void MTModel::setMesh(ID3DX10Mesh* _mesh)
 	{
 		mesh = _mesh;

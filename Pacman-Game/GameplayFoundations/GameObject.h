@@ -14,7 +14,7 @@ protected:
 	float m_timer;
 
 public:
-	GameObject(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
+	GameObject(D3DXVECTOR3 _pos);
 	virtual ~GameObject();
 	
 	void init();

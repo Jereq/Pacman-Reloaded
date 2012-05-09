@@ -45,6 +45,9 @@ namespace Resources
 		float getAnimationTime(size_t _aniIndex) const;
 
 		void setBoundingBox(D3DXVECTOR3 const& _minPos, D3DXVECTOR3 const& _maxPos);
+		D3DXVECTOR3 getbbMin();
+		D3DXVECTOR3 getbbMax();
+
 		void setAnimations(std::vector<Animation> const& _animations);
 	};
 }

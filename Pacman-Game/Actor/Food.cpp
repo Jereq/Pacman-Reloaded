@@ -1,7 +1,7 @@
 #include "Food.h"
 
-Food::Food(Resources::MTModel::ptr _model, D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max, FOODTYPE _type)
-	: GameObject(_pos, _min, _max)
+Food::Food(Resources::MTModel::ptr _model, D3DXVECTOR3 _pos, FOODTYPE _type)
+	: GameObject(_pos)
 {
 	m_model = _model;
 	m_type = _type;
@@ -14,6 +14,9 @@ Food::~Food()
 
 void Food::init()
 {
+	m_min = m_model->getbbMin();
+	m_max = m_model->getbbMax();
+
 	foodType(m_type);
 	D3DXMatrixTranslation(&m_world, m_pos.x, m_pos.y, m_pos.z);
 }

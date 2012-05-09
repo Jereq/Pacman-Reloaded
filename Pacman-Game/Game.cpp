@@ -123,7 +123,7 @@ namespace Pacman
 		levelTex = rm->loadTexture("Textures/mapTex.png");
 
 		pacman = rm->loadMTAModel("models/pacman.mta");
-		Player* player = new Player(pacman, D3DXVECTOR3(0,0,0), D3DXVECTOR3(1,1,1), D3DXVECTOR3(10,10,10));
+		Player* player = new Player(pacman, D3DXVECTOR3(0,0,0));
 		player->init();
 
 		food = rm->loadMTModel("models/Food.mt");

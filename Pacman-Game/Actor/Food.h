@@ -22,7 +22,7 @@ private:
 
 	FOODTYPE m_type;
 public:
-	Food(Resources::MTModel::ptr _model, D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max, FOODTYPE _type);
+	Food(Resources::MTModel::ptr _model, D3DXVECTOR3 _pos, FOODTYPE _type);
 	virtual ~Food();
 
 	void init();
