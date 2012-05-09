@@ -3,7 +3,7 @@
 #include "InputManager.h"
 #include "Resources/Context.h"
 #include "Resources/MTAModel.h"
-#include "Actor\Player.h"
+
 #include "GameplayFoundations/Grid.h"
 #include "GameplayFoundations/Events/KeyboardKeyEvent.h"
 using GameplayFoundations::Events::Event;
@@ -107,6 +107,7 @@ namespace Pacman
 		Camera* camera = new Camera();
 		
 		m_HID = HID::getInstance(hWnd);
+		col = new Collision();
 
 		//set up scene camera properties
 		camera->setPerspectiveProjectionLH( 45.0f, (float)windowWidth / windowHeight, 0.1f, 100.0f );
@@ -123,8 +124,11 @@ namespace Pacman
 		levelTex = rm->loadTexture("Textures/mapTex.png");
 
 		pacman = rm->loadMTAModel("models/pacman.mta");
-		Player* player = new Player(pacman, D3DXVECTOR3(0,0,0));
+		player = new Player(pacman, D3DXVECTOR3(0,0,0));
 		player->init();
+
+		fd = new Food(food, D3DXVECTOR3(0,0,0), NORMAL);
+		fd->init();
 
 	}
 
@@ -154,6 +158,8 @@ namespace Pacman
 			}
 		}
 
+		player->update(deltaTime);
+
 		Camera* camera = gManager->getActiveCamera();
 
 		camera->update();
@@ -164,7 +170,21 @@ namespace Pacman
 		D3DXMATRIX tmp;
 		D3DXMatrixIdentity(&tmp);
 
+	/*	static float time = 0;
+		}*/
+
+
+		player->draw(gManager);
+		fd->draw(gManager);
+
+		/*if(col->checkCollision(player->getPos(), player->getMinCorner(), player->getMaxCorner(),
+			fd->getPos(), fd->getMinCorner(), fd->getMaxCorner()) == true)*/
+		if(col->checkCollision(player, fd) == true)
+		{
+			PostQuitMessage(0);
+
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
+		//gManager->AddDynamicObject(Graphics::dynamicObject(pacman, time, 0, subA, tmp));
 
 		gManager->renderScene();
 	}

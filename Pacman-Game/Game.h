@@ -4,9 +4,12 @@
 #include "Resources/ResourceManager.h"
 #include "Sound/SoundManager.h"
 #include "GFX/Camera.h"
+#include "Actor\Player.h"
+#include "Actor\Food.h"
 #include "GameplayFoundations/Grid.h"
 #include "GameplayFoundations/Events/EventQueue.h"
 #include "HID\HID.h"
+#include "GameplayFoundations\Collision.h"
 
 namespace Pacman
 {
@@ -20,6 +23,10 @@ namespace Pacman
 		Graphics::dxManager* gManager;
 
 		HID* m_HID;
+		Player* player;
+		Food* fd;
+
+		Collision* col;
 
 		Resources::ResourceManager::ptr rm;
 		Sound::SoundManager::ptr sm;

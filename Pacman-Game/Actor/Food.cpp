@@ -48,7 +48,7 @@ void Food::update(float _deltaTime)
 
 void Food::draw(Graphics::dxManager* _dxManager)
 {
-	
+	D3DXMatrixIdentity(&m_world);
 	_dxManager->AddStaticObject(Graphics::staticObject(m_model->getMesh(), m_model->getTexture(), m_world));
 }
 

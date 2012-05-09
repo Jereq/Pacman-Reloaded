@@ -16,6 +16,8 @@ void Actor::init()
 {
 	m_min = m_model->getbbMin();
 	m_max = m_model->getbbMax();
+	m_aniNames = m_model->getAnimationNames();
+	m_aniIndex =  m_model->getAnimationIndex(m_aniNames[0]);
 	m_speedInit = 1.f;
 	m_speed = m_speedInit;
 	//m_pos offset depending on model
@@ -23,8 +25,10 @@ void Actor::init()
 
 void Actor::update(float _deltaTime)
 {
+	dt = _deltaTime;
+	m_pos.x += dt;
+	m_pos.z += dt;
 	D3DXMatrixTranslation(&m_world, m_pos.x, m_pos.y, m_pos.z);
-
 	if(m_state == FRENZY)
 	{
 		frenzyMode(_deltaTime);
@@ -33,7 +37,17 @@ void Actor::update(float _deltaTime)
 
 void Actor::draw(Graphics::dxManager* _dxManager)
 {
-	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, m_time, 0, 0, m_world));
+	static float time = 0;
+	static int subA = 0;
+	
+	time += dt / m_model->getAnimationTime(0);
+	if (time >= 1)
+	{
+		time = 0;
+		subA = 1 - subA;
+	}
+	
+	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, time, 0, subA, m_world));
 }
 
 

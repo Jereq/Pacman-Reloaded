@@ -20,7 +20,9 @@ protected:
 	ACTOR_STATE m_state;
 	float m_speed, m_speedInit, m_speedFrenzy;
 	
-	float m_timer, m_time;
+	float m_timer, dt;
+	
+	int m_aniIndex;
 
 public:
 	Actor(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);
@@ -37,13 +39,12 @@ public:
 	void setSpeed(float _speed);
 	void resetSpeed();
 
-	D3DXVECTOR3 getPos();
-
-	D3DXVECTOR3 getMinCorner();
-	D3DXVECTOR3 getMaxCorner();
-
 	ACTOR_STATE getState();
 
 private:
+	std::vector<std::string> m_aniNames;
+
+	
 	void frenzyMode(float d_deltaTime);
+
 };

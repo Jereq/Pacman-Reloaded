@@ -10,7 +10,7 @@ enum FOODTYPE
 	NORMAL,
 	SPECIAL,
 	POWERUPS,
-	COUNT
+	//COUNT
 };
 
 class Food : public GameObject
