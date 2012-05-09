@@ -126,10 +126,6 @@ namespace Pacman
 		pacman = rm->loadMTAModel("models/pacman.mta");
 		player = new Player(pacman, D3DXVECTOR3(0,0,0));
 		player->init();
-
-		fd = new Food(food, D3DXVECTOR3(0,0,0), NORMAL);
-		fd->init();
-
 	}
 
 	Game::~Game()
@@ -170,18 +166,8 @@ namespace Pacman
 		D3DXMATRIX tmp;
 		D3DXMatrixIdentity(&tmp);
 
-	/*	static float time = 0;
-		}*/
-
 
 		player->draw(gManager);
-		fd->draw(gManager);
-
-		/*if(col->checkCollision(player->getPos(), player->getMinCorner(), player->getMaxCorner(),
-			fd->getPos(), fd->getMinCorner(), fd->getMaxCorner()) == true)*/
-		if(col->checkCollision(player, fd) == true)
-		{
-			PostQuitMessage(0);
 
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
 		//gManager->AddDynamicObject(Graphics::dynamicObject(pacman, time, 0, subA, tmp));
