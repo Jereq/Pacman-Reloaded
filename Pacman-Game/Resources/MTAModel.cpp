@@ -106,7 +106,7 @@ namespace Resources
 		return bbMin;
 	}
 
-	D3DXVECTOR3 MTAModel::getbbMin()
+	D3DXVECTOR3 MTAModel::getbbMax()
 	{
 		return bbMax;
 	}

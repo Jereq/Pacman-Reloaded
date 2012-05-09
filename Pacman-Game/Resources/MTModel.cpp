@@ -49,7 +49,7 @@ namespace Resources
 		return bbMin;
 	}
 
-	D3DXVECTOR3 MTModel::getbbMin()
+	D3DXVECTOR3 MTModel::getbbMax()
 	{
 		return bbMax;
 	}

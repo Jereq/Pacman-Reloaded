@@ -33,7 +33,7 @@ void Actor::update(float _deltaTime)
 
 void Actor::draw(Graphics::dxManager* _dxManager)
 {
-	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, m_time, 0, , m_world));
+	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, m_time, 0, 0, m_world));
 }
 
 
