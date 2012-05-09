@@ -33,9 +33,6 @@ namespace Pacman
 		ID3DX10Mesh* levelMesh;
 		Resources::Texture::ptr levelTex;
 
-		Resources::MTAModel::ptr pacman;
-		Resources::MTModel::ptr food;
-
 	public:
 		Game(HINSTANCE _hInstance);
 		~Game();

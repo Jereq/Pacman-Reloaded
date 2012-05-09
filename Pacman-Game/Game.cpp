@@ -126,7 +126,6 @@ namespace Pacman
 		Player* player = new Player(pacman, D3DXVECTOR3(0,0,0));
 		player->init();
 
-		food = rm->loadMTModel("models/Food.mt");
 	}
 
 	Game::~Game()
@@ -142,34 +141,6 @@ namespace Pacman
 		{
 			PostQuitMessage(0);
 		}
-		/* SOME PSUEDO COOOOOODE
-
-		for(int i = 0; i < food.size(); i++)
-		{
-			if(pacman.cell == food[i].cell)
-			{
-				
-			}
-		}
-		for(int i = 0; i < ghost.size(); i++)
-		{
-			if(pacman.cell == ghost[i].cell)
-			{
-				if(collision() == true)
-				{
-					if(pacman->beEatingOrNot == true)
-					{
-						ghost[i]->changeState(DEAD);
-						break;
-					}
-					else
-					{
-						changeScene
-					}
-				}
-			}
-		}
-		*/
 		
 		while (!eventQueue.isEmpty())
 		{
@@ -189,28 +160,11 @@ namespace Pacman
 		sm->update(camera->getCameraPosition(),
 			camera->getCameraForward(),
 			camera->getCameraUp());
+
 		D3DXMATRIX tmp;
 		D3DXMatrixIdentity(&tmp);
 
-		D3DXMATRIX sma;
-		D3DXMatrixScaling(&sma, 0.05f, 0.05f, 0.05f);
-		D3DXMATRIX trans;
-		D3DXMatrixTranslation(&trans, 5, 4, 5);
-		D3DXMATRIX rot;
-		D3DXMatrixRotationY(&rot, 3.14f / 2);
-
-		static float time = 0;
-		static int subA = 0;
-		time += deltaTime / pacman->getAnimationTime(0);
-		if (time >= 1)
-		{
-			time = 0;
-			subA = 1 - subA;
-		}
-
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
-		gManager->AddDynamicObject(Graphics::dynamicObject(pacman, time, 0, subA, tmp));
-		//gManager->AddStaticObject(Graphics::staticObject(food->getMesh(), food->getTexture(), tmp));
 
 		gManager->renderScene();
 	}
