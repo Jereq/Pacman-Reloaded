@@ -1,9 +1,6 @@
 #pragma once
 
 #include <D3DX10math.h>
-#include "../BoundingBox.h"
-
-
 
 class GameObject
 {
