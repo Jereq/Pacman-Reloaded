@@ -101,10 +101,10 @@ namespace Graphics
 		ID3D10EffectTechnique*					pDoubelVertexTechnique;
 
 		//effect variable pointers
-		ID3D10EffectMatrixVariable*				pViewMatrixEffectVariable;
-		ID3D10EffectMatrixVariable*				pProjectionMatrixEffectVariable;
-		ID3D10EffectMatrixVariable*				pWorldMatrixEffectVariable;
-		ID3D10EffectShaderResourceVariable*		pColorMap;
+		ID3D10EffectMatrixVariable*				pSViewMatrixEffectVariable;
+		ID3D10EffectMatrixVariable*				pSProjectionMatrixEffectVariable;
+		ID3D10EffectMatrixVariable*				pSWorldMatrixEffectVariable;
+		ID3D10EffectShaderResourceVariable*		pSColorMap;
 
 		ID3D10EffectMatrixVariable*				pDViewMatrixEffectVariable;
 		ID3D10EffectMatrixVariable*				pDProjectionMatrixEffectVariable;
@@ -151,6 +151,10 @@ namespace Graphics
 		//scene function
 		void renderScene();	
 
+		void dynamicDraw();
+
+		void StaticDraw();
+
 		//Get and set the active camera
 		Camera* getActiveCamera();
 		Camera const* getActiveCamera() const;
@@ -170,6 +174,8 @@ namespace Graphics
 		//initialization methods
 		bool createSwapChainAndDevice( UINT width, UINT height );
 		bool loadShadersAndCreateInputLayouts();
+		bool initDynamicObjects();
+		bool initStaticObjects();
 		void createViewports( UINT width, UINT height );
 		bool createRenderTargetsAndDepthBuffer( UINT width, UINT height );
 
@@ -177,21 +183,3 @@ namespace Graphics
 		bool fatalError(const LPCSTR msg); 
 	};
 }
-
-//#if defined(DEBUG) | defined(_DEBUG)
-//#ifndef HR
-//#define HR(x)                                              \
-//{                                                          \
-//	HRESULT hr = (x);                                      \
-//	if(FAILED(hr))                                         \
-//{                                                      \
-//	DXTrace(__FILE__, (DWORD)__LINE__, hr, #x, true); \
-//}                                                      \
-//}
-//#endif
-//
-//#else
-//#ifndef HR
-//#define HR(x) (x)
-//#endif
-//#endif

@@ -146,76 +146,11 @@ namespace Graphics
 
 	bool dxManager::loadShadersAndCreateInputLayouts()
 	{
-		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"GFX/static.fx", 
-			NULL, NULL, 
-			"fx_4_0", 
-			D3D10_SHADER_ENABLE_STRICTNESS, 
-			0, 
-			pD3DDevice, 
-			NULL, 
-			NULL, 
-			&pStaticEffect, 
-			NULL,
-			NULL	) ) ) return fatalError((LPCSTR)"Could not load effect file!");	
+		bool res = initStaticObjects();
 
-		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"GFX/dynamic.fx", 
-			NULL, NULL, 
-			"fx_4_0", 
-			D3D10_SHADER_ENABLE_STRICTNESS, 
-			0, 
-			pD3DDevice, 
-			NULL, 
-			NULL, 
-			&pDynamicEffect, 
-			NULL,
-			NULL	) ) ) return fatalError((LPCSTR)"Could not load effect file!");	
+		res = initDynamicObjects();
 
-		pSingelVertexTechnique = pStaticEffect->GetTechniqueByName("RENDER");	
-		pDoubelVertexTechnique = pDynamicEffect->GetTechniqueByName("RENDER");
-
-		if ( pSingelVertexTechnique == NULL ) return fatalError((LPCSTR)"Could not find static technique!");	
-		if ( pDoubelVertexTechnique == NULL ) return fatalError((LPCSTR)"Could not find dynamic technique!");	
-
-		//create matrix effect pointers
-		pViewMatrixEffectVariable = pStaticEffect->GetVariableByName( "View" )->AsMatrix();
-		pProjectionMatrixEffectVariable = pStaticEffect->GetVariableByName( "Projection" )->AsMatrix();
-		pWorldMatrixEffectVariable = pStaticEffect->GetVariableByName( "World" )->AsMatrix();
-
-		pDViewMatrixEffectVariable = pDynamicEffect->GetVariableByName( "View" )->AsMatrix();
-		pDProjectionMatrixEffectVariable = pDynamicEffect->GetVariableByName( "Projection" )->AsMatrix();
-		pDWorldMatrixEffectVariable = pDynamicEffect->GetVariableByName( "World" )->AsMatrix();
-
-		//create texture effect variable
-		pColorMap = pStaticEffect->GetVariableByName( "colorMap" )->AsShaderResource();
-		pDColorMap = pDynamicEffect->GetVariableByName( "colorMap" )->AsShaderResource();
-
-		pTime = pDynamicEffect->GetVariableByName("time")->AsScalar();
-
-		//create input layout simple vertex
-		D3D10_PASS_DESC SimplePassDesc;
-
-		pSingelVertexTechnique->GetPassByIndex( 0 )->GetDesc( &SimplePassDesc );
-
-		if ( FAILED( pD3DDevice->CreateInputLayout( Resources::vertexInputLayout, 
-			Resources::simpleVertexInputLayoutNumElements, 
-			SimplePassDesc.pIAInputSignature,
-			SimplePassDesc.IAInputSignatureSize, 
-			&pVertexLayout ) ) ) return fatalError((LPCSTR)"Could not create Input Layout!");
-
-		//create input layout double vertex
-		D3D10_PASS_DESC DoublePassDesc;
-
-		pDoubelVertexTechnique->GetPassByIndex( 0 )->GetDesc( &DoublePassDesc );
-
-		HRESULT hr = pD3DDevice->CreateInputLayout( Resources::doubleVertexInputLayout, 
-			Resources::doubleVertexInputLayoutNumElements, 
-			DoublePassDesc.pIAInputSignature,
-			DoublePassDesc.IAInputSignatureSize, 
-			&pDoubleVertexLayout );
-
-		if ( FAILED( hr ) ) return fatalError((LPCSTR)"Could not create Double Input Layout!");
-
-		return true;
+		return res;
 	}
 	#pragma endregion Init
 
@@ -233,6 +168,7 @@ namespace Graphics
 		material.specular = 0.5f;
 		material.shininess = 30;
 
+		//Static objects
 		ID3D10EffectVariable* pVar = pStaticEffect->GetVariableByName("light");
 		pVar->SetRawValue(&directionalLight, 0, sizeof(DirectionalLight));
 
@@ -242,6 +178,8 @@ namespace Graphics
 		pVar = pStaticEffect->GetVariableByName("ambientLight");
 		pVar->SetRawValue(&ambientLight, 0, sizeof(ambientLight));
 
+
+		//Dynamic objects
 		pVar = pDynamicEffect->GetVariableByName("light");
 		pVar->SetRawValue(&directionalLight, 0, sizeof(DirectionalLight));
 
@@ -263,57 +201,9 @@ namespace Graphics
 		pD3DDevice->ClearRenderTargetView( pRenderTargetView, D3DXCOLOR(0.82f,0.863f,0.953f,1) );
 		pD3DDevice->ClearDepthStencilView( pDepthStencilView, D3D10_CLEAR_DEPTH, 1.0f, 0 );
 
-		//set effect variables
-		//------------------------------------------------------------------------
+		StaticDraw();
 
-		//set view & projection matrices
-		pViewMatrixEffectVariable->SetMatrix(camera->getViewMatrix());
-		pProjectionMatrixEffectVariable->SetMatrix(camera->getProjectionMatrix());
-
-		//set view position
-		ID3D10EffectVectorVariable* var = pStaticEffect->GetVariableByName( "eye" )->AsVector();
-		var->SetFloatVector( (float*) camera->getCameraPosition() );		
-
-		//Draw static object
-		pD3DDevice->IASetInputLayout( pVertexLayout );
-		pSingelVertexTechnique->GetDesc( &techDesc );
-
-		BOOST_FOREACH(staticObject const& s, sObj)
-		{
-			pColorMap->SetResource(s.tex->getTexture());
-			pWorldMatrixEffectVariable->SetMatrix((float*)&s.world);
-
-			for( UINT p = 0; p < techDesc.Passes; p++ )
-			{				
-				pSingelVertexTechnique->GetPassByIndex( p )->Apply( 0 );
-				s.mesh->DrawSubset(0);
-			}
-		}
-
-		//set view & projection matrices
-		pDViewMatrixEffectVariable->SetMatrix(camera->getViewMatrix());
-		pDProjectionMatrixEffectVariable->SetMatrix(camera->getProjectionMatrix());
-
-		//set view position
-		var = pDynamicEffect->GetVariableByName( "eye" )->AsVector();
-		var->SetFloatVector( (float*) camera->getCameraPosition() );	
-
-		//Draw dynamic objects
-		pD3DDevice->IASetInputLayout( pDoubleVertexLayout );
-		pDoubelVertexTechnique->GetDesc( &techDesc );
-
-		BOOST_FOREACH(dynamicObject const& d, dObj)
-		{
-			pDColorMap->SetResource(d.mta->getTexture()->getTexture());
-			pDWorldMatrixEffectVariable->SetMatrix((float*)&d.world);
-			pTime->SetFloat(d.time);
-
-			for( UINT p = 0; p < techDesc.Passes; p++ )
-			{				
-				pDoubelVertexTechnique->GetPassByIndex( p )->Apply( 0 );
-				d.mta->getSubAnimation(d.aIndex, d.saIndex)->DrawSubset(0);
-			}
-		}		
+		dynamicDraw();
 
 		//flip buffers
 		pSwapChain->Present(0,0);
@@ -352,5 +242,139 @@ namespace Graphics
 	{
 		sObj.push_back(_sObj);
 	}
+
+	bool dxManager::initStaticObjects()
+	{
+		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"GFX/static.fx", 
+			NULL, NULL, 
+			"fx_4_0", 
+			D3D10_SHADER_ENABLE_STRICTNESS, 
+			0, 
+			pD3DDevice, 
+			NULL, 
+			NULL, 
+			&pStaticEffect, 
+			NULL,
+			NULL	) ) ) return fatalError((LPCSTR)"Could not load effect file!");	
+
+		pSingelVertexTechnique = pStaticEffect->GetTechniqueByName("RENDER");
+
+		if ( pSingelVertexTechnique == NULL ) return fatalError((LPCSTR)"Could not find static technique!");
+
+		pSViewMatrixEffectVariable = pStaticEffect->GetVariableByName( "View" )->AsMatrix();
+		pSProjectionMatrixEffectVariable = pStaticEffect->GetVariableByName( "Projection" )->AsMatrix();
+		pSWorldMatrixEffectVariable = pStaticEffect->GetVariableByName( "World" )->AsMatrix();
+
+		pSColorMap = pStaticEffect->GetVariableByName( "colorMap" )->AsShaderResource();
+
+		D3D10_PASS_DESC SimplePassDesc;
+
+		pSingelVertexTechnique->GetPassByIndex( 0 )->GetDesc( &SimplePassDesc );
+
+		if ( FAILED( pD3DDevice->CreateInputLayout( Resources::vertexInputLayout, 
+			Resources::simpleVertexInputLayoutNumElements, 
+			SimplePassDesc.pIAInputSignature,
+			SimplePassDesc.IAInputSignatureSize, 
+			&pVertexLayout ) ) ) return fatalError((LPCSTR)"Could not create Input Layout!");
+
+		return true;
+	}
+
+	bool dxManager::initDynamicObjects()
+	{
+		if ( FAILED( D3DX10CreateEffectFromFile((LPCSTR)"GFX/dynamic.fx", 
+			NULL, NULL, 
+			"fx_4_0", 
+			D3D10_SHADER_ENABLE_STRICTNESS, 
+			0, 
+			pD3DDevice, 
+			NULL, 
+			NULL, 
+			&pDynamicEffect, 
+			NULL,
+			NULL	) ) ) return fatalError((LPCSTR)"Could not load effect file!");	
+
+		pDoubelVertexTechnique = pDynamicEffect->GetTechniqueByName("RENDER");
+
+		if ( pDoubelVertexTechnique == NULL ) return fatalError((LPCSTR)"Could not find dynamic technique!");
+
+		pDViewMatrixEffectVariable = pDynamicEffect->GetVariableByName( "View" )->AsMatrix();
+		pDProjectionMatrixEffectVariable = pDynamicEffect->GetVariableByName( "Projection" )->AsMatrix();
+		pDWorldMatrixEffectVariable = pDynamicEffect->GetVariableByName( "World" )->AsMatrix();
+
+		pDColorMap = pDynamicEffect->GetVariableByName( "colorMap" )->AsShaderResource();
+
+		pTime = pDynamicEffect->GetVariableByName("time")->AsScalar();
+
+		D3D10_PASS_DESC DoublePassDesc;
+
+		pDoubelVertexTechnique->GetPassByIndex( 0 )->GetDesc( &DoublePassDesc );
+
+		HRESULT hr = pD3DDevice->CreateInputLayout( Resources::doubleVertexInputLayout, 
+			Resources::doubleVertexInputLayoutNumElements, 
+			DoublePassDesc.pIAInputSignature,
+			DoublePassDesc.IAInputSignatureSize, 
+			&pDoubleVertexLayout );
+
+		if ( FAILED( hr ) ) return fatalError((LPCSTR)"Could not create Double Input Layout!");
+
+		return true;
+	}
+
+	void dxManager::StaticDraw()
+	{
+		ID3D10EffectVectorVariable* var = pStaticEffect->GetVariableByName( "eye" )->AsVector();
+		var->SetFloatVector( (float*) camera->getCameraPosition() );	
+
+		//set view & projection matrices
+		pSViewMatrixEffectVariable->SetMatrix(camera->getViewMatrix());
+		pSProjectionMatrixEffectVariable->SetMatrix(camera->getProjectionMatrix());
+
+		//Draw static object
+		pD3DDevice->IASetInputLayout( pVertexLayout );
+		pSingelVertexTechnique->GetDesc( &techDesc );
+
+		BOOST_FOREACH(staticObject const& s, sObj)
+		{
+			pSColorMap->SetResource(s.tex->getTexture());
+			pSWorldMatrixEffectVariable->SetMatrix((float*)&s.world);
+
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{				
+				pSingelVertexTechnique->GetPassByIndex( p )->Apply( 0 );
+				s.mesh->DrawSubset(0);
+			}
+		}
+	}
+
+	void dxManager::dynamicDraw()
+	{
+		ID3D10EffectVectorVariable* var = pStaticEffect->GetVariableByName( "eye" )->AsVector();
+		//set view & projection matrices
+		pDViewMatrixEffectVariable->SetMatrix(camera->getViewMatrix());
+		pDProjectionMatrixEffectVariable->SetMatrix(camera->getProjectionMatrix());
+
+		//set view position
+		var = pDynamicEffect->GetVariableByName( "eye" )->AsVector();
+		var->SetFloatVector( (float*) camera->getCameraPosition() );	
+
+		//Draw dynamic objects
+		pD3DDevice->IASetInputLayout( pDoubleVertexLayout );
+		pDoubelVertexTechnique->GetDesc( &techDesc );
+
+		BOOST_FOREACH(dynamicObject const& d, dObj)
+		{
+			pDColorMap->SetResource(d.mta->getTexture()->getTexture());
+			pDWorldMatrixEffectVariable->SetMatrix((float*)&d.world);
+			pTime->SetFloat(d.time);
+
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{				
+				pDoubelVertexTechnique->GetPassByIndex( p )->Apply( 0 );
+				d.mta->getSubAnimation(d.aIndex, d.saIndex)->DrawSubset(0);
+			}
+		}
+	}
+
 
 }
