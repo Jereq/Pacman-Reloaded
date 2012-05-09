@@ -1,6 +1,7 @@
 #pragma once
 
 #include "..\GameplayFoundations\GameObject.h"
+#include "..\Resources\MTAModel.h"
 
 enum ACTOR_STATE
 {
@@ -14,15 +15,20 @@ enum ACTOR_STATE
 class Actor : public GameObject
 {
 protected:
+	Resources::MTAModel::ptr m_model;
+
 	ACTOR_STATE m_state;
 	float m_speed, m_speedInit, m_speedFrenzy;
+	
+	float m_timer, m_time;
 
 public:
-	Actor(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
+	Actor(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
 	virtual ~Actor();
 
 	void init();
 	void update(float _deltatime);
+	void draw(Graphics::dxManager* _dxManager);
 
 	void changeState(ACTOR_STATE _state);
 

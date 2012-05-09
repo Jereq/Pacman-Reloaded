@@ -1,10 +1,10 @@
 
 #include "Actor.h"
 
-Actor::Actor(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max)
-	: GameObject(_pos, _min, _max)
+Actor::Actor(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max)
+	 : GameObject(_pos, _min, _max)
 {
-	
+	m_model = _model;
 }
 
 Actor::~Actor()
@@ -21,11 +21,19 @@ void Actor::init()
 
 void Actor::update(float _deltaTime)
 {
+	D3DXMatrixTranslation(&m_world, m_pos.x, m_pos.y, m_pos.z);
+
 	if(m_state == FRENZY)
 	{
 		frenzyMode(_deltaTime);
 	}
 }
+
+void Actor::draw(Graphics::dxManager* _dxManager)
+{
+	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, m_time, 1, 2, m_world));
+}
+
 
 void Actor::changeState(ACTOR_STATE _state)
 {

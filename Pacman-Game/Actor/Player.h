@@ -8,7 +8,7 @@ private:
 	UINT m_scoreAmount;
 
 public:
-	Player(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
+	Player(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max);
 	~Player();
 
 	void init();

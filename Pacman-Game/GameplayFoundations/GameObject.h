@@ -1,11 +1,15 @@
 #pragma once
 
 #include <D3DX10math.h>
+#include "..\GFX\dxManager.h"
+
 
 class GameObject
 {
 protected:
 	D3DXVECTOR3 m_pos, m_min, m_max;
+
+	D3DXMATRIX m_world;
 
 	float m_timer;
 
@@ -15,7 +19,6 @@ public:
 	
 	void init();
 	void update(float _deltaTime);
-
 	bool collision();
 
 	D3DXVECTOR3 getPos();

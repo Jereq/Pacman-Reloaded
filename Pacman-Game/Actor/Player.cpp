@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max) 
-	: Actor(_pos, _min, _max)
+Player::Player(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos, D3DXVECTOR3 _min, D3DXVECTOR3 _max) 
+	: Actor(_model, _pos, _min, _max)
 {}
 
 Player::~Player()
