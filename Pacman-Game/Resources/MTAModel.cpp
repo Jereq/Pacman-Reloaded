@@ -55,6 +55,13 @@ namespace Resources
 		return animations[_aniIndex].subAnimations[_subAniIndex];
 	}
 
+	float MTAModel::getAnimationTime(size_t _aniIndex) const
+	{
+		assert(_aniIndex < animations.size());
+
+		return animations[_aniIndex].time;
+	}
+
 	void MTAModel::setBoundingBox(D3DXVECTOR3 const& _minPos, D3DXVECTOR3 const& _maxPos)
 	{
 		bbMin = _minPos;

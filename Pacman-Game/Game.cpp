@@ -123,7 +123,7 @@ namespace Pacman
 
 		levelTex = rm->loadTexture("Textures/mapTex.png");
 
-		pacman = rm->loadMTAModel("pacman.mta");
+		pacman = rm->loadMTAModel("models/pacman.mta");
 		food = rm->loadMTModel("models/Food.mt");
 	}
 
@@ -198,10 +198,16 @@ namespace Pacman
 		D3DXMatrixRotationY(&rot, 3.14f / 2);
 
 		static float time = 0;
-		time += deltaTime;
+		static int subA = 0;
+		time += deltaTime / pacman->getAnimationTime(0);
+		if (time >= 1)
+		{
+			time = 0;
+			subA = 1 - subA;
+		}
 
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
-		gManager->AddDynamicObject(Graphics::dynamicObject(pacman, deltaTime / 20.f, 0, 0, sma * rot * trans));
+		gManager->AddDynamicObject(Graphics::dynamicObject(pacman, time, 0, subA, tmp));
 		//gManager->AddStaticObject(Graphics::staticObject(food->getMesh(), food->getTexture(), tmp));
 
 		gManager->renderScene();

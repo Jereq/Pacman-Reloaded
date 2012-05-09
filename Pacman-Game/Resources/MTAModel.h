@@ -37,6 +37,7 @@ namespace Resources
 		void setTexture(Texture::ptr const& _texture);
 
 		ID3DX10Mesh* getSubAnimation(size_t _aniIndex, size_t _subAniIndex) const;
+		float getAnimationTime(size_t _aniIndex) const;
 
 		void setBoundingBox(D3DXVECTOR3 const& _minPos, D3DXVECTOR3 const& _maxPos);
 		void setAnimations(std::vector<Animation> const& _animations);
