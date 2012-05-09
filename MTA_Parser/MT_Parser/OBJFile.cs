@@ -63,7 +63,7 @@ namespace MT_Parser
 
                 if (s[0] == "v")
                 {
-                    vertexCord.Add(new float[] { Convert.ToSingle(s[1], ci), Convert.ToSingle(s[2], ci), Convert.ToSingle(s[3], ci) });
+                    vertexCord.Add(new float[] { Convert.ToSingle(s[1], ci), Convert.ToSingle(s[2], ci), -Convert.ToSingle(s[3], ci) });
                 }
                 else if (s[0] == "vt")
                 {
@@ -71,7 +71,7 @@ namespace MT_Parser
                 }
                 else if (s[0] == "vn")
                 {
-                    normalCord.Add(new float[] { Convert.ToSingle(s[1], ci), Convert.ToSingle(s[2], ci), Convert.ToSingle(s[3], ci) });
+                    normalCord.Add(new float[] { Convert.ToSingle(s[1], ci), Convert.ToSingle(s[2], ci), -Convert.ToSingle(s[3], ci) });
                 }
                 else if (s[0] == "f")
                 {
