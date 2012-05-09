@@ -36,6 +36,11 @@ namespace Resources
 		Texture::ptr getTexture() const;
 		void setTexture(Texture::ptr const& _texture);
 
+		std::vector<std::string> getAnimationNames() const;
+
+		size_t getAnimationIndex(std::string const& _aniName) const;
+		size_t getSubAnimationCount(size_t _aniIndex) const;
+
 		ID3DX10Mesh* getSubAnimation(size_t _aniIndex, size_t _subAniIndex) const;
 		float getAnimationTime(size_t _aniIndex) const;
 

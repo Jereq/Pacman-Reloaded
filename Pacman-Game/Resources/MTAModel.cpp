@@ -47,6 +47,39 @@ namespace Resources
 		texture = _texture;
 	}
 
+	std::vector<std::string> MTAModel::getAnimationNames() const
+	{
+		std::vector<std::string> res;
+		res.reserve(animations.size());
+
+		BOOST_FOREACH(Animation const& a, animations)
+		{
+			res.push_back(a.name);
+		}
+
+		return res;
+	}
+
+	size_t MTAModel::getAnimationIndex(std::string const& _aniName) const
+	{
+		for (size_t i = 0; i < animations.size(); i++)
+		{
+			if (animations[i].name == _aniName)
+			{
+				return i;
+			}
+		}
+
+		return 0;
+	}
+
+	size_t MTAModel::getSubAnimationCount(size_t _aniIndex) const
+	{
+		assert(_aniIndex < animations.size());
+
+		return animations[_aniIndex].subAnimations.size();
+	}
+
 	ID3DX10Mesh* MTAModel::getSubAnimation(size_t _aniIndex, size_t _subAniIndex) const
 	{
 		assert(_aniIndex < animations.size());
