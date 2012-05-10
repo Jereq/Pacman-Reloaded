@@ -88,6 +88,8 @@ namespace Pacman
 		result = RegisterInputDevices(hWnd);
 		assert(result);
 
+
+
 		gManager = new Graphics::dxManager();
 
 		//Player* player = new Player(D3DXVECTOR3(0,0,0));
@@ -129,9 +131,19 @@ namespace Pacman
 		int f = levelMesh->GetFaceCount();
 
 		pacman = rm->loadMTAModel("models/pacman.mta");
+		foodmodel = rm->loadMTModel("models/food.mt");
+		for(int i = 0; i < 1; i++)
 
 		player = new Player(pacman, D3DXVECTOR3(currentGrid->getStartPos().u + 0.5f, 0, currentGrid->getStartPos().v + 0.5f));
+		{
+			food.push_back(new Food(foodmodel, D3DXVECTOR3(13.1f, .5f, 4.4f), NORMAL ));
+			food[i]->init();
+		}
+		
+		
+
 		player->init();
+
 	}
 
 	Game::~Game()
@@ -145,10 +157,29 @@ namespace Pacman
 		static float d = 0.0f;
 		d += deltaTime * 3.f;
 
+
+	
 		if(m_HID->pressKeyOnce(VK_ESCAPE))
 		{
 			PostQuitMessage(0);
 		}
+		if(m_HID->pressKey('W'))
+		{
+			player->goUp();
+		}
+		if(m_HID->pressKey('S'))
+		{
+			player->goDown();
+		}
+		if(m_HID->pressKey('A'))
+		{
+			player->goLeft();
+		}
+		if(m_HID->pressKey('D'))
+		{
+			player->goRight();
+		}
+	
 		while (!eventQueue.isEmpty())
 		{
 			Event::ptr ev = eventQueue.popEvent();
@@ -160,9 +191,8 @@ namespace Pacman
 				break;
 			}
 		}
-
+		
 		player->update(deltaTime);
-
 		Camera* camera = gManager->getActiveCamera();
 
 		camera->setPositionAndView(player->getPos().x, player->getPos().y + 10.0f + d, player->getPos().z, 0.0f, 90.0f );
@@ -176,6 +206,16 @@ namespace Pacman
 		D3DXMatrixIdentity(&tmp);
 
 		player->draw(gManager);
+		for(int i = 0; i < 1; i++)
+		{
+			food[i]->draw(gManager);
+			if(col->checkCollision(player, food[i]))
+			{
+			
+			}
+		}
+	
+		
 
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
 		gManager->renderScene();

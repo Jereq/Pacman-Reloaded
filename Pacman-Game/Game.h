@@ -24,7 +24,8 @@ namespace Pacman
 
 		HID* m_HID;
 		Player* player;
-		Food* fd;
+		std::vector<Food*> food;
+		
 
 		Collision* col;
 
@@ -41,6 +42,7 @@ namespace Pacman
 		Resources::Texture::ptr levelTex;
 
 		Resources::MTAModel::ptr pacman;
+		Resources::MTModel::ptr foodmodel;
 
 	public:
 		Game(HINSTANCE _hInstance);

@@ -32,7 +32,7 @@ void Ghost::update(float _deltaTime)
 {
 	Actor::update(_deltaTime);
 }
-
+	//D3DXMatrixScaling(&scale, 0.38f, 0.7f, 0.38f );
 void Ghost::draw(Graphics::dxManager* _dxManager)
 {
 	static float time = 0;
