@@ -16,13 +16,14 @@ void Actor::init()
 {
 	m_min = m_model->getbbMin();
 	m_max = m_model->getbbMax();
+
 	m_aniNames = m_model->getAnimationNames();
 	m_aniIndex =  m_model->getAnimationIndex(m_aniNames[0]);
 	m_aniTime = m_model->getAnimationTime(m_aniIndex);
+
 	m_speedInit = 1.f;
 	m_speed = m_speedInit;
 	GameObject::init();
-	//m_pos offset depending on model
 }
 
 void Actor::update(float _deltaTime)
@@ -38,6 +39,8 @@ void Actor::update(float _deltaTime)
 
 void Actor::draw(Graphics::dxManager* _dxManager)
 {
+	moveDirection();
+
 	static float time = 0;
 	static int subA = 0;
 	
@@ -78,26 +81,22 @@ void Actor::changeState(ACTOR_STATE _state)
 	//signed
 }
 
-void Actor::goLeft()
+void Actor::setDirection(DIRECTION _direction)
 {
-	m_pos.x -= m_speed * dt;
+	m_direction = _direction;
 }
 
-void Actor::goRight()
+void Actor::moveDirection()
 {
-	m_pos.x += m_speed * dt;
-}
-
-void Actor::goUp()
-{
-	m_pos.z += m_speed * dt;
-}
-
-void Actor::goDown()
-{
-	m_pos.z -= m_speed * dt;
-}
-
+	if(m_direction == DIR_LEFT)
+		m_pos.x -= m_speed * dt;
+	if(m_direction == DIR_RIGHT)
+		m_pos.x += m_speed * dt;
+	if(m_direction == DIR_UP)
+		m_pos.z += m_speed * dt;
+	if(m_direction == DIR_DOWN)
+		m_pos.z -= m_speed * dt;
+}		
 void Actor::frenzyMode(float _deltaTime)
 {
 	m_timer += _deltaTime;
@@ -116,7 +115,6 @@ void Actor::resetSpeed()
 {
 	m_speed = m_speedInit;
 }
-
 
 ACTOR_STATE Actor::getState()
 {

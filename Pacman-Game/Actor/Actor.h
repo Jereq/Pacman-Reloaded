@@ -11,6 +11,14 @@ enum ACTOR_STATE
 	COUNT
 };
 
+enum DIRECTION
+{
+	DIR_LEFT,
+	DIR_RIGHT,
+	DIR_UP,
+	DIR_DOWN
+};
+
 
 class Actor : public GameObject
 {
@@ -34,10 +42,10 @@ public:
 	void draw(Graphics::dxManager* _dxManager);
 
 	void changeState(ACTOR_STATE _state);
-	void goLeft();
-	void goRight();
-	void goUp();
-	void goDown();
+
+	void setDirection(DIRECTION _direction);
+
+	void moveDirection();
 	
 
 	void setSpeed(float _speed);
@@ -46,6 +54,9 @@ public:
 	ACTOR_STATE getState();
 
 private:
+
+	DIRECTION m_direction;
+
 	std::vector<std::string> m_aniNames;
 
 	
