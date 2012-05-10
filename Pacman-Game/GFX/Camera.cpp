@@ -71,8 +71,8 @@ void Camera::setPositionAndView(float x, float y, float z, float hDeg, float pDe
 ********************************************************************/
 void Camera::adjustHeadingPitch( float hRad, float pRad )
 {
-	heading += hRad;
-	pitch += pRad;
+	heading = hRad;
+	pitch = pRad;
 
 	//value looping - keep heading and pitch between 0 and 2 pi
 	while (heading >= TWO_PI) heading -= (float) TWO_PI;

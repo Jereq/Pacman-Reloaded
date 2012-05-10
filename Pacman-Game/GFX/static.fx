@@ -54,7 +54,7 @@ float3 eye;
 RasterizerState rsSolid
 {
 	  FillMode = Solid;
-	  CullMode = FRONT;
+	  CullMode = NONE;
 	  FrontCounterClockwise = false;
 };
 

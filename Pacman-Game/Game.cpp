@@ -110,18 +110,20 @@ namespace Pacman
 		col = new Collision();
 
 		//set up scene camera properties
-		camera->setPerspectiveProjectionLH( 45.0f, (float)windowWidth / windowHeight, 0.1f, 100.0f );
-		camera->setPositionAndView( -6.0f, 15.f, -6.0f, 45.0f, 40.0f );
+		camera->setPerspectiveProjectionLH( 45.0f, (float)windowWidth / windowHeight, 0.1f, 100.0f );		
 
 		gManager->setActiveCamera(camera);
 
 		Resources::Context context(rm);
-		Resources::MapTexture::ptr test = context.getMapTexture("Maps/test.png");
+		Resources::MapTexture::ptr test = context.getMapTexture("Maps/map1.png");
 
 		currentGrid.reset(new GameplayFoundations::Grid(test));
 		levelMesh = currentGrid->createMesh(gManager->pD3DDevice);
 
 		levelTex = rm->loadTexture("Textures/mapTex.png");
+
+		int t = levelMesh->GetVertexCount();
+		int f = levelMesh->GetFaceCount();
 
 		pacman = rm->loadMTAModel("models/pacman.mta");
 		player = new Player(pacman, D3DXVECTOR3(0,0,0));
@@ -136,6 +138,8 @@ namespace Pacman
 
 	void Game::update(float deltaTime)
 	{
+		static float d = 0.0f;
+		d += 0.0005;
 
 		if(m_HID->pressKeyOnce(VK_ESCAPE))
 		{
@@ -157,6 +161,8 @@ namespace Pacman
 
 		Camera* camera = gManager->getActiveCamera();
 
+		camera->setPositionAndView(player->getPos().x, player->getPos().y + 10.0f + d, player->getPos().z - 3.0f, 0.0f, 70.0f );
+
 		camera->update();
 		sm->update(camera->getCameraPosition(),
 			camera->getCameraForward(),
@@ -165,11 +171,9 @@ namespace Pacman
 		D3DXMATRIX tmp;
 		D3DXMatrixIdentity(&tmp);
 
-
 		player->draw(gManager);
 
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
-
 		gManager->renderScene();
 	}
 }

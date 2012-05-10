@@ -18,7 +18,7 @@ void Player::init()
 
 	m_scoreAmount = 0;
 
-	m_timer = 0;
+	m_timer = 0; 
 }
 
 bool Player::beEatingOrNot()

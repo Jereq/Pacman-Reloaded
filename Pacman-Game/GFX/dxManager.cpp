@@ -146,11 +146,11 @@ namespace Graphics
 
 	bool dxManager::loadShadersAndCreateInputLayouts()
 	{
-		bool res = initStaticObjects();
+		if(!initStaticObjects()) return false;
 
-		res = initDynamicObjects();
+		if(!initDynamicObjects()) return false;
 
-		return res;
+		return true;
 	}
 	#pragma endregion Init
 
@@ -197,8 +197,14 @@ namespace Graphics
 		//Assert that there is a camera
 		assert(camera != NULL);
 
+		float r, g, b;
+
+		r = (38.0f / 255.0f);
+		g = (45.0f / 255.0f);
+		b = (63.0f / 255.0f);
+
 		//clear scene
-		pD3DDevice->ClearRenderTargetView( pRenderTargetView, D3DXCOLOR(0.82f,0.863f,0.953f,1) );
+		pD3DDevice->ClearRenderTargetView( pRenderTargetView, D3DXCOLOR(r, g, b, 1) );
 		pD3DDevice->ClearDepthStencilView( pDepthStencilView, D3D10_CLEAR_DEPTH, 1.0f, 0 );
 
 		StaticDraw();

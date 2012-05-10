@@ -51,7 +51,10 @@ void Actor::draw(Graphics::dxManager* _dxManager)
 		subA = 1 - subA;
 	}
 	
-	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, time, 0, subA, m_world));
+	D3DXMATRIX scale;
+	D3DXMatrixScaling(&scale, 0.7f, 0.7f, 0.7f);
+
+	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, time, 0, subA, scale * m_world));
 }
 
 

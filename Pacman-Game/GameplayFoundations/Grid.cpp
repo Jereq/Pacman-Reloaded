@@ -80,7 +80,7 @@ namespace GameplayFoundations
 		std::vector<D3DXCOLOR> cols;
 		_map->extractColors(cols);
 
-		size = CellIndex(_map->getWidth(), _map->getHeight());
+		size = CellIndex(_map->getHeight(), _map->getWidth());
 		std::vector<D3DXCOLOR>::iterator it = cols.begin();
 
 		cells = new GridCell[size.u * size.v];
