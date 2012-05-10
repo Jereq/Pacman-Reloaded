@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Actor.h"
+#include "..\Resources\MTAModel.h"
 
 class Player : public Actor
 {
@@ -12,10 +13,11 @@ public:
 	~Player();
 
 	void init();
+	//void update(float _deltaTime);
+
+	void draw(Graphics::dxManager* _dxManager);
 
 	bool beEatingOrNot();
-
-	void movement();
 
 	void setScore(int _score);
 	UINT getScore();

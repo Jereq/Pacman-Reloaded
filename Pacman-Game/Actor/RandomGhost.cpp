@@ -20,6 +20,7 @@ void RandomGhost::init()
 
 void RandomGhost::update(float _deltaTime)
 {
+	Ghost::update(_deltaTime);
 	/*
 	if(Wall == true)
 	{
@@ -48,4 +49,5 @@ void RandomGhost::update(float _deltaTime)
 		go(cell in front);
 	}
 	*/
+	
 }

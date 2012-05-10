@@ -14,16 +14,14 @@ Actor::~Actor()
 
 void Actor::init()
 {
+	GameObject::init();
+
 	m_min = m_model->getbbMin();
 	m_max = m_model->getbbMax();
 
-	m_aniNames = m_model->getAnimationNames();
-	m_aniIndex =  m_model->getAnimationIndex(m_aniNames[0]);
-	m_aniTime = m_model->getAnimationTime(m_aniIndex);
-
 	m_speedInit = 1.f;
 	m_speed = m_speedInit;
-	GameObject::init();
+
 }
 
 void Actor::update(float _deltaTime)
@@ -31,32 +29,14 @@ void Actor::update(float _deltaTime)
 	dt = _deltaTime;
 
 	D3DXMatrixTranslation(&m_world, m_pos.x, m_pos.y, m_pos.z);
+
 	if(m_state == FRENZY)
 	{
 		frenzyMode(_deltaTime);
 	}
-}
 
-void Actor::draw(Graphics::dxManager* _dxManager)
-{
 	moveDirection();
-
-	static float time = 0;
-	static int subA = 0;
-	
-	time += dt / m_aniTime;
-	if (time >= 1)
-	{
-		time = 0;
-		subA = 1 - subA;
-	}
-	
-	D3DXMATRIX scale;
-	D3DXMatrixScaling(&scale, 0.7f, 0.7f, 0.7f);
-
-	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, time, 0, subA, scale * m_world));
 }
-
 
 void Actor::changeState(ACTOR_STATE _state)
 {

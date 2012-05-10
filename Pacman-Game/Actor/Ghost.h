@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Actor.h"
+#include "..\Resources\MTAModel.h"
 
 class Ghost : public Actor
 {	
@@ -11,6 +12,6 @@ public:
 	virtual ~Ghost();
 
 	void init();
-
 	void update(float _deltaTime);
+	void draw(Graphics::dxManager* _dxManager);
 };

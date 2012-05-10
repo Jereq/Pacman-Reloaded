@@ -30,8 +30,15 @@ protected:
 	
 	float m_timer, dt;
 	
+	float time;
+	int subA;
+
+	std::vector<std::string> m_aniNames;
 	int m_aniIndex;
 	float m_aniTime;
+
+	D3DXMATRIX m_scale;
+	
 
 public:
 	Actor(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);
@@ -39,14 +46,12 @@ public:
 
 	void init();
 	void update(float _deltatime);
-	void draw(Graphics::dxManager* _dxManager);
 
 	void changeState(ACTOR_STATE _state);
 
 	void setDirection(DIRECTION _direction);
 
 	void moveDirection();
-	
 
 	void setSpeed(float _speed);
 	void resetSpeed();
@@ -56,9 +61,6 @@ public:
 private:
 
 	DIRECTION m_direction;
-
-	std::vector<std::string> m_aniNames;
-
 	
 	void frenzyMode(float d_deltaTime);
 

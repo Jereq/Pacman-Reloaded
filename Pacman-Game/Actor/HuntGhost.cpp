@@ -11,14 +11,15 @@ HuntGhost::~HuntGhost()
 
 }
 
-void HuntGhost::update(float _deltaTime)
-{
-
-}
-
 void HuntGhost::init()
 {
 	Ghost::init();
 	m_speedInit = 3.5f;
 	m_speed = m_speedInit;
 }
+
+void HuntGhost::update(float _deltaTime)
+{
+	Ghost::update(_deltaTime);
+}
+

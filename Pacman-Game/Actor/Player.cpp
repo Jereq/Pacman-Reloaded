@@ -10,15 +10,40 @@ Player::~Player()
 void Player::init()
 {
 	Actor::init();
+
 	m_state = ALIVE;
 
 	m_speedInit = 4.f;
 	m_speed = m_speedInit;
 	m_speedFrenzy = m_speedInit * 1.2f;
 
+	m_aniNames = m_model->getAnimationNames();
+	m_aniIndex =  m_model->getAnimationIndex(m_aniNames[0]);
+	m_aniTime = m_model->getAnimationTime(m_aniIndex);
+
+	D3DXMatrixScaling(&m_scale, 0.7f, 0.7f, 0.7f);
+
+	D3DXVec3TransformCoord(&m_min, &m_min, &m_scale);
+	D3DXVec3TransformCoord(&m_max, &m_max, &m_scale);
+
 	m_scoreAmount = 0;
 
 	m_timer = 0; 
+}
+
+void Player::draw(Graphics::dxManager* _dxManager)
+{
+	static float time = 0;
+	static int subA = 0;
+	
+	time += dt / m_aniTime;
+	if (time >= 1)
+	{
+		time = 0;
+		subA = 1 - subA;
+	}
+	
+	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, time, 0, subA, m_scale * m_world));
 }
 
 bool Player::beEatingOrNot()
