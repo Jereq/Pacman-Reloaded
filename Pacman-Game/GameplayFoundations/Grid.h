@@ -31,6 +31,8 @@ namespace GameplayFoundations
 				bool nV;
 			};
 		};
+
+		const static std::pair<int, int> INDEX_OFFSETS[4];
 	};
 
 	class Grid
@@ -40,10 +42,57 @@ namespace GameplayFoundations
 		typedef std::vector<Resources::vertex> vertexVector_t;
 		typedef std::vector<UINT16> indexVector_t;
 
+		class NavigationGrid
+		{
+		private:
+			struct NavigationNode
+			{
+				Paths paths;
+				bool closed;
+				NavigationNode* prevNode;
+				CellIndex index;
+
+				float g_score;
+				float h_score;
+				float f_score;
+				
+				NavigationNode();
+			};
+
+			class NodeComparer
+			{
+			public:
+				bool operator()(NavigationNode* _lhs, NavigationNode* _rhs) const;
+			};
+
+			typedef std::set<NavigationNode*, NodeComparer> NodeQueue_t;
+
+			CellIndex size;
+			NavigationNode* nodes;
+
+			NavigationNode& getNode(size_t _u, size_t _v);
+			NavigationNode& getNode(CellIndex const& _nodeIndex);
+
+			float estimate(CellIndex const& _first, CellIndex const& _second) const;
+
+			void reconstructPath(NavigationNode* _lastNode, std::vector<CellIndex>& _out) const;
+
+		public:
+			NavigationGrid();
+			NavigationGrid(NavigationGrid const& _orig);
+			~NavigationGrid();
+			
+			void create(CellIndex const& _size);
+			void setPaths(CellIndex const& _index, Paths const& _paths);
+
+			bool findPath(CellIndex const& _from, CellIndex const& _to, std::vector<CellIndex>& _out);
+		};
+
 		GridCell* cells;
 		CellIndex size;
 		CellIndex startPos;
 		std::vector<CellIndex> ghostStartPos;
+		NavigationGrid navigationGrid;
 
 		GridCell& getCell(size_t _u, size_t _v);
 		GridCell const& getCell(size_t _u, size_t _v) const;
@@ -54,39 +103,6 @@ namespace GameplayFoundations
 			vertexVector_t& _vertices,
 			indexVector_t& _indices,
 			Resources::vertex const& _vert);
-
-		class NavigationGrid
-		{
-		private:
-			struct NavigationNode
-			{
-				enum State
-				{
-					OPEN,
-					CLOSED,
-					UNUSED,
-				};
-
-				Paths paths;
-				State state;
-				NavigationNode* prevNode;
-
-				float g_score;
-				float h_score;
-				float f_score;
-				
-				NavigationNode(Paths const& _paths);
-			};
-
-			class NodeComparer
-			{
-			public:
-				bool operator()(NavigationNode* _lhs, NavigationNode* _rhs) const;
-			};
-
-			typedef std::set<NavigationNode*, NodeComparer> NodeQueue_t;
-			NodeQueue_t openNodes;
-		};
 
 	public:
 		typedef boost::shared_ptr<Grid> ptr;
@@ -107,7 +123,7 @@ namespace GameplayFoundations
 
 		ID3DX10Mesh* createMesh(ID3D10Device* _device);
 
-		bool findPath(CellIndex const& _from, CellIndex const& _to, std::vector<CellIndex>& _out) const;
+		bool findPath(CellIndex const& _from, CellIndex const& _to, std::vector<CellIndex>& _out);
 	};
 
 	template<typename Coll>

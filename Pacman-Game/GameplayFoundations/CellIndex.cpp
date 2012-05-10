@@ -11,4 +11,9 @@ namespace GameplayFoundations
 		: u(_u), v(_v)
 	{
 	}
+
+	bool CellIndex::operator==(CellIndex const& _rhs) const
+	{
+		return (u == _rhs.u) && (v == _rhs.v);
+	}
 }

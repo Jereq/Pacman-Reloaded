@@ -120,6 +120,9 @@ namespace Pacman
 		currentGrid.reset(new GameplayFoundations::Grid(test));
 		levelMesh = currentGrid->createMesh(gManager->pD3DDevice);
 
+		std::vector<GameplayFoundations::CellIndex> testPath;
+		currentGrid->findPath(GameplayFoundations::CellIndex(1, 78), currentGrid->getStartPos(), testPath);
+
 		levelTex = rm->loadTexture("Textures/mapTex.png");
 
 		int t = levelMesh->GetVertexCount();
@@ -140,7 +143,7 @@ namespace Pacman
 	void Game::update(float deltaTime)
 	{
 		static float d = 0.0f;
-		d += 0.0005;
+		d += deltaTime * 3.f;
 
 		if(m_HID->pressKeyOnce(VK_ESCAPE))
 		{

@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <cassert>
+#include <cmath>
+#include <list>
 
 namespace GameplayFoundations
 {
@@ -29,6 +31,176 @@ namespace GameplayFoundations
 		food,
 		candy,
 	};
+
+	const std::pair<int, int> Paths::INDEX_OFFSETS[4] =
+	{
+		std::pair<int, int>(1, 0),
+		std::pair<int, int>(0, 1),
+		std::pair<int, int>(-1, 0),
+		std::pair<int, int>(0, -1)
+	};
+
+	bool Grid::NavigationGrid::NodeComparer::operator()(NavigationNode* _lhs, NavigationNode* _rhs) const
+	{
+		if (_lhs->f_score < _rhs->f_score) return true;
+		if (_lhs->f_score > _rhs->f_score) return false;
+		
+		return _lhs < _rhs;
+	}
+
+	Grid::NavigationGrid::NavigationNode::NavigationNode()
+		: paths(), closed(false), prevNode(NULL), g_score(0), h_score(0), f_score(0)
+	{
+	}
+
+	Grid::NavigationGrid::NavigationNode& Grid::NavigationGrid::getNode(size_t _u, size_t _v)
+	{
+		assert(_u < size.u);
+		assert(_v < size.v);
+
+		return nodes[_u + _v * size.u];
+	}
+
+	Grid::NavigationGrid::NavigationNode& Grid::NavigationGrid::getNode(CellIndex const& _nodeIndex)
+	{
+		return getNode(_nodeIndex.u, _nodeIndex.v);
+	}
+
+	float Grid::NavigationGrid::estimate(CellIndex const& _first, CellIndex const& _second) const
+	{
+		float dU = static_cast<float>((int)_first.u - (int)_second.u);
+		float dV = static_cast<float>((int)_first.v - (int)_second.v);
+
+		return sqrt(dU * dU + dV * dV);
+	}
+
+	void Grid::NavigationGrid::reconstructPath(NavigationNode* _lastNode, std::vector<CellIndex>& _out) const
+	{
+		std::list<CellIndex> temp;
+
+		NavigationNode* currentNode = _lastNode;
+
+		while (currentNode)
+		{
+			temp.push_front(currentNode->index);
+			currentNode = currentNode->prevNode;
+		}
+
+		_out.insert(_out.end(), temp.begin(), temp.end());
+	}
+
+	Grid::NavigationGrid::NavigationGrid()
+		: nodes(NULL)
+	{
+	}
+
+	Grid::NavigationGrid::NavigationGrid(NavigationGrid const& _orig)
+	{
+		size = _orig.size;
+		
+		size_t numNodes = size.u * size.v;
+		nodes = new NavigationNode[numNodes];
+
+		for (size_t i = 0; i < numNodes; i++)
+		{
+			nodes[i] = _orig.nodes[i];
+		}
+	}
+
+	Grid::NavigationGrid::~NavigationGrid()
+	{
+		if (nodes)
+		{
+			delete[] nodes;
+			nodes = NULL;
+		}
+	}
+
+	void Grid::NavigationGrid::create(CellIndex const& _size)
+	{
+		size = _size;
+		nodes = new NavigationNode[_size.u * _size.v];
+
+		for (size_t u = 0; u < _size.u; u++)
+		{
+			for (size_t v = 0; v < _size.v; v++)
+			{
+				getNode(u, v).index = CellIndex(u, v);
+			}
+		}
+	}
+
+	void Grid::NavigationGrid::setPaths(CellIndex const& _index, Paths const& _paths)
+	{
+		getNode(_index).paths = _paths;
+	}
+
+	bool Grid::NavigationGrid::findPath(CellIndex const& _from, CellIndex const& _to, std::vector<CellIndex>& _out)
+	{
+		NodeQueue_t openNodes;
+
+		NavigationNode* currentNode = &getNode(_from);
+		currentNode->h_score = estimate(_from, _to);
+		currentNode->f_score = currentNode->h_score;
+
+		openNodes.insert(currentNode);
+
+		while (!openNodes.empty())
+		{
+			currentNode = *openNodes.begin();
+			openNodes.erase(currentNode);
+
+			if (currentNode->index == _to)
+			{
+				reconstructPath(currentNode, _out);
+				return true;
+			}
+
+			currentNode->closed = true;
+
+			for (size_t i = 0; i < 4; i++)
+			{
+				if (currentNode->paths.vals[i])
+				{
+					CellIndex neighborIndex = currentNode->index;
+					neighborIndex.u += Paths::INDEX_OFFSETS[i].first;
+					neighborIndex.v += Paths::INDEX_OFFSETS[i].second;
+
+					NavigationNode* neighbor = &getNode(neighborIndex);
+					
+					if (neighbor->closed)
+					{
+						continue;
+					}
+
+					float tentative_g_score = currentNode->g_score + 1.f;
+
+					bool tentative_is_better;
+					if (openNodes.count(neighbor) == 0)
+					{
+						neighbor->h_score = estimate(neighbor->index, _to);
+						tentative_is_better = true;
+					}
+					else
+					{
+						openNodes.erase(neighbor);
+						tentative_is_better = tentative_g_score < neighbor->g_score;
+					}
+
+					if (tentative_is_better)
+					{
+						neighbor->prevNode = currentNode;
+						neighbor->g_score = tentative_g_score;
+						neighbor->f_score = neighbor->g_score + neighbor->h_score;
+					}
+
+					openNodes.insert(neighbor);
+				}
+			}
+		}
+
+		return false;
+	}
 
 	GridCell& Grid::getCell(size_t _u, size_t _v)
 	{
@@ -158,6 +330,17 @@ namespace GameplayFoundations
 		{
 			CellIndex const& pos = ghostStartPos[i];
 			std::cout << "(" << pos.u << ", " << pos.v << ")" << std::endl;
+		}
+
+		navigationGrid.create(size);
+
+		for (size_t u = 0; u < size.u; u++)
+		{
+			for (size_t v = 0; v < size.v; v++)
+			{
+				CellIndex index(u, v);
+				navigationGrid.setPaths(index, getOpenPaths(index));
+			}
 		}
 	}
 
@@ -352,5 +535,12 @@ namespace GameplayFoundations
 		mesh->CommitToDevice();
 
 		return mesh;
+	}
+
+	bool Grid::findPath(CellIndex const& _from, CellIndex const& _to, std::vector<CellIndex>& _out)
+	{
+		NavigationGrid tmpNavGrid(navigationGrid);
+
+		return tmpNavGrid.findPath(_from, _to, _out);
 	}
 }

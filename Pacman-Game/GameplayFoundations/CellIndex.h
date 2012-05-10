@@ -10,5 +10,7 @@ namespace GameplayFoundations
 
 		CellIndex();
 		CellIndex(size_t _u, size_t _v);
+
+		bool operator==(CellIndex const& _rhs) const;
 	};
 }
