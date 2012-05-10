@@ -13,7 +13,7 @@ GameObject::~GameObject()
 
 void GameObject::init()
 {
-
+	D3DXMatrixTranslation(&m_world, m_pos.x, m_pos.y, m_pos.z);
 }
 
 void GameObject::update(float _deltaTime)

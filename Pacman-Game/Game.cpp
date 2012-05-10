@@ -141,7 +141,6 @@ namespace Pacman
 		{
 			PostQuitMessage(0);
 		}
-		
 		while (!eventQueue.isEmpty())
 		{
 			Event::ptr ev = eventQueue.popEvent();
@@ -170,7 +169,6 @@ namespace Pacman
 		player->draw(gManager);
 
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
-		//gManager->AddDynamicObject(Graphics::dynamicObject(pacman, time, 0, subA, tmp));
 
 		gManager->renderScene();
 	}

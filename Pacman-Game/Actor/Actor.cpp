@@ -21,6 +21,7 @@ void Actor::init()
 	m_aniTime = m_model->getAnimationTime(m_aniIndex);
 	m_speedInit = 1.f;
 	m_speed = m_speedInit;
+	GameObject::init();
 	//m_pos offset depending on model
 }
 
