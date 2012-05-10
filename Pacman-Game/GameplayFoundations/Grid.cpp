@@ -198,6 +198,11 @@ namespace GameplayFoundations
 		return ret;
 	}
 
+	CellIndex Grid::getStartPos() const
+	{
+		return startPos;
+	}
+
 	void Grid::removeObject(CellIndex const& _cell, void* _obj)
 	{
 		getCell(_cell).removeObject(_obj);

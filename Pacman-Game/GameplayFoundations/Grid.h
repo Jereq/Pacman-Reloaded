@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 
 #include <boost/shared_ptr.hpp>
 
@@ -54,6 +55,39 @@ namespace GameplayFoundations
 			indexVector_t& _indices,
 			Resources::vertex const& _vert);
 
+		class NavigationGrid
+		{
+		private:
+			struct NavigationNode
+			{
+				enum State
+				{
+					OPEN,
+					CLOSED,
+					UNUSED,
+				};
+
+				Paths paths;
+				State state;
+				NavigationNode* prevNode;
+
+				float g_score;
+				float h_score;
+				float f_score;
+				
+				NavigationNode(Paths const& _paths);
+			};
+
+			class NodeComparer
+			{
+			public:
+				bool operator()(NavigationNode* _lhs, NavigationNode* _rhs) const;
+			};
+
+			typedef std::set<NavigationNode*, NodeComparer> NodeQueue_t;
+			NodeQueue_t openNodes;
+		};
+
 	public:
 		typedef boost::shared_ptr<Grid> ptr;
 
@@ -63,6 +97,8 @@ namespace GameplayFoundations
 		CellIndex getSize() const;
 		Paths getOpenPaths(CellIndex const& _cell) const;
 
+		CellIndex getStartPos() const;
+
 		template<typename Coll>
 		void getObjects(CellIndex const& _cell, Coll& _objs);
 
@@ -70,6 +106,8 @@ namespace GameplayFoundations
 		void addObject(CellIndex const& _cell, void* _obj);
 
 		ID3DX10Mesh* createMesh(ID3D10Device* _device);
+
+		bool findPath(CellIndex const& _from, CellIndex const& _to, std::vector<CellIndex>& _out) const;
 	};
 
 	template<typename Coll>
