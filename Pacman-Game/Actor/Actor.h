@@ -23,6 +23,7 @@ protected:
 	float m_timer, dt;
 	
 	int m_aniIndex;
+	float m_aniTime;
 
 public:
 	Actor(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);
@@ -33,8 +34,11 @@ public:
 	void draw(Graphics::dxManager* _dxManager);
 
 	void changeState(ACTOR_STATE _state);
-
-	void collision();
+	void goLeft();
+	void goRight();
+	void goUp();
+	void goDown();
+	
 
 	void setSpeed(float _speed);
 	void resetSpeed();

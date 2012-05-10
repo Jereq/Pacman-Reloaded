@@ -18,6 +18,7 @@ void Actor::init()
 	m_max = m_model->getbbMax();
 	m_aniNames = m_model->getAnimationNames();
 	m_aniIndex =  m_model->getAnimationIndex(m_aniNames[0]);
+	m_aniTime = m_model->getAnimationTime(m_aniIndex);
 	m_speedInit = 1.f;
 	m_speed = m_speedInit;
 	//m_pos offset depending on model
@@ -26,8 +27,7 @@ void Actor::init()
 void Actor::update(float _deltaTime)
 {
 	dt = _deltaTime;
-	m_pos.x += dt;
-	m_pos.z += dt;
+
 	D3DXMatrixTranslation(&m_world, m_pos.x, m_pos.y, m_pos.z);
 	if(m_state == FRENZY)
 	{
@@ -40,7 +40,7 @@ void Actor::draw(Graphics::dxManager* _dxManager)
 	static float time = 0;
 	static int subA = 0;
 	
-	time += dt / m_model->getAnimationTime(0);
+	time += dt / m_aniTime;
 	if (time >= 1)
 	{
 		time = 0;
@@ -75,6 +75,26 @@ void Actor::changeState(ACTOR_STATE _state)
 
 	//It would be neat with an Observer here
 	//signed
+}
+
+void Actor::goLeft()
+{
+	m_pos.x -= m_speed * dt;
+}
+
+void Actor::goRight()
+{
+	m_pos.x += m_speed * dt;
+}
+
+void Actor::goUp()
+{
+	m_pos.z += m_speed * dt;
+}
+
+void Actor::goDown()
+{
+	m_pos.z -= m_speed * dt;
 }
 
 void Actor::frenzyMode(float _deltaTime)
