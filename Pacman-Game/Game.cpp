@@ -110,7 +110,7 @@ namespace Pacman
 		col = new Collision();
 
 		//set up scene camera properties
-		camera->setPerspectiveProjectionLH( 45.0f, (float)windowWidth / windowHeight, 0.1f, 100.0f );		
+		camera->setPerspectiveProjectionLH( 45.0f, (float)windowWidth / windowHeight, 0.1f, 200.0f );		
 
 		gManager->setActiveCamera(camera);
 
@@ -126,7 +126,8 @@ namespace Pacman
 		int f = levelMesh->GetFaceCount();
 
 		pacman = rm->loadMTAModel("models/pacman.mta");
-		player = new Player(pacman, D3DXVECTOR3(0,0,0));
+
+		player = new Player(pacman, D3DXVECTOR3(currentGrid->getStartPos().u + 0.5f, 0, currentGrid->getStartPos().v + 0.5f));
 		player->init();
 	}
 
@@ -161,7 +162,7 @@ namespace Pacman
 
 		Camera* camera = gManager->getActiveCamera();
 
-		camera->setPositionAndView(player->getPos().x, player->getPos().y + 10.0f + d, player->getPos().z - 3.0f, 0.0f, 70.0f );
+		camera->setPositionAndView(player->getPos().x, player->getPos().y + 10.0f + d, player->getPos().z, 0.0f, 90.0f );
 
 		camera->update();
 		sm->update(camera->getCameraPosition(),
