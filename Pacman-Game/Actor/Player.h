@@ -2,12 +2,15 @@
 
 #include "Actor.h"
 #include "..\Resources\MTAModel.h"
+#include "../Sound/Loop.h"
 
 class Player : public Actor
 {
 private:
 	UINT m_scoreAmount;
 	float prevx, prevz;
+
+	Sound::Loop::ptr eatSound;
 
 public:
 	Player(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);

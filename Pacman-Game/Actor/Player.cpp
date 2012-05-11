@@ -28,7 +28,10 @@ void Player::init()
 
 	m_scoreAmount = 0;
 
-	m_timer = 0; 
+	m_timer = 0;
+
+	eatSound = Sound::SoundManager::getInstance()->getLoop("Sound Files/pacman_chomp.wav");
+	eatSound->setMinDistance(5.f);
 }
 
 void Player::update(float _deltaTime)
@@ -40,7 +43,12 @@ void Player::update(float _deltaTime)
 
 	if (prevx != m_pos.x || prevz != m_pos.z)
 	{
-		Sound::SoundManager::getInstance()->playSound("sound files/pacman_chomp.wav", m_pos, 1.0f);
+		eatSound->setPosition(m_pos);
+		eatSound->start();
+	}
+	else
+	{
+		eatSound->pause();
 	}
 }
 
