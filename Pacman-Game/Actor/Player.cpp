@@ -34,11 +34,11 @@ void Player::init()
 void Player::update(float _deltaTime)
 {
 	prevx = m_pos.x;
-	prevy = m_pos.y;
+	prevz = m_pos.z;
 
-	Actor::update(_deltaTime);
+	Actor::update(_deltaTime); 
 
-	if (prevx != m_pos.x && prevy != m_pos.y)
+	if (prevx != m_pos.x || prevz != m_pos.z)
 	{
 		Sound::SoundManager::getInstance()->playSound("sound files/pacman_chomp.wav", m_pos, 1.0f);
 	}

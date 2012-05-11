@@ -7,7 +7,7 @@ class Player : public Actor
 {
 private:
 	UINT m_scoreAmount;
-	float prevx, prevy;
+	float prevx, prevz;
 
 public:
 	Player(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);
