@@ -166,10 +166,13 @@
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Food.cpp">
-      <Filter>Source Files\Actor</Filter>       
+      <Filter>Source Files\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Resources\MTModel.cpp">
       <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound\Loop.cpp">
+      <Filter>Source Files\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="Actor\Food.h">
       <Filter>Header Files\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\Loop.h">
+      <Filter>Header Files\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

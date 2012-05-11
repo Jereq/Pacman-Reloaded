@@ -9,6 +9,30 @@ namespace Sound
 {
 	SoundManager::ptr SoundManager::instance(new SoundManager);
 
+	FMOD::Sound* SoundManager::getSound(std::string const& filename)
+	{
+		FMOD_RESULT result;
+		if (soundMap.count(filename) == 0)
+		{
+			result = system->createSound(filename.c_str(), FMOD_3D, NULL, &soundMap[filename]);
+			errCheck(result);
+		}
+
+		return soundMap[filename];
+	}
+
+	FMOD::Sound* SoundManager::getLoopedSound(std::string const& filename)
+	{
+		FMOD_RESULT result;
+		if (loopedSoundMap.count(filename) == 0)
+		{
+			result = system->createSound(filename.c_str(), FMOD_3D | FMOD_LOOP_NORMAL, NULL, &loopedSoundMap[filename]);
+			errCheck(result);
+		}
+
+		return loopedSoundMap[filename];
+	}
+
 	void SoundManager::errCheck(FMOD_RESULT const& result)
 	{
 		if (result != FMOD_OK)
@@ -132,9 +156,15 @@ namespace Sound
 			{
 				entry.second->release();
 			}
+
+			BOOST_FOREACH(sound_map::value_type const& entry, loopedSoundMap)
+			{
+				entry.second->release();
+			}
 		}
 
 		soundMap.clear();
+		loopedSoundMap.clear();
 	}
 
 	void SoundManager::update(D3DXVECTOR3 const& cameraPos, D3DXVECTOR3 const& cameraForward, D3DXVECTOR3 const& cameraUp)
@@ -180,15 +210,10 @@ namespace Sound
 
 	void SoundManager::playSound(std::string const& filename, D3DXVECTOR3 const& position, float minDistance)
 	{
-		FMOD_RESULT result;
-		if (soundMap.count(filename) == 0)
-		{
-			result = system->createSound(filename.c_str(), FMOD_3D, NULL, &soundMap[filename]);
-			errCheck(result);
-		}
+		FMOD::Sound* sound = getSound(filename);
 
 		FMOD::Channel* channel;
-		result = system->playSound(FMOD_CHANNEL_FREE, soundMap[filename], true, &channel);
+		FMOD_RESULT result = system->playSound(FMOD_CHANNEL_FREE, sound, true, &channel);
 		errCheck(result);
 
 		result = channel->set3DAttributes(&reinterpret_cast<FMOD_VECTOR const&>(position), NULL);
@@ -198,5 +223,16 @@ namespace Sound
 		errCheck(result);
 
 		channel->setPaused(false);
+	}
+
+	Loop::ptr SoundManager::getLoop(std::string const& filename)
+	{
+		FMOD::Sound* sound = getLoopedSound(filename);
+
+		FMOD::Channel* channel;
+		FMOD_RESULT result = system->playSound(FMOD_CHANNEL_FREE, sound, true, &channel);
+		errCheck(result);
+
+		return Loop::ptr(new Loop(channel));
 	}
 }

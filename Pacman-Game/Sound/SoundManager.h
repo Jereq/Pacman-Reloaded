@@ -10,6 +10,8 @@
 #include <fmod/fmod.hpp>
 #include <fmod/fmod_errors.h>
 
+#include "Loop.h"
+
 namespace Sound
 {
 	class SoundManager
@@ -25,8 +27,12 @@ namespace Sound
 
 		typedef std::map<std::string, FMOD::Sound*> sound_map;
 		sound_map soundMap;
+		sound_map loopedSoundMap;
 
 		FMOD::Sound* backgroundSound;
+
+		FMOD::Sound* getSound(std::string const& filename);
+		FMOD::Sound* getLoopedSound(std::string const& filename);
 
 		SoundManager();
 
@@ -43,5 +49,7 @@ namespace Sound
 		void playBackgroundSound(std::string const& filename);
 		void playBackgroundSound(std::string const& filename, float volume);
 		void playSound(std::string const& filename, D3DXVECTOR3 const& position, float minDistance);
+
+		Loop::ptr getLoop(std::string const& filename);
 	};
 }
