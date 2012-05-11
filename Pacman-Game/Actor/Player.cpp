@@ -25,7 +25,7 @@ namespace Actors
 
 		D3DXMatrixScaling(&initScaleRotation, 0.7f, 0.7f, 0.7f);
 		D3DXMATRIX rot;
-		D3DXMatrixRotationY(&rot, D3DX_PI / 2.0f);
+		D3DXMatrixRotationY(&rot, (float)D3DX_PI / 2.0f);
 
 		initScaleRotation = initScaleRotation * rot;
 

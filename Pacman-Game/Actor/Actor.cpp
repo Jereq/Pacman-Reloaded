@@ -151,8 +151,8 @@ namespace Actors
 
 	void Actor::moveDirection()
 	{
-		D3DXVECTOR3 from = D3DXVECTOR3(fromCell.u + 0.5f, 0, fromCell.v + 0.5f);
-		D3DXVECTOR3 to = D3DXVECTOR3(toCell.u + 0.5f, 0, toCell.v + 0.5f);
+		D3DXVECTOR3 from = D3DXVECTOR3(fromCell.u + 0.5f, 0.5f, fromCell.v + 0.5f);
+		D3DXVECTOR3 to = D3DXVECTOR3(toCell.u + 0.5f, 0.5f, toCell.v + 0.5f);
 		D3DXVECTOR3 look = to - from;
 		D3DXVec3Normalize(&look, &look);
 

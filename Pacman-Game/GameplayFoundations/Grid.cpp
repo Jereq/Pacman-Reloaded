@@ -285,6 +285,14 @@ namespace GameplayFoundations
 						{
 							ghostStartPos.push_back(CellIndex(cu, cv));							
 						}
+						else if (code.val == food.val)
+						{
+							foodPos.push_back(CellIndex(cu, cv));
+						}
+						else if (code.val == food.val)
+						{
+							candyPos.push_back(CellIndex(cu, cv));
+						}
 
 						break;
 					}
@@ -391,12 +399,22 @@ namespace GameplayFoundations
 		return ghostStartPos;
 	}
 
-	void Grid::removeObject(CellIndex const& _cell, void* _obj)
+	std::vector<CellIndex> const& Grid::getFoodPos() const
+	{
+		return foodPos;
+	}
+
+	std::vector<CellIndex> const& Grid::getCandyPos() const
+	{
+		return candyPos;
+	}
+
+	void Grid::removeObject(CellIndex const& _cell, GameObject* _obj)
 	{
 		getCell(_cell).removeObject(_obj);
 	}
 
-	void Grid::addObject(CellIndex const& _cell, void* _obj)
+	void Grid::addObject(CellIndex const& _cell, GameObject* _obj)
 	{
 		getCell(_cell).addObject(_obj);
 	}

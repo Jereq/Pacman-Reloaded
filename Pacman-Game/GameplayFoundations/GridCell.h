@@ -2,13 +2,15 @@
 
 #include <set>
 
+#include "GameObject.h"
+
 namespace GameplayFoundations
 {
 	class GridCell
 	{
 	private:
 		bool free;
-		std::set<void*> objects;
+		std::set<GameObject*> objects;
 
 	public:
 		GridCell();
@@ -21,8 +23,8 @@ namespace GameplayFoundations
 		template<typename Coll>
 		void getObjects(Coll& _objs);
 		
-		void removeObject(void* _obj);
-		void addObject(void* _obj);
+		void removeObject(GameObject* _obj);
+		void addObject(GameObject* _obj);
 	};
 	
 	template<typename Coll>

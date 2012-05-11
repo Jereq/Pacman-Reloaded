@@ -11,6 +11,7 @@
 
 #include "GridCell.h"
 #include "CellIndex.h"
+#include "GameObject.h"
 
 #include "../Resources/vertexTypes.h"
 #include "../Resources/Texture.h"
@@ -92,6 +93,8 @@ namespace GameplayFoundations
 		CellIndex size;
 		CellIndex startPos;
 		std::vector<CellIndex> ghostStartPos;
+		std::vector<CellIndex> foodPos;
+		std::vector<CellIndex> candyPos;
 		NavigationGrid navigationGrid;
 
 		GridCell& getCell(size_t _u, size_t _v);
@@ -115,12 +118,14 @@ namespace GameplayFoundations
 
 		CellIndex getStartPos() const;
 		std::vector<CellIndex> getGhostStartPos() const;
+		std::vector<CellIndex> const& getFoodPos() const;
+		std::vector<CellIndex> const& getCandyPos() const;
 
 		template<typename Coll>
 		void getObjects(CellIndex const& _cell, Coll& _objs);
 
-		void removeObject(CellIndex const& _cell, void* _obj);
-		void addObject(CellIndex const& _cell, void* _obj);
+		void removeObject(CellIndex const& _cell, GameObject* _obj);
+		void addObject(CellIndex const& _cell, GameObject* _obj);
 
 		ID3DX10Mesh* createMesh(ID3D10Device* _device);
 
