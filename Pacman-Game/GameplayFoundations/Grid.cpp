@@ -386,6 +386,11 @@ namespace GameplayFoundations
 		return startPos;
 	}
 
+	std::vector<CellIndex> Grid::getGhostStartPos() const
+	{
+		return ghostStartPos;
+	}
+
 	void Grid::removeObject(CellIndex const& _cell, void* _obj)
 	{
 		getCell(_cell).removeObject(_obj);

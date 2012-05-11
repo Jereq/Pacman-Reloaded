@@ -1,8 +1,9 @@
 #pragma once
 
-#include "..\GameplayFoundations\GameObject.h"
 #include "..\Resources\MTAModel.h"
 #include "..\Sound\SoundManager.h"
+#include "..\GameplayFoundations\GameObject.h"
+#include "..\GameplayFoundations\Grid.h"
 
 enum ACTOR_STATE
 {
@@ -20,49 +21,64 @@ enum DIRECTION
 	DIR_DOWN
 };
 
-
-class Actor : public GameObject
+namespace Actors
 {
-protected:
-	Resources::MTAModel::ptr m_model;
+	class Actor : public GameplayFoundations::GameObject
+	{
+	protected:
+		Resources::MTAModel::ptr m_model;
 
-	ACTOR_STATE m_state;
-	float m_speed, m_speedInit, m_speedFrenzy;
+		ACTOR_STATE m_state;
+		float m_speed, m_speedInit, m_speedFrenzy;
 	
-	float m_timer, dt;
+		float m_timer, dt;
 	
-	float time;
-	int subA;
+		float time;
+		int subA;
 
-	std::vector<std::string> m_aniNames;
-	int m_aniIndex;
-	float m_aniTime;
+		D3DXMATRIX rotation;
+		D3DXMATRIX initScaleRotation;
 
-	D3DXMATRIX m_scale;
+		std::vector<std::string> m_aniNames;
+		int m_aniIndex;
+		float m_aniTime;
+
+		GameplayFoundations::Grid::ptr grid;
+
+		GameplayFoundations::CellIndex fromCell, toCell;
+		float currentRelPos;
+
+		D3DXMATRIX m_scale;
 	
 
-public:
-	Actor(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);
-	virtual ~Actor();
+	public:
+		Actor(Resources::MTAModel::ptr _model, GameplayFoundations::CellIndex _pos, GameplayFoundations::Grid::ptr _grid);
+		virtual ~Actor();
 
-	void init();
-	void update(float _deltatime);
+		void init();
+		void update(float _deltatime);
 
-	void changeState(ACTOR_STATE _state);
+		void changeState(ACTOR_STATE _state);
 
-	void setDirection(DIRECTION _direction);
+		void setDirection(DIRECTION _direction);
 
-	void moveDirection();
+		void moveDirection();
 
-	void setSpeed(float _speed);
-	void resetSpeed();
+		void setSpeed(float _speed);
+		void resetSpeed();
 
-	ACTOR_STATE getState();
+		GameplayFoundations::CellIndex getFromCell();
+		GameplayFoundations::CellIndex getToCell();
 
-private:
+		ACTOR_STATE getState();
 
-	DIRECTION m_direction;
+	private:
+
+		DIRECTION m_direction;
+
+		void changeDirection();
 	
-	void frenzyMode(float d_deltaTime);
+		void frenzyMode(float d_deltaTime);
 
-};
+	};
+}

@@ -109,7 +109,7 @@ namespace Pacman
 		Camera* camera = new Camera();
 		
 		m_HID = HID::getInstance(hWnd);
-		col = new Collision();
+		col = new GameplayFoundations::Collision();
 
 		//set up scene camera properties
 		camera->setPerspectiveProjectionLH( 45.0f, (float)windowWidth / windowHeight, 0.1f, 200.0f );		
@@ -132,12 +132,27 @@ namespace Pacman
 
 		pacman = rm->loadMTAModel("models/pacman.mta");
 		foodmodel = rm->loadMTModel("models/food.mt");
-		for(int i = 0; i < 1; i++)
+		gPointModel = rm->loadMTAModel("models/Ghostblue.mta");
+		gRandomModel = rm->loadMTAModel("models/Ghostorange.mta");
+		gHuntModel = rm->loadMTAModel("models/Ghostred.mta");
 
-		player = new Player(pacman, D3DXVECTOR3(currentGrid->getStartPos().u + 0.5f, 0, currentGrid->getStartPos().v + 0.5f));
+		std::vector<GameplayFoundations::CellIndex> ghostPos(currentGrid->getGhostStartPos());
+
+		ghosts.push_back(new Actors::PointGhost(gPointModel, ghostPos[0], currentGrid));
+		ghosts.push_back(new Actors::RandomGhost(gRandomModel, ghostPos[1], currentGrid));
+		ghosts.push_back(new Actors::HuntGhost(gHuntModel, ghostPos[2], currentGrid));
+		
+		for(UINT i = 0; i < ghosts.size(); i++)
+		{
+			ghosts[i]->init();
+		}
+
+		player = new Actors::Player(pacman, currentGrid->getStartPos(), currentGrid);
 		for(int i = 0; i < 1; i++)
 		{
-			food.push_back(new Food(foodmodel, D3DXVECTOR3(47.f, .5f, 48.5f), NORMAL ));
+			food.push_back(new Actors::Food(foodmodel, 
+				GameplayFoundations::CellIndex(currentGrid->getStartPos().u + 1, currentGrid->getStartPos().v + 1), 
+				Actors::NORMAL ));
 			food[i]->init();
 		}
 		
@@ -193,10 +208,14 @@ namespace Pacman
 			}
 		}
 		player->update(deltaTime);
-		
+
 		Camera* camera = gManager->getActiveCamera();
 
-		camera->setPositionAndView(player->getPos().x, player->getPos().y + 10.0f, player->getPos().z, 0.0f, 90.0f );
+		float pitch = 80.0f;
+		float heading = 0.0f;
+
+		camera->setPositionAndView(player->getPos().x, player->getPos().y + 10.0f, 
+			player->getPos().z - (10.0f / (float)tan(D3DXToRadian(pitch))), heading, pitch );
 
 		camera->update();
 		sm->update(camera->getCameraPosition(),
@@ -207,17 +226,44 @@ namespace Pacman
 		D3DXMatrixIdentity(&tmp);
 
 		player->draw(gManager);
-		for(int i = 0; i < 1; i++)
+
+		bool t = true;
+
+		for(UINT i = 0; i < ghosts.size(); i++)
+		{
+			ghosts[i]->update(deltaTime);
+
+			if(col->checkCollision(player, ghosts[i]))
+			{
+				if(player->beEatingOrNot())
+				{
+					ghosts[i]->changeState(DEAD);					
+				}
+				else
+				{
+					t = false;
+				}
+			}
+
+			ghosts[i]->draw(gManager);
+		}
+
+		if(!t)
+		{
+			PostQuitMessage(0);
+		}
+
+
+		for(UINT i = 0; i < food.size(); i++)
 		{
 			food[i]->update(deltaTime);
 			food[i]->draw(gManager);
 			if(col->checkCollision(player, food[i]))
 			{
-				
+				food.erase(food.begin() + i);
+				i--;
 			}
-		}
-	
-		
+		}		
 
 		gManager->AddStaticObject(Graphics::staticObject(levelMesh, levelTex, tmp));
 		gManager->renderScene();

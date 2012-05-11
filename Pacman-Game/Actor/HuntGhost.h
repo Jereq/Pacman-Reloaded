@@ -2,16 +2,19 @@
 
 #include "Ghost.h"
 
-class HuntGhost : public Ghost
+namespace Actors
 {
-private:
+	class HuntGhost : public Ghost
+	{
+	private:
 
-public:
+	public:
 
-	HuntGhost(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);
-	virtual ~HuntGhost();
+		HuntGhost(Resources::MTAModel::ptr _model, GameplayFoundations::CellIndex _pos, GameplayFoundations::Grid::ptr _grid);
+		virtual ~HuntGhost();
 
-	void init();
+		void init();
 
-	void update(float _deltaTime);
-};
+		void update(float _deltaTime);
+	};
+}

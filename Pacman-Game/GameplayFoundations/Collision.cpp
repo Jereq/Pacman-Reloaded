@@ -1,5 +1,7 @@
 #include "Collision.h"
 
+namespace GameplayFoundations
+{
 Collision::Collision()
 {
 
@@ -16,10 +18,11 @@ bool Collision::checkCollision(GameObject* _go1, GameObject* _go2)
 	goMin = _go1->getPos() + _go1->getMinCorner(); goMax = _go1->getPos() + (_go1->getMaxCorner()) ;
 	go2Min = _go2->getPos() + _go2->getMinCorner(); go2Max = _go2->getPos() + (_go2->getMaxCorner()) ;
 
-	if(goMin.x > go2Max.x || go2Min.x > goMin.x)
+	if(goMin.x > go2Max.x || go2Min.x > goMax.x)
 		return false;
-	if(goMin.z > go2Max.z || go2Min.z > goMin.z)
+	if(goMin.z > go2Max.z || go2Min.z > goMax.z)
 		return false;
 
  	return true;
+}
 }

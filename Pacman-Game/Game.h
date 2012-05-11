@@ -11,6 +11,11 @@
 #include "HID\HID.h"
 #include "GameplayFoundations\Collision.h"
 
+#include "Actor\HuntGhost.h"
+#include "Actor\PointGhost.h"
+#include "Actor\RandomGhost.h"
+
+
 namespace Pacman
 {
 	class Game
@@ -23,11 +28,13 @@ namespace Pacman
 		Graphics::dxManager* gManager;
 
 		HID* m_HID;
-		Player* player;
-		std::vector<Food*> food;
-		
 
-		Collision* col;
+		Actors::Player* player;
+
+		std::vector<Actors::Ghost*> ghosts; 		
+		std::vector<Actors::Food*> food;
+
+		GameplayFoundations::Collision* col;
 
 		Resources::ResourceManager::ptr rm;
 		Sound::SoundManager::ptr sm;
@@ -43,7 +50,10 @@ namespace Pacman
 
 		Resources::MTAModel::ptr pacman;
 		Resources::MTModel::ptr foodmodel;
-
+		Resources::MTAModel::ptr gRandomModel;
+		Resources::MTAModel::ptr gPointModel;
+		Resources::MTAModel::ptr gHuntModel;
+		
 	public:
 		Game(HINSTANCE _hInstance);
 		~Game();

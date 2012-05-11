@@ -1,17 +1,19 @@
 #pragma once
 
 #include "Ghost.h"
-
-class RandomGhost : public Ghost
+namespace Actors
 {
-private:
+	class RandomGhost : public Ghost
+	{
+	private:
 
-public:
+	public:
 
-	RandomGhost(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);
-	virtual ~RandomGhost();
+		RandomGhost(Resources::MTAModel::ptr _model, GameplayFoundations::CellIndex _pos, GameplayFoundations::Grid::ptr _grid);
+		virtual ~RandomGhost();
 
-	void init();
+		void init();
 
-	void update(float _deltaTime);
-};
+		void update(float _deltaTime);
+	};
+}

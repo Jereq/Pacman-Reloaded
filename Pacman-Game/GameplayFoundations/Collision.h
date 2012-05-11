@@ -3,13 +3,16 @@
 #include <D3DX10math.h>
 #include "GameObject.h"
 
-class Collision
+namespace GameplayFoundations
 {
-private:
+	class Collision
+	{
+	private:
 
-public:
-	Collision();
-	~Collision();
+	public:
+		Collision();
+		~Collision();
 
-	bool checkCollision(GameObject* _go1, GameObject* _go2);
-};
+		bool checkCollision(GameObject* _go1, GameObject* _go2);
+	};
+}

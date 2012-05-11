@@ -114,6 +114,7 @@ namespace GameplayFoundations
 		Paths getOpenPaths(CellIndex const& _cell) const;
 
 		CellIndex getStartPos() const;
+		std::vector<CellIndex> getGhostStartPos() const;
 
 		template<typename Coll>
 		void getObjects(CellIndex const& _cell, Coll& _objs);
