@@ -43,7 +43,7 @@ void Player::draw(Graphics::dxManager* _dxManager)
 		subA = 1 - subA;
 	}
 	
-	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, time, 0, subA, m_scale * m_world));
+	_dxManager->AddDynamicObject(Graphics::dynamicObject(m_model, time, 0, subA,  m_world));
 }
 
 bool Player::beEatingOrNot()

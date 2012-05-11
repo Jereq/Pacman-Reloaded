@@ -137,7 +137,7 @@ namespace Pacman
 		player = new Player(pacman, D3DXVECTOR3(currentGrid->getStartPos().u + 0.5f, 0, currentGrid->getStartPos().v + 0.5f));
 		for(int i = 0; i < 1; i++)
 		{
-			food.push_back(new Food(foodmodel, D3DXVECTOR3(13.1f, .5f, 4.4f), NORMAL ));
+			food.push_back(new Food(foodmodel, D3DXVECTOR3(47.f, .5f, 48.5f), NORMAL ));
 			food[i]->init();
 		}
 		
@@ -164,6 +164,22 @@ namespace Pacman
 		{
 			PostQuitMessage(0);
 		}
+		if(m_HID->pressKey('W'))
+		{
+			player->setDirection(DIR_UP);
+		}
+		if(m_HID->pressKey('S'))
+		{
+			player->setDirection(DIR_DOWN);
+		}
+		if(m_HID->pressKey('A'))
+		{
+			player->setDirection(DIR_LEFT);
+		}
+		if(m_HID->pressKey('D'))
+		{
+			player->setDirection(DIR_RIGHT);
+		}
 	
 		while (!eventQueue.isEmpty())
 		{
@@ -176,11 +192,11 @@ namespace Pacman
 				break;
 			}
 		}
-		
 		player->update(deltaTime);
+		
 		Camera* camera = gManager->getActiveCamera();
 
-		camera->setPositionAndView(player->getPos().x, player->getPos().y + 10.0f + d, player->getPos().z, 0.0f, 90.0f );
+		camera->setPositionAndView(player->getPos().x, player->getPos().y + 10.0f, player->getPos().z, 0.0f, 90.0f );
 
 		camera->update();
 		sm->update(camera->getCameraPosition(),
@@ -193,10 +209,11 @@ namespace Pacman
 		player->draw(gManager);
 		for(int i = 0; i < 1; i++)
 		{
+			food[i]->update(deltaTime);
 			food[i]->draw(gManager);
 			if(col->checkCollision(player, food[i]))
 			{
-			
+				
 			}
 		}
 	

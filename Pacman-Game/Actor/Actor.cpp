@@ -27,9 +27,12 @@ void Actor::init()
 void Actor::update(float _deltaTime)
 {
 	dt = _deltaTime;
-
+	static float t;
+	t += _deltaTime;
 	D3DXMatrixTranslation(&m_world, m_pos.x, m_pos.y, m_pos.z);
-
+	D3DXMATRIX rot;
+	D3DXMatrixRotationY(&rot, t);
+	m_world = rot * m_world;
 	if(m_state == FRENZY)
 	{
 		frenzyMode(_deltaTime);
@@ -79,7 +82,8 @@ void Actor::moveDirection()
 		m_pos.z += m_speed * dt;
 	if(m_direction == DIR_DOWN)
 		m_pos.z -= m_speed * dt;
-}		
+}	
+
 void Actor::frenzyMode(float _deltaTime)
 {
 	m_timer += _deltaTime;

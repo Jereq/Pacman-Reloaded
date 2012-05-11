@@ -51,7 +51,10 @@ void Food::foodType(FOODTYPE _type)
 
 void Food::update(float _deltaTime)
 {
-
+	GameObject::update(_deltaTime);
+	D3DXMATRIX rot;
+	D3DXMatrixRotationY(&rot, _deltaTime);
+	m_world = rot * m_world;
 }
 
 void Food::draw(Graphics::dxManager* _dxManager)
