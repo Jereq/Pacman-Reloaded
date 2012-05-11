@@ -7,13 +7,14 @@ class Player : public Actor
 {
 private:
 	UINT m_scoreAmount;
+	float prevx, prevy;
 
 public:
 	Player(Resources::MTAModel::ptr _model, D3DXVECTOR3 _pos);
 	~Player();
 
 	void init();
-	//void update(float _deltaTime);
+	void update(float _deltaTime);
 
 	void draw(Graphics::dxManager* _dxManager);
 

@@ -7,6 +7,8 @@
 
 namespace Sound
 {
+	SoundManager::ptr SoundManager::instance(new SoundManager);
+
 	void SoundManager::errCheck(FMOD_RESULT const& result)
 	{
 		if (result != FMOD_OK)
@@ -20,6 +22,11 @@ namespace Sound
 	SoundManager::SoundManager()
 		: backgroundSound(NULL)
 	{
+	}
+
+	SoundManager::ptr SoundManager::getInstance()
+	{
+		return instance;
 	}
 
 	void SoundManager::startup()

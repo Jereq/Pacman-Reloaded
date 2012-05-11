@@ -31,6 +31,19 @@ void Player::init()
 	m_timer = 0; 
 }
 
+void Player::update(float _deltaTime)
+{
+	prevx = m_pos.x;
+	prevy = m_pos.y;
+
+	Actor::update(_deltaTime);
+
+	if (prevx != m_pos.x && prevy != m_pos.y)
+	{
+		Sound::SoundManager::getInstance()->playSound("sound files/pacman_chomp.wav", m_pos, 1.0f);
+	}
+}
+
 void Player::draw(Graphics::dxManager* _dxManager)
 {
 	static float time = 0;

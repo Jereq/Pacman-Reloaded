@@ -103,7 +103,7 @@ namespace Pacman
 
 		gManager->initializeObjects();
 
-		sm.reset(new Sound::SoundManager());
+		sm = Sound::SoundManager::getInstance();
 		sm->startup();
 
 		Camera* camera = new Camera();

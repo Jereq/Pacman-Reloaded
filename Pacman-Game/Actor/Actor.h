@@ -2,6 +2,7 @@
 
 #include "..\GameplayFoundations\GameObject.h"
 #include "..\Resources\MTAModel.h"
+#include "..\Sound\SoundManager.h"
 
 enum ACTOR_STATE
 {

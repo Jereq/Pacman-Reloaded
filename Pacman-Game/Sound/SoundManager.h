@@ -14,8 +14,12 @@ namespace Sound
 {
 	class SoundManager
 	{
+	public:
+		typedef boost::shared_ptr<SoundManager> ptr;
+
 	private:
 		FMOD::System* system;
+		static ptr instance;
 
 		void errCheck(FMOD_RESULT const& result);
 
@@ -24,10 +28,10 @@ namespace Sound
 
 		FMOD::Sound* backgroundSound;
 
-	public:
-		typedef boost::shared_ptr<SoundManager> ptr;
-
 		SoundManager();
+
+	public:
+		static ptr getInstance();
 
 		void startup();
 		void shutdown();
