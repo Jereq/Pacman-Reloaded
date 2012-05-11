@@ -13,7 +13,7 @@ namespace Actors
 
 	}
 
-	void Ghost::init()
+	void Ghost::init(GameplayFoundations::CellIndex _target)
 	{
 		Actor::init();
 
@@ -51,11 +51,46 @@ namespace Actors
 			m_max.z = m_min.z;
 			m_min.z = tmp;
 		}
+
+
+		grid->findPath(fromCell, _target, path);
+		toCell = path[1];
+		setDir(path[2]);
 	}
 
-	void Ghost::update(float _deltaTime)
+	void Ghost::update(float _deltaTime, GameplayFoundations::CellIndex _target)
 	{
+		GameplayFoundations::CellIndex currentTo = toCell;
+
 		Actor::update(_deltaTime);
+		
+		if (!(currentTo == toCell))
+		{
+			path.clear();
+			grid->findPath(toCell, _target, path);
+			GameplayFoundations::CellIndex newTo = path[1];
+			setDir(newTo);
+		}
+	}
+
+	void Ghost::setDir(GameplayFoundations::CellIndex _c)
+	{
+		if(toCell.u > _c.u)
+		{
+			setDirection(DIR_RIGHT);
+		}
+		if(toCell.u < _c.u)
+		{
+			setDirection(DIR_LEFT);
+		}
+		if(toCell.v > _c.v)
+		{
+			setDirection(DIR_DOWN);
+		}
+		if(toCell.v < _c.v)
+		{
+			setDirection(DIR_UP);
+		}
 	}
 
 	void Ghost::draw(Graphics::dxManager* _dxManager)

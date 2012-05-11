@@ -13,16 +13,16 @@ namespace Actors
 
 	}
 
-	void PointGhost::init()
+	void PointGhost::init(GameplayFoundations::CellIndex _target)
 	{
-		Ghost::init();
+		Ghost::init(_target);
 		m_speedInit = 4.0f;
 		m_speed = m_speedInit;
 	}
 
-	void PointGhost::update(float _deltaTime)
+	void PointGhost::update(float _deltaTime, GameplayFoundations::CellIndex _target)
 	{
-		Ghost::update(_deltaTime);
+		Ghost::update(_deltaTime, _target);
 	}
 }
 

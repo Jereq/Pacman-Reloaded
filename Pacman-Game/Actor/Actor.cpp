@@ -36,9 +36,7 @@ namespace Actors
 
 	void Actor::update(float _deltaTime)
 	{
-		dt = _deltaTime;
-		static float t;
-		t += _deltaTime;		
+		dt = _deltaTime;	
 
 		if(m_state == FRENZY)
 		{

@@ -13,8 +13,8 @@ namespace Actors
 		PointGhost(Resources::MTAModel::ptr _model, GameplayFoundations::CellIndex _pos, GameplayFoundations::Grid::ptr _grid);
 		virtual ~PointGhost();
 
-		void init();
+		void init(GameplayFoundations::CellIndex _target);
 
-		void update(float _deltaTime);
+		void update(float _deltaTime, GameplayFoundations::CellIndex _target);
 	};
 }

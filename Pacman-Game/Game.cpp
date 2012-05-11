@@ -141,11 +141,6 @@ namespace Pacman
 		ghosts.push_back(new Actors::PointGhost(gPointModel, ghostPos[0], currentGrid));
 		ghosts.push_back(new Actors::RandomGhost(gRandomModel, ghostPos[1], currentGrid));
 		ghosts.push_back(new Actors::HuntGhost(gHuntModel, ghostPos[2], currentGrid));
-		
-		for(UINT i = 0; i < ghosts.size(); i++)
-		{
-			ghosts[i]->init();
-		}
 
 		player = new Actors::Player(pacman, currentGrid->getStartPos(), currentGrid);
 		for(int i = 0; i < 1; i++)
@@ -155,11 +150,13 @@ namespace Pacman
 				Actors::NORMAL ));
 			food[i]->init();
 		}
-		
-		
 
 		player->init();
-
+		
+		for(UINT i = 0; i < ghosts.size(); i++)
+		{
+			ghosts[i]->init(player->getToCell());
+		}
 	}
 
 	Game::~Game()
@@ -214,7 +211,7 @@ namespace Pacman
 		float pitch = 80.0f;
 		float heading = 0.0f;
 
-		camera->setPositionAndView(player->getPos().x, player->getPos().y + 10.0f, 
+		camera->setPositionAndView(player->getPos().x, player->getPos().y + 100.0f, 
 			player->getPos().z - (10.0f / (float)tan(D3DXToRadian(pitch))), heading, pitch );
 
 		camera->update();
@@ -231,7 +228,7 @@ namespace Pacman
 
 		for(UINT i = 0; i < ghosts.size(); i++)
 		{
-			ghosts[i]->update(deltaTime);
+			ghosts[i]->update(deltaTime, player->getToCell());
 
 			if(col->checkCollision(player, ghosts[i]))
 			{

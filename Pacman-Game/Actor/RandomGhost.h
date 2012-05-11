@@ -12,8 +12,8 @@ namespace Actors
 		RandomGhost(Resources::MTAModel::ptr _model, GameplayFoundations::CellIndex _pos, GameplayFoundations::Grid::ptr _grid);
 		virtual ~RandomGhost();
 
-		void init();
+		void init(GameplayFoundations::CellIndex _target);
 
-		void update(float _deltaTime);
+		void update(float _deltaTime, GameplayFoundations::CellIndex _target);
 	};
 }
