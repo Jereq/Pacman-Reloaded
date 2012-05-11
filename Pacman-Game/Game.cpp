@@ -135,6 +135,7 @@ namespace Pacman
 		for(int i = 0; i < 1; i++)
 
 		player = new Player(pacman, D3DXVECTOR3(currentGrid->getStartPos().u + 0.5f, 0, currentGrid->getStartPos().v + 0.5f));
+		for(int i = 0; i < 1; i++)
 		{
 			food.push_back(new Food(foodmodel, D3DXVECTOR3(13.1f, .5f, 4.4f), NORMAL ));
 			food[i]->init();
@@ -162,22 +163,6 @@ namespace Pacman
 		if(m_HID->pressKeyOnce(VK_ESCAPE))
 		{
 			PostQuitMessage(0);
-		}
-		if(m_HID->pressKey('W'))
-		{
-			player->goUp();
-		}
-		if(m_HID->pressKey('S'))
-		{
-			player->goDown();
-		}
-		if(m_HID->pressKey('A'))
-		{
-			player->goLeft();
-		}
-		if(m_HID->pressKey('D'))
-		{
-			player->goRight();
 		}
 	
 		while (!eventQueue.isEmpty())
