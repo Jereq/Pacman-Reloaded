@@ -1,5 +1,8 @@
 #include "Game.h"
 
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
+
 #include "InputManager.h"
 #include "Resources/Context.h"
 #include "Resources/MTAModel.h"
@@ -136,26 +139,34 @@ namespace Pacman
 		gRandomModel = rm->loadMTAModel("models/Ghostorange.mta");
 		gHuntModel = rm->loadMTAModel("models/Ghostred.mta");
 
+		player = new Actors::Player(pacman, currentGrid->getStartPos(), currentGrid);
+		player->init();
+
 		std::vector<GameplayFoundations::CellIndex> ghostPos(currentGrid->getGhostStartPos());
 
 		ghosts.push_back(new Actors::PointGhost(gPointModel, ghostPos[0], currentGrid));
 		ghosts.push_back(new Actors::RandomGhost(gRandomModel, ghostPos[1], currentGrid));
 		ghosts.push_back(new Actors::HuntGhost(gHuntModel, ghostPos[2], currentGrid));
-
-		player = new Actors::Player(pacman, currentGrid->getStartPos(), currentGrid);
-		for(int i = 0; i < 1; i++)
-		{
-			food.push_back(new Actors::Food(foodmodel, 
-				GameplayFoundations::CellIndex(currentGrid->getStartPos().u + 1, currentGrid->getStartPos().v + 1), 
-				Actors::NORMAL ));
-			food[i]->init();
-		}
-
-		player->init();
-		
 		for(UINT i = 0; i < ghosts.size(); i++)
 		{
 			ghosts[i]->init(player->getToCell());
+		}
+
+		std::vector<GameplayFoundations::CellIndex> const& foodPos = currentGrid->getFoodPos();
+		size_t numFood = static_cast<size_t>(foodPos.size() * 0.1f);
+
+		boost::random::mt19937 gen;
+
+		for(UINT i = 0; i < foodPos.size(); i++)
+		{
+			boost::random::uniform_int_distribution<size_t> dist(0U, foodPos.size() - i - 1U);
+			if (dist(gen) <= numFood)
+			{
+				numFood--;
+				Actors::Food* f = new Actors::Food(foodmodel, foodPos[i], Actors::NORMAL);
+				f->init();
+				food.push_back(f);
+			}
 		}
 	}
 
@@ -208,11 +219,12 @@ namespace Pacman
 
 		Camera* camera = gManager->getActiveCamera();
 
-		float pitch = 80.0f;
-		float heading = 0.0f;
+		const static float pitch = 80.0f;
+		const static float heading = 0.0f;
+		const static float height = 20.f;
 
-		camera->setPositionAndView(player->getPos().x, player->getPos().y + 100.0f, 
-			player->getPos().z - (10.0f / (float)tan(D3DXToRadian(pitch))), heading, pitch );
+		camera->setPositionAndView(player->getPos().x, player->getPos().y + height, 
+			player->getPos().z - (height / (float)tan(D3DXToRadian(pitch))), heading, pitch );
 
 		camera->update();
 		sm->update(camera->getCameraPosition(),

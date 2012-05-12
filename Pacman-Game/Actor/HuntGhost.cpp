@@ -16,7 +16,7 @@ namespace Actors
 	void HuntGhost::init(GameplayFoundations::CellIndex _target)
 	{
 		Ghost::init(_target);
-		m_speedInit = 3.5f;
+		m_speedInit = 2.8f;
 		m_speed = m_speedInit;
 	}
 

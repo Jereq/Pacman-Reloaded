@@ -17,11 +17,6 @@ namespace GameplayFoundations
 		D3DXMatrixTranslation(&m_world, m_pos.x, m_pos.y, m_pos.z);
 	}
 
-	void GameObject::update(float _deltaTime)
-	{
-		//
-	}
-
 	D3DXVECTOR3 GameObject::getPos()
 	{
 		return m_pos;

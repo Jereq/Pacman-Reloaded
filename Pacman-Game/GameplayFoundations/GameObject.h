@@ -19,14 +19,13 @@ namespace GameplayFoundations
 		GameObject();
 		virtual ~GameObject();
 	
-		void init();
-		void update(float _deltaTime);
-		bool collision();
+		virtual void init();
+		virtual void update(float _deltaTime) = 0;
 
-		D3DXVECTOR3 getPos();
+		virtual D3DXVECTOR3 getPos();
 
-		D3DXVECTOR3 getMinCorner();
-		D3DXVECTOR3 getMaxCorner();
+		virtual D3DXVECTOR3 getMinCorner();
+		virtual D3DXVECTOR3 getMaxCorner();
 
 	private:
 	};

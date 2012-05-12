@@ -2,11 +2,18 @@
 
 namespace Actors
 {
+	D3DXVECTOR3 Food::toPos(GameplayFoundations::CellIndex const& _index) const
+	{
+		return D3DXVECTOR3(_index.u + 0.5f, 0.5f, _index.v + 0.5f);
+	}
+
 	Food::Food(Resources::MTModel::ptr _model, GameplayFoundations::CellIndex _pos, FOODTYPE _type)
 		: GameObject()
 	{
 		m_model = _model;
 		m_type = _type;
+
+		m_pos = toPos(_pos);
 	}
 
 
@@ -53,7 +60,6 @@ namespace Actors
 
 	void Food::update(float _deltaTime)
 	{
-		GameplayFoundations::GameObject::update(_deltaTime);
 		D3DXMATRIX rot;
 		D3DXMatrixRotationY(&rot, _deltaTime);
 		m_world = rot * m_world;

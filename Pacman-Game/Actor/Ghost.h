@@ -9,7 +9,6 @@ namespace Actors
 	{	
 	private:
 		std::vector<GameplayFoundations::CellIndex> path;
-		float dt;
 		void setDir(GameplayFoundations::CellIndex _c);
 	public:
 		Ghost(Resources::MTAModel::ptr _model, GameplayFoundations::CellIndex _pos, GameplayFoundations::Grid::ptr _grid);

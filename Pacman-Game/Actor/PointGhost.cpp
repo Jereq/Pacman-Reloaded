@@ -16,7 +16,7 @@ namespace Actors
 	void PointGhost::init(GameplayFoundations::CellIndex _target)
 	{
 		Ghost::init(_target);
-		m_speedInit = 4.0f;
+		m_speedInit = 2.8f;
 		m_speed = m_speedInit;
 	}
 

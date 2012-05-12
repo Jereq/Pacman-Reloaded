@@ -67,9 +67,13 @@ namespace Actors
 		if (!(currentTo == toCell))
 		{
 			path.clear();
-			grid->findPath(toCell, _target, path);
-			GameplayFoundations::CellIndex newTo = path[1];
-			setDir(newTo);
+			if (grid->findPath(toCell, _target, path))
+			{
+				if (path.size() >= 2)
+				{
+					setDir(path[1]);
+				}
+			}
 		}
 	}
 
@@ -77,17 +81,17 @@ namespace Actors
 	{
 		if(toCell.u > _c.u)
 		{
-			setDirection(DIR_RIGHT);
-		}
-		if(toCell.u < _c.u)
-		{
 			setDirection(DIR_LEFT);
 		}
-		if(toCell.v > _c.v)
+		else if(toCell.u < _c.u)
+		{
+			setDirection(DIR_RIGHT);
+		}
+		else if(toCell.v > _c.v)
 		{
 			setDirection(DIR_DOWN);
 		}
-		if(toCell.v < _c.v)
+		else if(toCell.v < _c.v)
 		{
 			setDirection(DIR_UP);
 		}

@@ -23,6 +23,9 @@ namespace Actors
 		UINT m_score;
 
 		FOODTYPE m_type;
+
+		D3DXVECTOR3 toPos(GameplayFoundations::CellIndex const& _index) const;
+
 	public:
 		Food(Resources::MTModel::ptr _model, GameplayFoundations::CellIndex _pos, FOODTYPE _type);
 		virtual ~Food();
